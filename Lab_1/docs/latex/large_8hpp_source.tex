@@ -1,0 +1,63 @@
+\hypertarget{large_8hpp_source}{}\doxysection{large.\+hpp}
+\mbox{\hyperlink{large_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#ifndef \_LARGE\_H\_}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#define \_LARGE\_H\_}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#include <iostream>}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include <string>}}
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include <string.h>}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{10 }
+\DoxyCodeLine{17 \textcolor{keyword}{class }\mbox{\hyperlink{classLarge}{Large}}}
+\DoxyCodeLine{18 \{}
+\DoxyCodeLine{19 \textcolor{keyword}{private}:}
+\DoxyCodeLine{20     \textcolor{keyword}{enum} Sign \{POSITIVE, NEGATIVE\};}
+\DoxyCodeLine{21     Sign sign;}
+\DoxyCodeLine{22     std::vector<int> number;}
+\DoxyCodeLine{23     \textcolor{keywordtype}{short} compare\_absolutes(\textcolor{keyword}{const} \mbox{\hyperlink{classLarge}{Large}}\&) \textcolor{keyword}{const};}
+\DoxyCodeLine{24     \mbox{\hyperlink{classLarge}{Large}}\& str\_to\_large(\textcolor{keyword}{const} std::string\&);}
+\DoxyCodeLine{25     \mbox{\hyperlink{classLarge}{Large}} get\_absolute() \textcolor{keyword}{const};}
+\DoxyCodeLine{26 \textcolor{keyword}{public}:}
+\DoxyCodeLine{33     \mbox{\hyperlink{classLarge_ac5cc5fbed75557a1a5d33e9196168102}{Large}}(\textcolor{keyword}{const} std::string\& = \textcolor{stringliteral}{"{}0"{}});}
+\DoxyCodeLine{34     \mbox{\hyperlink{classLarge_ac5cc5fbed75557a1a5d33e9196168102}{Large}}(\textcolor{keyword}{const} \mbox{\hyperlink{classLarge}{Large}}\&);}
+\DoxyCodeLine{39     \mbox{\hyperlink{classLarge}{Large}}\& \mbox{\hyperlink{classLarge_ad05437938983675e256b63812144d585}{operator=}}(\textcolor{keyword}{const} \mbox{\hyperlink{classLarge}{Large}}\&);}
+\DoxyCodeLine{44     \textcolor{keyword}{friend} std::ostream\& \mbox{\hyperlink{classLarge_a78020a025876e7f664025ff4a0c59828}{operator<<}}(std::ostream\&, \textcolor{keyword}{const} \mbox{\hyperlink{classLarge}{Large}}\&);}
+\DoxyCodeLine{49     \textcolor{keyword}{friend} std::istream\& \mbox{\hyperlink{classLarge_a525912736092e888bcdc3571b2c7976b}{operator>>}}(std::istream\&, \mbox{\hyperlink{classLarge}{Large}}\&);}
+\DoxyCodeLine{54     \textcolor{keyword}{friend} \textcolor{keywordtype}{bool} \mbox{\hyperlink{classLarge_ad00a1c026df1bec5413b2118bea7f1c4}{operator==}}(\textcolor{keyword}{const} \mbox{\hyperlink{classLarge}{Large}}\&, \textcolor{keyword}{const} \mbox{\hyperlink{classLarge}{Large}}\&);}
+\DoxyCodeLine{59     \textcolor{keyword}{friend} \textcolor{keywordtype}{bool} \mbox{\hyperlink{classLarge_ad00a1c026df1bec5413b2118bea7f1c4}{operator==}}(\textcolor{keyword}{const} \mbox{\hyperlink{classLarge}{Large}}\&, \textcolor{keyword}{const} \textcolor{keywordtype}{int}\&);}
+\DoxyCodeLine{64     \textcolor{keyword}{friend} \textcolor{keywordtype}{bool} \mbox{\hyperlink{classLarge_a919e185342ec1092d45eb0fdaa336a4f}{operator!=}}(\textcolor{keyword}{const} \mbox{\hyperlink{classLarge}{Large}}\&, \textcolor{keyword}{const} \mbox{\hyperlink{classLarge}{Large}}\&);}
+\DoxyCodeLine{69     \textcolor{keyword}{friend} \textcolor{keywordtype}{bool} \mbox{\hyperlink{classLarge_a919e185342ec1092d45eb0fdaa336a4f}{operator!=}}(\textcolor{keyword}{const} \mbox{\hyperlink{classLarge}{Large}}\&, \textcolor{keyword}{const} \textcolor{keywordtype}{int}\&);}
+\DoxyCodeLine{74     \textcolor{keyword}{friend} \textcolor{keywordtype}{bool} \mbox{\hyperlink{classLarge_a6811ae53ffffb67a8e4eeac9721387a1}{operator>}}(\textcolor{keyword}{const} \mbox{\hyperlink{classLarge}{Large}}\&, \textcolor{keyword}{const} \mbox{\hyperlink{classLarge}{Large}}\&);}
+\DoxyCodeLine{79     \textcolor{keyword}{friend} \textcolor{keywordtype}{bool} \mbox{\hyperlink{classLarge_a6811ae53ffffb67a8e4eeac9721387a1}{operator>}}(\textcolor{keyword}{const} \mbox{\hyperlink{classLarge}{Large}}\&, \textcolor{keyword}{const} \textcolor{keywordtype}{int}\&);}
+\DoxyCodeLine{84     \textcolor{keyword}{friend} \textcolor{keywordtype}{bool} \mbox{\hyperlink{classLarge_a657d7bc054979835f8c1fd67e169ba31}{operator>=}}(\textcolor{keyword}{const} \mbox{\hyperlink{classLarge}{Large}}\&, \textcolor{keyword}{const} \mbox{\hyperlink{classLarge}{Large}}\&);}
+\DoxyCodeLine{89     \textcolor{keyword}{friend} \textcolor{keywordtype}{bool} \mbox{\hyperlink{classLarge_a657d7bc054979835f8c1fd67e169ba31}{operator>=}}(\textcolor{keyword}{const} \mbox{\hyperlink{classLarge}{Large}}\&, \textcolor{keyword}{const} \textcolor{keywordtype}{int}\&);}
+\DoxyCodeLine{94     \textcolor{keyword}{friend} \textcolor{keywordtype}{bool} \mbox{\hyperlink{classLarge_ad2a1e93cd7fc579d189a5755cc8fc034}{operator<}}(\textcolor{keyword}{const} \mbox{\hyperlink{classLarge}{Large}}\&, \textcolor{keyword}{const} \mbox{\hyperlink{classLarge}{Large}}\&);}
+\DoxyCodeLine{99     \textcolor{keyword}{friend} \textcolor{keywordtype}{bool} \mbox{\hyperlink{classLarge_ad2a1e93cd7fc579d189a5755cc8fc034}{operator<}}(\textcolor{keyword}{const} \mbox{\hyperlink{classLarge}{Large}}\&, \textcolor{keyword}{const} \textcolor{keywordtype}{int}\&);}
+\DoxyCodeLine{104     \textcolor{keyword}{friend} \textcolor{keywordtype}{bool} \mbox{\hyperlink{classLarge_a2dfa4958d9446c9544de97b84b8dda03}{operator<=}}(\textcolor{keyword}{const} \mbox{\hyperlink{classLarge}{Large}}\&, \textcolor{keyword}{const} \mbox{\hyperlink{classLarge}{Large}}\&);}
+\DoxyCodeLine{109     \textcolor{keyword}{friend} \textcolor{keywordtype}{bool} \mbox{\hyperlink{classLarge_a2dfa4958d9446c9544de97b84b8dda03}{operator<=}}(\textcolor{keyword}{const} \mbox{\hyperlink{classLarge}{Large}}\&, \textcolor{keyword}{const} \textcolor{keywordtype}{int}\&);}
+\DoxyCodeLine{114     \textcolor{keyword}{friend} \mbox{\hyperlink{classLarge}{Large}} \mbox{\hyperlink{classLarge_ad852e91364f776fa0f05bbcb05150dbd}{operator+}}(\textcolor{keyword}{const} \mbox{\hyperlink{classLarge}{Large}}\&, \textcolor{keyword}{const} \mbox{\hyperlink{classLarge}{Large}}\&);}
+\DoxyCodeLine{119     \textcolor{keyword}{friend} \mbox{\hyperlink{classLarge}{Large}} \mbox{\hyperlink{classLarge_ad852e91364f776fa0f05bbcb05150dbd}{operator+}}(\textcolor{keyword}{const} \mbox{\hyperlink{classLarge}{Large}}\&, \textcolor{keyword}{const} \textcolor{keywordtype}{int}\&);}
+\DoxyCodeLine{124     \textcolor{keyword}{friend} \mbox{\hyperlink{classLarge}{Large}} \mbox{\hyperlink{classLarge_a1bb8af678f40ec82306b7e9eff064e48}{operator-\/}}(\textcolor{keyword}{const} \mbox{\hyperlink{classLarge}{Large}}\&, \textcolor{keyword}{const} \mbox{\hyperlink{classLarge}{Large}}\&);}
+\DoxyCodeLine{129     \textcolor{keyword}{friend} \mbox{\hyperlink{classLarge}{Large}} \mbox{\hyperlink{classLarge_a1bb8af678f40ec82306b7e9eff064e48}{operator-\/}}(\textcolor{keyword}{const} \mbox{\hyperlink{classLarge}{Large}}\&, \textcolor{keyword}{const} \textcolor{keywordtype}{int}\&);}
+\DoxyCodeLine{134     \textcolor{keyword}{friend} \mbox{\hyperlink{classLarge}{Large}} \mbox{\hyperlink{classLarge_adde2d185396ea0a2b31589fa264a2e86}{operator*}}(\textcolor{keyword}{const} \mbox{\hyperlink{classLarge}{Large}}\&, \textcolor{keyword}{const} \mbox{\hyperlink{classLarge}{Large}}\&);}
+\DoxyCodeLine{139     \textcolor{keyword}{friend} \mbox{\hyperlink{classLarge}{Large}} \mbox{\hyperlink{classLarge_adde2d185396ea0a2b31589fa264a2e86}{operator*}}(\textcolor{keyword}{const} \mbox{\hyperlink{classLarge}{Large}}\&, \textcolor{keyword}{const} \textcolor{keywordtype}{int}\&);}
+\DoxyCodeLine{144     \textcolor{keyword}{friend} \mbox{\hyperlink{classLarge}{Large}} \mbox{\hyperlink{classLarge_a4c1c8e0f7bc090a2e9334ad83e0461b1}{operator/}}(\textcolor{keyword}{const} \mbox{\hyperlink{classLarge}{Large}}\&, \textcolor{keyword}{const} \mbox{\hyperlink{classLarge}{Large}}\&);}
+\DoxyCodeLine{149     \textcolor{keyword}{friend} \mbox{\hyperlink{classLarge}{Large}} \mbox{\hyperlink{classLarge_a4c1c8e0f7bc090a2e9334ad83e0461b1}{operator/}}(\textcolor{keyword}{const} \mbox{\hyperlink{classLarge}{Large}}\&, \textcolor{keyword}{const} \textcolor{keywordtype}{int}\&);}
+\DoxyCodeLine{153     \mbox{\hyperlink{classLarge}{Large}} \mbox{\hyperlink{classLarge_aeb9789dbb4aa1a5df5d7b27eddd64a01}{operator+=}}(\textcolor{keyword}{const} \mbox{\hyperlink{classLarge}{Large}}\&);}
+\DoxyCodeLine{157     \mbox{\hyperlink{classLarge}{Large}} \mbox{\hyperlink{classLarge_aeb9789dbb4aa1a5df5d7b27eddd64a01}{operator+=}}(\textcolor{keyword}{const} \textcolor{keywordtype}{int}\&);}
+\DoxyCodeLine{161     \mbox{\hyperlink{classLarge}{Large}} \mbox{\hyperlink{classLarge_ac006637474f8365aa5f3e0ee1b6cf0d0}{operator-\/=}}(\textcolor{keyword}{const} \mbox{\hyperlink{classLarge}{Large}}\&);}
+\DoxyCodeLine{165     \mbox{\hyperlink{classLarge}{Large}} \mbox{\hyperlink{classLarge_ac006637474f8365aa5f3e0ee1b6cf0d0}{operator-\/=}}(\textcolor{keyword}{const} \textcolor{keywordtype}{int}\&);}
+\DoxyCodeLine{169     \mbox{\hyperlink{classLarge}{Large}} \mbox{\hyperlink{classLarge_ae0b876150f1c779939424b46077eeccd}{operator*=}}(\textcolor{keyword}{const} \mbox{\hyperlink{classLarge}{Large}}\&);}
+\DoxyCodeLine{173     \mbox{\hyperlink{classLarge}{Large}} \mbox{\hyperlink{classLarge_ae0b876150f1c779939424b46077eeccd}{operator*=}}(\textcolor{keyword}{const} \textcolor{keywordtype}{int}\&);}
+\DoxyCodeLine{177     \mbox{\hyperlink{classLarge}{Large}} \mbox{\hyperlink{classLarge_af5ecb1dfa561db24de692ab97f0f7f04}{operator/=}}(\textcolor{keyword}{const} \mbox{\hyperlink{classLarge}{Large}}\&);}
+\DoxyCodeLine{181     \mbox{\hyperlink{classLarge}{Large}} \mbox{\hyperlink{classLarge_af5ecb1dfa561db24de692ab97f0f7f04}{operator/=}}(\textcolor{keyword}{const} \textcolor{keywordtype}{int}\&);}
+\DoxyCodeLine{187     \mbox{\hyperlink{classLarge}{Large}}\& \mbox{\hyperlink{classLarge_a3ba2e2a60454aed0c2834550461b25c0}{operator++}}();}
+\DoxyCodeLine{193     \mbox{\hyperlink{classLarge}{Large}} \mbox{\hyperlink{classLarge_a3ba2e2a60454aed0c2834550461b25c0}{operator++}}(\textcolor{keywordtype}{int});}
+\DoxyCodeLine{199     \mbox{\hyperlink{classLarge}{Large}}\& \mbox{\hyperlink{classLarge_aad9e2188f15c3867f1595f3f93b65811}{operator-\/-\/}}();}
+\DoxyCodeLine{205     \mbox{\hyperlink{classLarge}{Large}} \mbox{\hyperlink{classLarge_aad9e2188f15c3867f1595f3f93b65811}{operator-\/-\/}}(\textcolor{keywordtype}{int});}
+\DoxyCodeLine{211     \textcolor{keyword}{operator} int() \textcolor{keyword}{const};}
+\DoxyCodeLine{212 \};}
+\DoxyCodeLine{213 \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}
