@@ -299,3 +299,17 @@ TEST_CASE("Converting")
 
     REQUIRE((int)number_3 == 1667766444);
 }
+
+TEST_CASE("Input/Output test")
+{
+    Large number_1;
+
+    std::ostringstream out;
+    std::istringstream in("12345");
+    in >> number_1;
+    out << number_1;
+
+    REQUIRE(number_1 == 12345);
+
+    REQUIRE(out.str() == "12345");
+}
