@@ -25,6 +25,22 @@ TEST_CASE("Comparison for Large?Large")
     REQUIRE((number_2 < number_1) == true);
 }
 
+TEST_CASE("Comparison")
+{
+    Large number_1("452111231412432412");
+    Large number_2("12345678910");
+    Large number_3("12345678910");
+
+    REQUIRE((number_1 > number_2) == true);
+
+    REQUIRE((number_2 >= number_3) == true);
+
+    REQUIRE((number_1 < number_2) == false);
+
+    REQUIRE((number_2 <= number_3) == true);
+
+    REQUIRE((number_2 < number_1) == true);
+}
 
 TEST_CASE("Comparison for Large?int")
 {
@@ -39,6 +55,21 @@ TEST_CASE("Comparison for Large?int")
     REQUIRE((number_1 > number_2) == true);
 
     REQUIRE((number_1 >= number_2) == true);
+
+    REQUIRE((number_1 < number_2) == false);
+
+    REQUIRE((number_2 == number_3) == false);
+}
+
+TEST_CASE("Comparison_2")
+{
+    Large number_1("21673843327782823");
+    int number_2 = 1234341;
+    Large number_3("-1234341");
+
+    REQUIRE((number_1 != number_2) == true);
+
+    REQUIRE((number_1 > number_2) == true);
 
     REQUIRE((number_1 < number_2) == false);
 
@@ -60,7 +91,7 @@ TEST_CASE("Addition for Large + Large")
     REQUIRE((number_2 + number_1) == number_3);
 }
 
-TEST_CASE("Addition for Large + int")
+TEST_CASE("Addition for")
 {
     Large number_1("9874661155");
     Large number_2("-78943224");
@@ -72,6 +103,18 @@ TEST_CASE("Addition for Large + int")
     REQUIRE((number_2 + 874236552) == 795293328);
 
     REQUIRE((number_3 + (-654788221)) == -619054679);
+
+    REQUIRE((number_1 + 0) == number_1);
+}
+
+TEST_CASE("Addition for Large + int")
+{
+    Large number_1("9874661155");
+    Large number_2("-78943224");
+    Large number_3("35733542");
+    Large number_4("9874707742");
+
+    REQUIRE((number_2 + 874236552) == 795293328);
 
     REQUIRE((number_1 + 0) == number_1);
 }
@@ -119,6 +162,19 @@ TEST_CASE("Multiplication for Large * Large")
     REQUIRE((number_1 * number_3) == 121291310);
 }
 
+TEST_CASE("Multiplication for Large")
+{
+    Large number_1("-7894");
+    Large number_2("196436546");
+    Large number_3("-15365");
+    Large number_4("0");
+    Large number_5("-1550670094124");
+
+    REQUIRE((number_1 * number_2) == number_5);
+
+    REQUIRE((number_1 * number_3) == 121291310);
+}
+
 TEST_CASE("Multiplication test for Large * int")
 {
     Large number_1("-79164");
@@ -144,7 +200,7 @@ TEST_CASE("Division test for Large / Large")
     REQUIRE((number_1 / number_3) == -217);
 }
 
-TEST_CASE("Division test for Large / int")
+TEST_CASE("Division test for Large")
 {
     Large number_1("238934794576");
     Large number_2("-564");
@@ -157,6 +213,17 @@ TEST_CASE("Division test for Large / int")
     REQUIRE((number_3 / -564) == 2421);
 
     REQUIRE((number_1 / -456778912) == -523);
+}
+
+TEST_CASE("Division test for Large / int")
+{
+    Large number_1("238934794576");
+    Large number_2("-564");
+    Large number_3("-1365466");
+
+    REQUIRE((number_1 / 6548823) == 36485);
+
+    REQUIRE((number_3 / -564) == 2421);
 }
 
 TEST_CASE("Sum with assignment for Large += Large")
@@ -236,6 +303,17 @@ TEST_CASE("Division with assignment for Large / Large")
     REQUIRE((number_1 /= number_3) == number_1);
 }
 
+TEST_CASE("Division with assignment for Large")
+{
+    Large number_1("12345234223");
+    Large number_2("123");
+    Large number_3("-56645488");
+
+    REQUIRE((number_2 /= number_1) == number_2);
+
+    REQUIRE((number_1 /= number_3) == number_1);
+}
+
 TEST_CASE("Division with assignment for Large /= int")
 {
     Large number_1("238934794576");
@@ -269,6 +347,20 @@ TEST_CASE("Increment")
     REQUIRE(++number_2 == 2411347);
 }
 
+TEST_CASE("Increment_2")
+{
+    Large number_1("-1");
+    Large number_2("2411345");
+
+    REQUIRE(number_2++ == 2411345);
+
+    REQUIRE(number_2 == 2411346);
+
+    REQUIRE(++number_1 == 0);
+
+    REQUIRE(++number_2 == 2411347);
+}
+
 TEST_CASE("Decrement")
 {
     Large number_1("-1");
@@ -287,6 +379,20 @@ TEST_CASE("Decrement")
     REQUIRE(--number_2 == 2411343);
 }
 
+TEST_CASE("Decrement_2")
+{
+    Large number_1("-1");
+    Large number_2("2411345");
+
+    REQUIRE(number_1-- == -1);
+
+    REQUIRE(number_1 == -2);
+
+    REQUIRE(number_2-- == 2411345);
+
+    REQUIRE(--number_2 == 2411343);
+}
+
 TEST_CASE("Converting")
 {
     Large number_1("791136554");
@@ -294,6 +400,17 @@ TEST_CASE("Converting")
     Large number_3("16677664445513");
 
     REQUIRE((int)number_1 == 791136554);
+
+    REQUIRE((int)number_2 == -781235);
+
+    REQUIRE((int)number_3 == 1667766444);
+}
+
+TEST_CASE("Converting_2")
+{
+    Large number_1("791136554");
+    Large number_2("-781235");
+    Large number_3("16677664445513");
 
     REQUIRE((int)number_2 == -781235);
 
