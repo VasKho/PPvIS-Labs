@@ -1,0 +1,42 @@
+\hypertarget{human_8hpp_source}{}\doxysection{human.\+hpp}
+\mbox{\hyperlink{human_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{4 }
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#ifndef \_HUMAN\_H\_}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#define \_HUMAN\_H\_}}
+\DoxyCodeLine{7 }
+\DoxyCodeLine{8 }
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include <iostream>}}
+\DoxyCodeLine{10 \textcolor{keyword}{namespace }Human}
+\DoxyCodeLine{11 \{}
+\DoxyCodeLine{12     \textcolor{keyword}{class }\mbox{\hyperlink{classHuman_1_1Human}{Human}}}
+\DoxyCodeLine{13     \{}
+\DoxyCodeLine{14     \textcolor{keyword}{protected}:}
+\DoxyCodeLine{15         std::string name;}
+\DoxyCodeLine{16         std::string education;}
+\DoxyCodeLine{17     \textcolor{keyword}{public}:}
+\DoxyCodeLine{23         \mbox{\hyperlink{classHuman_1_1Human_a7ba5e889815c80a12480586ad710c0d0}{Human}}(std::string name\_of\_person, std::string education\_of\_person = \textcolor{stringliteral}{"{}"{}}):}
+\DoxyCodeLine{24         name(name\_of\_person), education(education\_of\_person)}
+\DoxyCodeLine{25         \{\};}
+\DoxyCodeLine{30         \textcolor{keywordtype}{void} \mbox{\hyperlink{classHuman_1_1Human_acf11d63a2cb6fa417f974c80ecfcff9e}{receive\_education}}(std::string new\_education) \{ this-\/>education = new\_education; \};}
+\DoxyCodeLine{31         std::string get\_name() \{ \textcolor{keywordflow}{return} name; \};}
+\DoxyCodeLine{32         std::string get\_education() \{ \textcolor{keywordflow}{return} education; \};}
+\DoxyCodeLine{33     \};}
+\DoxyCodeLine{34 }
+\DoxyCodeLine{35 }
+\DoxyCodeLine{36     \textcolor{keyword}{class }\mbox{\hyperlink{classHuman_1_1Soldier}{Soldier}} : \textcolor{keyword}{public} \mbox{\hyperlink{classHuman_1_1Human}{Human}}}
+\DoxyCodeLine{37     \{}
+\DoxyCodeLine{38     \textcolor{keyword}{private}:}
+\DoxyCodeLine{39         std::string rank;}
+\DoxyCodeLine{40     \textcolor{keyword}{public}:}
+\DoxyCodeLine{47         \mbox{\hyperlink{classHuman_1_1Soldier_a0d128f117c30577cb0a871747002ee4f}{Soldier}}(std::string name\_of\_soldier, std::string rank\_of\_soldier = \textcolor{stringliteral}{"{}"{}}, std::string education\_of\_person = \textcolor{stringliteral}{"{}"{}}):}
+\DoxyCodeLine{48         \mbox{\hyperlink{classHuman_1_1Human}{Human}}(name\_of\_soldier, education\_of\_person), rank(rank\_of\_soldier)}
+\DoxyCodeLine{49         \{\};}
+\DoxyCodeLine{50         \textcolor{keywordtype}{void} set\_rank(std::string new\_rank) \{ this-\/>rank = new\_rank; \};}
+\DoxyCodeLine{51         std::string get\_rank() \{ \textcolor{keywordflow}{return} rank; \};}
+\DoxyCodeLine{52     \};}
+\DoxyCodeLine{53 \}}
+\DoxyCodeLine{54 \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}
