@@ -1,0 +1,89 @@
+\hypertarget{university_8hpp_source}{}\doxysection{university.\+hpp}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef \_UNIVERSITY\_H\_}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define \_UNIVERSITY\_H\_}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 }
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{government__establishments_8hpp}{government\_establishments.hpp}}"{}}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{human_8hpp}{human.hpp}}"{}}}
+\DoxyCodeLine{7 }
+\DoxyCodeLine{8 \textcolor{keyword}{namespace }University}
+\DoxyCodeLine{9 \{}
+\DoxyCodeLine{10     \textcolor{keyword}{class }\mbox{\hyperlink{classUniversity_1_1Structural__units__of__university}{Structural\_units\_of\_university}}}
+\DoxyCodeLine{11     \{}
+\DoxyCodeLine{12         \textcolor{keyword}{protected}:}
+\DoxyCodeLine{13             std::string unit\_name;}
+\DoxyCodeLine{14             std::string type;}
+\DoxyCodeLine{15             std::string director;}
+\DoxyCodeLine{16         \textcolor{keyword}{public}:}
+\DoxyCodeLine{24             \mbox{\hyperlink{classUniversity_1_1Structural__units__of__university_ae426442ec01508e0085a325ecaa6a260}{Structural\_units\_of\_university}}(std::string tp, std::string university\_name, std::string unit\_director\_name, std::string university\_director\_name):}
+\DoxyCodeLine{25             type(tp), director(unit\_director\_name)}
+\DoxyCodeLine{26             \{\};}
+\DoxyCodeLine{27             std::string get\_unit\_director() \{ \textcolor{keywordflow}{return} director; \};}
+\DoxyCodeLine{32             \textcolor{keywordtype}{void} \mbox{\hyperlink{classUniversity_1_1Structural__units__of__university_a4b88df252ae968ce03fb48f19be68334}{appoint\_unit\_director}}(std::string new\_director\_name) \{ this-\/>director = new\_director\_name; \};}
+\DoxyCodeLine{33     \};}
+\DoxyCodeLine{34 }
+\DoxyCodeLine{35 }
+\DoxyCodeLine{36     \textcolor{keyword}{class }\mbox{\hyperlink{classUniversity_1_1Faculty}{Faculty}} : \textcolor{keyword}{public} \mbox{\hyperlink{classUniversity_1_1Structural__units__of__university}{Structural\_units\_of\_university}}}
+\DoxyCodeLine{37     \{}
+\DoxyCodeLine{38         \textcolor{keyword}{public}:}
+\DoxyCodeLine{46             \mbox{\hyperlink{classUniversity_1_1Faculty_a3272a0e3c6635c91925a226243d8a08b}{Faculty}}(std::string name\_of\_faculty, std::string university\_name, std::string unit\_director\_name, std::string university\_director\_name):}
+\DoxyCodeLine{47             \mbox{\hyperlink{classUniversity_1_1Structural__units__of__university}{Structural\_units\_of\_university}}(\textcolor{stringliteral}{"{}Faculty"{}}, university\_name, unit\_director\_name, university\_director\_name)}
+\DoxyCodeLine{48             \{}
+\DoxyCodeLine{49                 this-\/>unit\_name = name\_of\_faculty;}
+\DoxyCodeLine{50             \};}
+\DoxyCodeLine{51     \};}
+\DoxyCodeLine{52 }
+\DoxyCodeLine{53 }
+\DoxyCodeLine{54     \textcolor{keyword}{class }\mbox{\hyperlink{classUniversity_1_1University}{University}} : \textcolor{keyword}{public} \mbox{\hyperlink{classGovernment__establishments_1_1Educational__establishment}{Government\_establishments::Educational\_establishment}}, \textcolor{keyword}{private} \mbox{\hyperlink{classUniversity_1_1Faculty}{Faculty}}}
+\DoxyCodeLine{55     \{}
+\DoxyCodeLine{56         \textcolor{keyword}{private}:}
+\DoxyCodeLine{57             std::string university\_name;}
+\DoxyCodeLine{58         \textcolor{keyword}{public}:}
+\DoxyCodeLine{64             \mbox{\hyperlink{classUniversity_1_1University_ac434d5c3036684d9a99f6920041691cb}{University}}(std::string name, std::string director\_name):}
+\DoxyCodeLine{65             university\_name(name), Educational\_establishment(\textcolor{stringliteral}{"{}University"{}}, director\_name),}
+\DoxyCodeLine{66             \mbox{\hyperlink{classUniversity_1_1Faculty}{Faculty}}(\textcolor{stringliteral}{"{}"{}}, name, \textcolor{stringliteral}{"{}"{}}, director\_name)}
+\DoxyCodeLine{67             \{\};}
+\DoxyCodeLine{74             \textcolor{keywordtype}{void} \mbox{\hyperlink{classUniversity_1_1University_a0698ab0e1774d6d61cb18694357a6224}{give\_education}}(\mbox{\hyperlink{classHuman_1_1Human}{Human::Human}}\& human) \{ human.\mbox{\hyperlink{classHuman_1_1Human_acf11d63a2cb6fa417f974c80ecfcff9e}{receive\_education}}(\textcolor{stringliteral}{"{}High education"{}}); \};}
+\DoxyCodeLine{75             std::string get\_university\_name() \{ \textcolor{keywordflow}{return} university\_name; \};}
+\DoxyCodeLine{76     \};}
+\DoxyCodeLine{77 }
+\DoxyCodeLine{78 }
+\DoxyCodeLine{79     \textcolor{keyword}{class }\mbox{\hyperlink{classUniversity_1_1Supervisor}{Supervisor}} : \textcolor{keyword}{public} \textcolor{keyword}{virtual} \mbox{\hyperlink{classHuman_1_1Human}{Human::Human}}}
+\DoxyCodeLine{80     \{}
+\DoxyCodeLine{81         \textcolor{keyword}{private}:}
+\DoxyCodeLine{82             std::string post;}
+\DoxyCodeLine{83         \textcolor{keyword}{public}:}
+\DoxyCodeLine{90             \mbox{\hyperlink{classUniversity_1_1Supervisor_a2d8682ca6b4e44bc1d2a2b3e8a9cfab4}{Supervisor}}(std::string name\_of\_person, std::string education\_of\_person, std::string post\_of\_person):}
+\DoxyCodeLine{91                 \mbox{\hyperlink{classHuman_1_1Human_a7ba5e889815c80a12480586ad710c0d0}{Human}}::\mbox{\hyperlink{classHuman_1_1Human_a7ba5e889815c80a12480586ad710c0d0}{Human}}(name\_of\_person, education\_of\_person), post(post\_of\_person)}
+\DoxyCodeLine{92             \{\};}
+\DoxyCodeLine{99             \textcolor{keywordtype}{int} \mbox{\hyperlink{classUniversity_1_1Supervisor_accf164a40d21dfbc58330138ee34f45b}{check\_attendance}}(\textcolor{keywordtype}{int} size\_of\_group, \textcolor{keywordtype}{int} present\_students) \{ \textcolor{keywordflow}{return} size\_of\_group -\/ present\_students; \};}
+\DoxyCodeLine{100     \};}
+\DoxyCodeLine{101 }
+\DoxyCodeLine{102 }
+\DoxyCodeLine{103     \textcolor{keyword}{class }\mbox{\hyperlink{classUniversity_1_1Student}{Student}} : \textcolor{keyword}{public} \textcolor{keyword}{virtual} \mbox{\hyperlink{classHuman_1_1Human}{Human::Human}}}
+\DoxyCodeLine{104     \{}
+\DoxyCodeLine{105         \textcolor{keyword}{protected}:}
+\DoxyCodeLine{106             \textcolor{keywordtype}{int} id;}
+\DoxyCodeLine{107             \mbox{\hyperlink{classUniversity_1_1University}{University}} university;}
+\DoxyCodeLine{108             \mbox{\hyperlink{classUniversity_1_1Faculty}{Faculty}} faculty;}
+\DoxyCodeLine{109         \textcolor{keyword}{public}:}
+\DoxyCodeLine{117             \mbox{\hyperlink{classUniversity_1_1Student_a03ccf6dc7ef3bbd697a12f2df5c746a7}{Student}}(std::string name\_of\_person, \textcolor{keywordtype}{int} id\_of\_student, \textcolor{keyword}{const} \mbox{\hyperlink{classUniversity_1_1University}{University}}\& university\_of\_student, \textcolor{keyword}{const} \mbox{\hyperlink{classUniversity_1_1Faculty}{Faculty}}\& faculty\_of\_student):}
+\DoxyCodeLine{118                 \mbox{\hyperlink{classHuman_1_1Human_a7ba5e889815c80a12480586ad710c0d0}{Human}}::\mbox{\hyperlink{classHuman_1_1Human_a7ba5e889815c80a12480586ad710c0d0}{Human}}(name\_of\_person), id(id\_of\_student), university(university\_of\_student), faculty(faculty\_of\_student)}
+\DoxyCodeLine{119             \{\};}
+\DoxyCodeLine{120     \};}
+\DoxyCodeLine{121 }
+\DoxyCodeLine{122 }
+\DoxyCodeLine{123     \textcolor{keyword}{class }\mbox{\hyperlink{classUniversity_1_1Group__monitor}{Group\_monitor}} : \textcolor{keyword}{public} \mbox{\hyperlink{classUniversity_1_1Student}{Student}}, \textcolor{keyword}{protected} \mbox{\hyperlink{classUniversity_1_1Supervisor}{Supervisor}}}
+\DoxyCodeLine{124     \{}
+\DoxyCodeLine{125         \textcolor{keyword}{public}:}
+\DoxyCodeLine{133             \mbox{\hyperlink{classUniversity_1_1Group__monitor_aad50a891ce011fa4c40a4a2bbaaac786}{Group\_monitor}}(std::string name\_of\_person, \textcolor{keywordtype}{int} id\_of\_student, \textcolor{keyword}{const} \mbox{\hyperlink{classUniversity_1_1University}{University}}\& university\_of\_student, \textcolor{keyword}{const} \mbox{\hyperlink{classUniversity_1_1Faculty}{Faculty}}\& faculty\_of\_student):}
+\DoxyCodeLine{134                 \mbox{\hyperlink{classHuman_1_1Human_a7ba5e889815c80a12480586ad710c0d0}{Human}}::\mbox{\hyperlink{classHuman_1_1Human_a7ba5e889815c80a12480586ad710c0d0}{Human}}(name\_of\_person), \mbox{\hyperlink{classUniversity_1_1Student}{Student}}(name\_of\_person, id\_of\_student, university\_of\_student, faculty\_of\_student),}
+\DoxyCodeLine{135                 \mbox{\hyperlink{classUniversity_1_1Supervisor}{Supervisor}}(name\_of\_person, \textcolor{stringliteral}{"{}"{}}, \textcolor{stringliteral}{"{}"{}})}
+\DoxyCodeLine{136             \{\};}
+\DoxyCodeLine{137     \};}
+\DoxyCodeLine{138 \}}
+\DoxyCodeLine{139 \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}
