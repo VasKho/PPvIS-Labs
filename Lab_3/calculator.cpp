@@ -1,5 +1,5 @@
 #include <iostream>
-#include <stack>
+#include <regex>
 #include "calculator.hpp"
 #include "grammar.hpp"
 #include "tree.hpp"
@@ -50,8 +50,7 @@ void Calculator::start_dialog(std::istream& input_stream, std::ostream& output_s
 
 
 bool Calculator::check_input(std::string expr)
-{
-    expr.erase(std::remove_if(expr.begin(), expr.end(), ::isspace), expr.end());
+{ 
     std::string error_msg;
     std::string allowed_symbols = "qwertyuiopasdfghjklzxcvbnm1234567890(),./*-+=_^";
     for (auto i : expr) if (allowed_symbols.find(i) > allowed_symbols.length()) 
@@ -60,9 +59,9 @@ bool Calculator::check_input(std::string expr)
         error_msg += i;
         error_msg += '\'';
     }
-    if (std::regex_match(expr, std::regex("((_?[a-z|A-Z]+_?\\d*)|\\d+)=_?[a-z|A-Z]+_?\\d*"))) 
+    if (std::regex_match(expr, std::regex("((_?[a-z|A-Z]+_?\\d*)|((\\-?[1-9]\\d*(\\.\\d+)?)|(\\-?0\\.\\d+)|0))=(_?[a-z|A-Z]+_?\\d*)")))
         error_msg = "Invalid statement '<variable>=<variable>' or '<number>=<variable>'";
-    if (std::regex_match(expr, std::regex("\\d+=\\d+")))
+    if (std::regex_match(expr, std::regex("((\\-?[1-9]\\d*(\\.\\d+)?)|(\\-?0\\.\\d+)|0)=((\\-?[1-9]\\d*(\\.\\d+)?)|(\\-?0\\.\\d+)|0)")))
         error_msg = "Invalid statement '<number>=<number>'";
     if (expr.find("=") != expr.rfind("="))
         error_msg = "Invalid statement. Two or more '=' signs";
@@ -80,9 +79,12 @@ void Calculator::process_input(std::string expression, std::ostream& output_stre
         output_stream << "print 'quit' to end dialog" << std::endl;
         return;
     }
-    if (expression == "memprint") print_memory(std::cout);
-    check_input(expression);
-    if (std::regex_match(expression, std::regex("_?\\w+_?\\d*=\\d+")))
+    if (expression == "memprint")
+    {
+        print_memory(std::cout);
+        return;
+    }
+    if (std::regex_match(expression, std::regex("^(_?[a-z|A-Z]+_?\\d*)=((\\-?[1-9]\\d*(\\.\\d+)?)|(\\-?0\\.\\d+)|0)$")))
     {
         std::string var_name = "";
         std::string var_value = "";
@@ -91,9 +93,17 @@ void Calculator::process_input(std::string expression, std::ostream& output_stre
         ++i;
         for (; i < expression.length(); ++i) var_value += expression[i];
         add_to_memory(var_name, var_value);
+        return;
     }
+    expression.erase(std::remove_if(expression.begin(), expression.end(), ::isspace), expression.end());
+    std::string result;
+    std::regex_replace(std::back_inserter(result), expression.begin(), expression.end(), std::regex("-"),  "+-");
+
+    check_input(result);
+    
     Parsing_tree expression_1;
-    parse_expression(expression, expression_1);
+    parse_expression(result, expression_1);
+    print(expression_1.get_tree());
     print_result(expression_1, std::cout);
     print(expression_1.get_tree());
 }
@@ -111,10 +121,6 @@ void Calculator::parse_expression(std::string expression, Parsing_tree& expressi
             case Operators::ADD: 
                 if (expression_tree.get_current_position() == nullptr) expression_tree.set_current_position(std::make_shared<Add_node>());
                 else new_node = std::make_shared<Add_node>();
-                break;
-            case Operators::SUBTRACT:
-                if (expression_tree.get_current_position() == nullptr) expression_tree.set_current_position(std::make_shared<Subtract_node>());
-                else new_node = std::make_shared<Subtract_node>();
                 break;
             case Operators::MULTIPLY:
                 if (expression_tree.get_current_position() == nullptr) expression_tree.set_current_position(std::make_shared<Multiply_node>());
@@ -142,7 +148,7 @@ void Calculator::parse_expression(std::string expression, Parsing_tree& expressi
         if (expression_tree.get_tree() == nullptr) expression_tree.set_tree(expression_tree.get_current_position());
 
         std::shared_ptr<Node> temp = expression_tree.get_current_position();
-        if (std::regex_match(expression.substr(0, split_position), std::regex("((_?[a-z|A-Z]+_?\\d*)|\\d+)")))
+        if (std::regex_match(expression.substr(0, split_position), std::regex(ALLOWED_OPERANDS_REGEXP)))
             expression_tree.get_current_position()->insert_left(expression.substr(0, split_position));
         else 
         {
@@ -150,7 +156,7 @@ void Calculator::parse_expression(std::string expression, Parsing_tree& expressi
             expression_tree.set_current_position(temp);
         }
 
-        if (std::regex_match(expression.substr(split_position + 1), std::regex("((_?[a-z|A-Z]+_?\\d*)|\\d+)")))
+        if (std::regex_match(expression.substr(split_position + 1), std::regex(ALLOWED_OPERANDS_REGEXP)))
             expression_tree.get_current_position()->insert_right(expression.substr(split_position + 1));
         else 
         {
@@ -164,21 +170,21 @@ void Calculator::parse_expression(std::string expression, Parsing_tree& expressi
 void Calculator::print_result(Parsing_tree& expr_tree, std::ostream& out_stream)
 {
     if (expr_tree.get_current_position() == nullptr) return;
-    if (!std::regex_match(expr_tree.get_current_position()->get_left_child()->get_value(), std::regex("((_?[a-z|A-Z]+_?\\d*)|\\d+)")))
+    if (!std::regex_match(expr_tree.get_current_position()->get_left_child()->get_value(), std::regex(ALLOWED_OPERANDS_REGEXP)))
     {
         expr_tree.set_current_position(expr_tree.get_current_position()->get_left_child());
         print_result(expr_tree, out_stream);
     }
-    if (!std::regex_match(expr_tree.get_current_position()->get_right_child()->get_value(), std::regex("((_?[a-z|A-Z]+_?\\d*)|\\d+)")))
+    if (!std::regex_match(expr_tree.get_current_position()->get_right_child()->get_value(), std::regex(ALLOWED_OPERANDS_REGEXP)))
     {
         expr_tree.set_current_position(expr_tree.get_current_position()->get_right_child());
         print_result(expr_tree, out_stream);
     }
-    if (std::regex_match(expr_tree.get_current_position()->get_left_child()->get_value(), std::regex("(_?[a-z|A-Z]+_?\\d*)")))
+    if (std::regex_match(expr_tree.get_current_position()->get_left_child()->get_value(), std::regex(VARIABLES_REGEXP)))
         if (Calculator::variables.find(expr_tree.get_current_position()->get_left_child()->get_value()) != Calculator::variables.end())
             expr_tree.get_current_position()->get_left_child()->set_value(Calculator::variables.at(expr_tree.get_current_position()->get_left_child()->get_value()));
 
-    if (std::regex_match(expr_tree.get_current_position()->get_right_child()->get_value(), std::regex("(_?[a-z|A-Z]+_?\\d*)")))
+    if (std::regex_match(expr_tree.get_current_position()->get_right_child()->get_value(), std::regex(VARIABLES_REGEXP)))
         if (Calculator::variables.find(expr_tree.get_current_position()->get_right_child()->get_value()) != Calculator::variables.end())
         expr_tree.get_current_position()->get_right_child()->set_value(Calculator::variables.at(expr_tree.get_current_position()->get_right_child()->get_value()));
     expr_tree.get_current_position()->evaluate();

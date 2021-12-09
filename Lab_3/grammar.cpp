@@ -16,7 +16,7 @@ int find_operator_position(std::string& input)
             --parenthesis_number;
             if (parenthesis_number < 0) throw std::invalid_argument("Brackets parsing error at position: " + std::to_string(i+1));
         }
-        if ((input[i] == '+' || input[i] == '-') && parenthesis_number == 0) return i;
+        if ((input[i] == '+'/* || input[i] == '-'*/) && parenthesis_number == 0) return i;
     }
     for (int i = 0; i < input.size(); ++i)
     {
@@ -36,7 +36,7 @@ int find_operator_position(std::string& input)
             --parenthesis_number;
         if (parenthesis_number < 0) throw std::invalid_argument("Brackets parsing error at position: " + std::to_string(i+1));
         }
-        if ((input[i] == '+' || input[i] == '-') && parenthesis_number == 1) return i;
+        if ((input[i] == '+'/* || input[i] == '-'*/) && parenthesis_number == 1) return i;
     }
     for (int i = 0; i < input.size(); ++i)
     {

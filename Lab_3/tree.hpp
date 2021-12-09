@@ -7,7 +7,6 @@
 enum Operators
 {
     ADD = '+',
-    SUBTRACT = '-',
     MULTIPLY = '*',
     DIVIDE = '/'
 };
@@ -40,14 +39,6 @@ class Add_node : public Node
 {
     public:
         Add_node(): Node("+") {};
-        void evaluate() override;
-};
-
-
-class Subtract_node : public Node
-{
-    public:
-        Subtract_node(): Node("-") {};
         void evaluate() override;
 };
 

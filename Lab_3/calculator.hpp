@@ -2,10 +2,12 @@
 #define _CALCULATOR_H_
 
 #define PROMPT_SYMBOL "> "
+#define NUMBERS_REGEXP "(\\-?[1-9]\\d*(\\.\\d+)?)|(\\-?0\\.\\d+)|0"
+#define VARIABLES_REGEXP "(_?[a-z|A-Z]+_?\\d*)"
+#define ALLOWED_OPERANDS_REGEXP "((_?[a-z|A-Z]+_?\\d*)|((\\-?[1-9]\\d*(\\.\\d+)?)|(\\-?0\\.\\d+)|0))"
 
 #include <iostream>
 #include <map>
-#include <regex>
 #include "tree.hpp"
 
 
