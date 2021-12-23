@@ -46,6 +46,9 @@ class unor_graph
         edges_riterator edges_rbegin() { return edges.rbegin(); };
         edges_riterator edges_rend() { return edges.rend(); };
 
+        void remove_vertex(vertex_iterator);
+        void remove_edge(edges_iterator it) { edges.erase(it); };
+
 
         friend bool operator==(const unor_graph<Type>&, const unor_graph<Type>&);
         friend bool operator!=(const unor_graph<Type>&, const unor_graph<Type>&);
@@ -107,6 +110,7 @@ void unor_graph<Type>::remove_edge(const Type& v_1, const Type& v_2)
             {
                 edges.erase(i);
                 i = edges.begin();
+                return;
             }
             else
             {
@@ -114,6 +118,7 @@ void unor_graph<Type>::remove_edge(const Type& v_1, const Type& v_2)
                 --tmp;
                 edges.erase(i);
                 i = tmp;
+                return;
             }
         }
     }
@@ -162,6 +167,31 @@ std::size_t unor_graph<Type>::find_power_of_edge(const Type& v_1, const Type& v_
     for (auto i : edges)
         if ((i.first == v_1 && i.second == v_2) || (i.first == v_2 && i.second == v_1)) ++power;
     return power;
+}
+
+
+template<class Type>
+void unor_graph<Type>::remove_vertex(vertex_iterator it)
+{
+    for (auto i = edges.begin(); i != edges.end(); ++i)
+    {
+        if ((*i).first == *it || (*i).second == *it)
+        {
+            if (i == edges.begin())
+            {
+                edges.erase(i);
+                i = edges.begin();
+            }
+            else
+            {
+                auto tmp = i;
+                --tmp;
+                edges.erase(i);
+                i = tmp;
+            }
+        }
+    }
+    vertexes.erase(it);
 }
 
 

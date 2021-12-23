@@ -36,12 +36,12 @@ class incident_iterator
         typedef typename std::vector<std::pair<Type, Type>>::reverse_iterator inc_riterator;
         typedef typename std::vector<std::pair<Type, Type>>::const_iterator inc_citerator;
 
-        inc_iterator adj_begin() { return edges.begin(); };
-        inc_iterator adj_end() { return edges.end(); };
-        inc_riterator adj_rbegin() { return edges.rbegin(); };
-        inc_riterator adj_rend() { return edges.rend(); };
-        inc_citerator adj_cbegin() { return edges.cbegin(); };
-        inc_citerator adj_cend() { return edges.cend(); };   
+        inc_iterator inc_begin() { return edges.begin(); };
+        inc_iterator inc_end() { return edges.end(); };
+        inc_riterator inc_rbegin() { return edges.rbegin(); };
+        inc_riterator inc_rend() { return edges.rend(); };
+        inc_citerator inc_cbegin() { return edges.cbegin(); };
+        inc_citerator inc_cend() { return edges.cend(); };   
 };
 
 
@@ -62,6 +62,17 @@ adjacent_iterator<Type>::adjacent_iterator(unor_graph<Type>& g, const Type& vrtx
                 else if (std::find(vertexes.begin(), vertexes.end(), *i) == std::end(vertexes)) vertexes.push_back(*i);
             }
         }
+    }
+}
+
+
+template<class Type>
+incident_iterator<Type>::incident_iterator(unor_graph<Type>& g, const Type& vrtx)
+{
+    for (auto i = g.edges_begin(); i != g.edges_end(); ++i)
+    {
+        if ((*i).first == vrtx || (*i).second == vrtx) 
+            if (std::find(edges.begin(), edges.end(), *i) == std::end(edges)) edges.push_back(*i);
     }
 }
 #endif
