@@ -49,27 +49,6 @@ void Calculator::start_dialog(std::istream& input_stream, std::ostream& output_s
 }
 
 
-bool Calculator::check_input(std::string expr)
-{ 
-    std::string error_msg;
-    std::string allowed_symbols = "qwertyuiopasdfghjklzxcvbnm1234567890(),./*-+=_^";
-    for (auto i : expr) if (allowed_symbols.find(i) > allowed_symbols.length()) 
-    {
-        error_msg = "Unexpected symbol '";
-        error_msg += i;
-        error_msg += '\'';
-    }
-    if (std::regex_match(expr, std::regex("((_?[a-z|A-Z]+_?\\d*)|((\\-?[1-9]\\d*(\\.\\d+)?)|(\\-?0\\.\\d+)|0))=(_?[a-z|A-Z]+_?\\d*)")))
-        error_msg = "Invalid statement '<variable>=<variable>' or '<number>=<variable>'";
-    if (std::regex_match(expr, std::regex("((\\-?[1-9]\\d*(\\.\\d+)?)|(\\-?0\\.\\d+)|0)=((\\-?[1-9]\\d*(\\.\\d+)?)|(\\-?0\\.\\d+)|0)")))
-        error_msg = "Invalid statement '<number>=<number>'";
-    if (expr.find("=") != expr.rfind("="))
-        error_msg = "Invalid statement. Two or more '=' signs";
-    if (!error_msg.empty()) throw std::invalid_argument(error_msg);
-    return true;
-}
-
-
 void Calculator::process_input(std::string expression, std::ostream& output_stream)
 {
     if (expression == "help")
@@ -95,11 +74,13 @@ void Calculator::process_input(std::string expression, std::ostream& output_stre
         add_to_memory(var_name, var_value);
         return;
     }
+    if (std::regex_match(expression, std::regex(ALLOWED_OPERANDS_REGEXP))) expression = "0" + expression;
     expression.erase(std::remove_if(expression.begin(), expression.end(), ::isspace), expression.end());
     std::string result;
     std::regex_replace(std::back_inserter(result), expression.begin(), expression.end(), std::regex("-"),  "+-");
 
     check_input(result);
+    if (result[0] == '+') result.erase(0, 1);
     
     Parsing_tree expression_1;
     parse_expression(result, expression_1);
@@ -111,6 +92,21 @@ void Calculator::process_input(std::string expression, std::ostream& output_stre
 
 void Calculator::parse_expression(std::string expression, Parsing_tree& expression_tree, std::string where)
 {
+    if (std::regex_match(expression, std::regex("^-?\\(((_?[a-z|A-Z]+_?\\d*)|((\\-?[1-9]\\d*(\\.\\d+)?)|(\\-?0\\.\\d+)|0))([\\+\\-\\*\\/]((_?[a-z|A-Z]+_?\\d*)|((\\-?[1-9]\\d*(\\.\\d+)?)|(\\-?0\\.\\d+)|0)))*\\)$"))) 
+    {
+        if (expression[0] == '-')
+        {
+            for (int i = 1; i < expression.length(); ++i)
+            {
+                if (expression[i] == '+' && expression[i+1] == '-') expression.erase(i+1, 1);
+                else if (expression[i] == '+') expression.insert(i+1, "-");
+            }
+            if (expression[2] != '-') expression.erase(1, 1);
+            else expression.erase(0, 2);
+            expression.erase(expression.length() - 1, 1);
+        }
+        else expression = expression.substr(1, expression.length() - 2);
+    }
     int split_position = find_operator_position(expression);
     //1+4-9*(4/2)
     if (split_position != -1)
@@ -170,23 +166,46 @@ void Calculator::parse_expression(std::string expression, Parsing_tree& expressi
 void Calculator::print_result(Parsing_tree& expr_tree, std::ostream& out_stream)
 {
     if (expr_tree.get_current_position() == nullptr) return;
+    // If left child of current position is operator then evaluate left child
     if (!std::regex_match(expr_tree.get_current_position()->get_left_child()->get_value(), std::regex(ALLOWED_OPERANDS_REGEXP)))
     {
         expr_tree.set_current_position(expr_tree.get_current_position()->get_left_child());
         print_result(expr_tree, out_stream);
     }
+    // If right child of current position is operator then evaluate right child
     if (!std::regex_match(expr_tree.get_current_position()->get_right_child()->get_value(), std::regex(ALLOWED_OPERANDS_REGEXP)))
     {
         expr_tree.set_current_position(expr_tree.get_current_position()->get_right_child());
         print_result(expr_tree, out_stream);
     }
+    // If left child of current position is variable then search it in memory
     if (std::regex_match(expr_tree.get_current_position()->get_left_child()->get_value(), std::regex(VARIABLES_REGEXP)))
+    {
         if (Calculator::variables.find(expr_tree.get_current_position()->get_left_child()->get_value()) != Calculator::variables.end())
-            expr_tree.get_current_position()->get_left_child()->set_value(Calculator::variables.at(expr_tree.get_current_position()->get_left_child()->get_value()));
+        {
+            std::string variable = expr_tree.get_current_position()->get_left_child()->get_value();
+            std::string value;
+            if (variable[0] == '-') value = Calculator::variables.at(variable.substr(1));
+            else value = Calculator::variables.at(variable);
+            expr_tree.get_current_position()->get_left_child()->set_value(value);
+        }
+        else throw std::invalid_argument("Variable has no value");
+    }
 
+    // If right child of current position is variable then search it in memory
     if (std::regex_match(expr_tree.get_current_position()->get_right_child()->get_value(), std::regex(VARIABLES_REGEXP)))
+    {
         if (Calculator::variables.find(expr_tree.get_current_position()->get_right_child()->get_value()) != Calculator::variables.end())
-        expr_tree.get_current_position()->get_right_child()->set_value(Calculator::variables.at(expr_tree.get_current_position()->get_right_child()->get_value()));
+        {
+            std::string variable = expr_tree.get_current_position()->get_right_child()->get_value();
+            std::string value;
+            if (variable[0] == '-') value = Calculator::variables.at(variable.substr(1));
+            else value = Calculator::variables.at(variable);
+            expr_tree.get_current_position()->get_right_child()->set_value(value);
+        }
+        else throw std::invalid_argument("Variable has no value");
+    }
+    // If everything is ok then just evaluate current position
     expr_tree.get_current_position()->evaluate();
     expr_tree.set_current_position(expr_tree.get_current_position()->get_parent());
 }
