@@ -5,25 +5,34 @@
     ], 
     "livings": [
         {
-            "type": "shark", 
+            "type": "barracuda", 
             "health": 100, 
-            "age": 0, 
-            "hunger": 100, 
+            "age": 7, 
+            "hunger": 30, 
             "position": [
                 2, 
-                14
+                16
             ]
         }, 
         {
-            "type": "parrotfish", 
+            "type": "shark", 
             "health": 100, 
-            "age": 0, 
-            "hunger": 100, 
+            "age": 7, 
+            "hunger": 30, 
             "position": [
-                19, 
-                3
+                6, 
+                8
             ]
         }
     ], 
-    "plants": []
+    "plants": [
+        {
+            "lifespan": "20", 
+            "energy_value": "5", 
+            "position": [
+                12, 
+                1
+            ]
+        }
+    ]
 }

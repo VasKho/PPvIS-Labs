@@ -1,4 +1,4 @@
-import random
+from random import choice
 from abc import ABC, abstractmethod
 
 class Food:
@@ -22,7 +22,8 @@ class Animal(ABC, Food):
         self.hunger = hunger
     
     def move(self) -> str:
-        return random.choice(['up', 'down', 'left', 'right'])
+        self.age += 1
+        return choice(['up', 'down', 'left', 'right'])
 
     @abstractmethod
     def eat(self, meal: Food) -> None:
