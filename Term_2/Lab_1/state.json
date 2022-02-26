@@ -4,16 +4,26 @@
         20
     ], 
     "livings": [
-        [
-            "bear", 
-            100, 
-            0, 
-            100, 
-            [
-                4, 
-                15
+        {
+            "type": "shark", 
+            "health": 100, 
+            "age": 0, 
+            "hunger": 100, 
+            "position": [
+                2, 
+                14
             ]
-        ]
+        }, 
+        {
+            "type": "parrotfish", 
+            "health": 100, 
+            "age": 0, 
+            "hunger": 100, 
+            "position": [
+                19, 
+                3
+            ]
+        }
     ], 
     "plants": []
 }

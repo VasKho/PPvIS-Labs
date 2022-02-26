@@ -1,55 +1,81 @@
 import environment as env
 import json
 
-class Forest(env.Area):
+class Ocean(env.Area):
     pass
 
 
-class Bear(env.Predator):
+class Shark(env.Predator):
     def __init__(self, health: int, age: int, hunger: int = 100) -> None:
         env.Predator.__init__(self, health, age, 30, 60, False, hunger)
 
     def class_name(self) -> str:
-        return 'bear'
+        return 'shark'
 
     def reproduct(self):
-        return Bear(100, 0)
+        return Shark(100, 0)
     pass
 
-class Bunny(env.Herbivorous):
-    def __init__(self, health: int, age: int) -> None:
-        env.Herbivorous.__init__(self, health, age, 5, 20, False)
+
+class Parrotfish(env.Herbivorous):
+    def __init__(self, health: int, age: int, hunger: int = 100) -> None:
+        env.Herbivorous.__init__(self, health, age, 5, 20, False, hunger)
 
     def class_name(self) -> str:
-        return 'bunny'
+        return 'parrotfish'
     
     def reproduct(self):
-        return Bunny(100, 0)
+        return Parrotfish(100, 0)
     pass
 
 
-def parse_json(text: dict) -> Forest:
-    field = Forest(text['area'])
+class Barracuda(env.Predator):
+    def __init__(self, health: int, age: int, hunger: int = 100) -> None:
+        env.Predator.__init__(self, health, age, 30, 60, False, hunger)
+
+    def class_name(self) -> str:
+        return 'barracuda'
+
+    def reproduct(self):
+        return Barracuda(100, 0)
+    pass
+
+
+class Plant(env.Plant):
+    pass
+
+
+def parse_json(text: dict) -> Ocean:
+    field = Ocean(text['area'])
     for animal in text['livings']:
-        if animal[0] == 'bear':
-            bear = Bear(animal[1], animal[2], animal[3])
-            field.add_animal(bear, tuple(animal[4]))
+        if animal["type"] == 'shark':
+            shark = Shark(animal["health"], animal["age"], animal["hunger"])
+            field.add_animal(shark, tuple(animal["position"]))
+        elif animal["type"] == 'parrotfish':
+            parrotfish = Parrotfish(animal["health"], animal["age"], animal["hunger"])
+            field.add_animal(parrotfish, tuple(animal["position"]))
+        elif animal["type"] == 'barracuda':
+            barracuda = Barracuda(animal["health"], animal["age"], animal["hunger"])
+            field.add_animal(barracuda, tuple(animal["position"]))
+        else:
+            print(f'Unknown animal name "{animal["type"]}!')
+
     for plant in text['plants']:
-        tasty_plant = env.Plant(plant[0], plant[1])
-        field.add_plant(tasty_plant, tuple(plant[2]))
+        tasty_plant = env.Plant(plant["lifespan"], plant["energy_value"])
+        field.add_plant(tasty_plant, tuple(plant["position"]))
     return field
 
 
-def convert_to_json(field: Forest) -> str:
+def convert_to_json(field: Ocean) -> str:
     text = dict()
     text.update({'area': field.area})
     animals = list()
     for animal, position in field.livings.items():
-        animals.append((animal.class_name(), animal.health, animal.age, animal.hunger, position))
+        animals.append({"type": animal.class_name(), "health": animal.health, "age": animal.age, "hunger": animal.hunger, "position": position})
     text.update({'livings': animals})
     plants = list()
     for plant, position in field.plants.items():
-        plants.append((plant.lifespan, plant.energy_value, position))
+        plants.append({"lifespan": plant.lifespan, "energy_value": plant.energy_value, "position": position})
     text.update({'plants': plants})
 
     text = json.dumps(text, indent = 4, separators=(", ", ": "))
