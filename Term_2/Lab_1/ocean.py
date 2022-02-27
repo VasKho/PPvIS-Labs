@@ -116,20 +116,25 @@ def skip(field: Ocean, number_of_steps: int):
                 pairs_cp.remove(pair)
 
         pairs = pairs_cp
-        # Might cause bugs when pair has been already removed from {pairs_cp} and still is in {pairs}
         # Feed them
-        for pair in pairs:
-            if pair[0].class_name() != pair[1].class_name():
-                if isinstance(pair[0], env.Predator):
-                    pair[0].eat(pair[1])
-                    field.remove_animal(pair[1])
-                    pairs_cp.remove(pair)
-                    pairs_cp = [new_pair for new_pair in pairs_cp if pair[1] not in new_pair]
-                elif isinstance(pair[1], env.Predator):
-                    pair[1].eat(pair[0])
-                    field.remove_animal(pair[0])
-                    pairs_cp.remove(pair)
-                    pairs_cp = [new_pair for new_pair in pairs_cp if pair[0] not in new_pair]
+        i = 0
+        while i < len(pairs):
+            if pairs[i][0].class_name() != pairs[i][1].class_name():
+                if isinstance(pairs[i][0], env.Predator):
+                    pairs[i][0].eat(pairs[i][1])
+                    field.remove_animal(pairs[i][1])
+                    pairs.remove(pairs[i])
+                    print(f'{pairs[i][1].class_name()} has been eaten by {pairs[i][0].class_name()}')
+                    i = 0
+                    continue
+                elif isinstance(pairs[i][1], env.Predator):
+                    pairs[i][1].eat(pairs[i][0])
+                    field.remove_animal(pairs[i][0])
+                    pairs.remove(pairs[i])
+                    print(f'{pairs[i][0].class_name()} has been eaten by {pairs[i][1].class_name()}')
+                    i = 0
+                    continue
+            i += 1
 
         herbivorous_lst = [animal for animal in field.livings if isinstance(field.livings, env.Herbivorous)]
         plant_food = list(field.plants)
@@ -137,12 +142,14 @@ def skip(field: Ocean, number_of_steps: int):
             edible = [plant for plant in plant_food if field.plants[plant] == field.livings[a]]
             a.eat(edible[0])
             field.remove_plant(edible[0])
+            print(f'{edible[0]} has been eaten by {a.class_name()}')
 
         pairs = pairs_cp
         # Reproduction stuff
         for pair in pairs:
             if pair[0].class_name() == pair[1].class_name():
                 field.add_animal(pair[0].reproduct(), field.livings[pair[0]])
+                print(f'{pair[0].class_name()} was born')
 
         dead_list = []
         for animal in field.livings:
@@ -182,7 +189,7 @@ def field_print(field: Ocean):
     curses.curs_set(0)
     for y in range(field.area[1]):
         for x in range(field.area[0]):
-            stdscr.addstr(x, 2*y, '*')
+            stdscr.addstr(x, 2*y, '*', curses.COLOR_BLUE)
     stdscr.addstr('\nPress any key to close...')
 
     for animal in field.livings:
