@@ -186,22 +186,29 @@ def skip(field: Ocean, number_of_steps: int):
 
 def field_print(field: Ocean):
     stdscr = curses.initscr()
+    curses.start_color()
+    curses.use_default_colors()
+    curses.init_pair(1, curses.COLOR_BLUE, -1)
+    curses.init_pair(2, curses.COLOR_RED, -1)
+    curses.init_pair(3, curses.COLOR_YELLOW, -1)
+    curses.init_pair(4, curses.COLOR_MAGENTA, -1)
+    curses.init_pair(5, curses.COLOR_GREEN, -1)
     curses.curs_set(0)
     for y in range(field.area[1]):
         for x in range(field.area[0]):
-            stdscr.addstr(x, 2*y, '*', curses.COLOR_BLUE)
+            stdscr.addstr(x, 2*y, '*', curses.color_pair(1))
     stdscr.addstr('\nPress any key to close...')
 
     for animal in field.livings:
         if animal.class_name() == 'shark':
-            stdscr.addch(field.livings[animal][0], 2*field.livings[animal][1],'S')
+            stdscr.addch(field.livings[animal][0], 2*field.livings[animal][1],'S', curses.color_pair(2))
         elif animal.class_name() == 'parrotfish':
-            stdscr.addch(field.livings[animal][0], 2*field.livings[animal][1],'P')
+            stdscr.addch(field.livings[animal][0], 2*field.livings[animal][1],'P', curses.color_pair(3))
         elif animal.class_name() == 'barracuda':
-            stdscr.addch(field.livings[animal][0], 2*field.livings[animal][1],'B')
+            stdscr.addch(field.livings[animal][0], 2*field.livings[animal][1],'B', curses.color_pair(4))
 
     for plant in field.plants:
-        stdscr.addch(field.plants[plant][0], 2*field.plants[plant][1], '@')
+        stdscr.addch(field.plants[plant][0], 2*field.plants[plant][1], '@', curses.color_pair(5))
     stdscr.refresh()
     stdscr.getch()
     curses.endwin()
