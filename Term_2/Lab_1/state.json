@@ -3,28 +3,7 @@
         20, 
         20
     ], 
-    "livings": [
-        {
-            "type": "barracuda", 
-            "health": 100, 
-            "age": 7, 
-            "hunger": 30, 
-            "position": [
-                2, 
-                16
-            ]
-        }, 
-        {
-            "type": "shark", 
-            "health": 100, 
-            "age": 7, 
-            "hunger": 30, 
-            "position": [
-                6, 
-                8
-            ]
-        }
-    ], 
+    "livings": [], 
     "plants": [
         {
             "lifespan": "20", 

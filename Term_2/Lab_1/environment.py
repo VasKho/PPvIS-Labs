@@ -30,7 +30,7 @@ class Animal(ABC, Food):
         pass
 
     @abstractmethod
-    def reproduct(self):
+    def reproduct(self) -> 'Animal':
         pass
 
     @abstractmethod
@@ -44,7 +44,7 @@ class Animal(ABC, Food):
             self.health -= 10
 
     def death(self) -> bool:
-        return self.health == 0 or self.age > self.lifespan
+        return self.health <= 0 or self.age > self.lifespan
     pass
 
 
@@ -89,4 +89,12 @@ class Area:
 
     def add_plant(self, new_plant: Plant, position: tuple[int, int]) -> None:
         self.plants.update({new_plant: position})
+
+    def remove_animal(self, animal: Animal) -> None:
+        if animal in self.livings:
+            self.livings.pop(animal)
+
+    def remove_plant(self, plant: Plant) -> None:
+        if plant in self.plants:
+            self.plants.pop(plant)
     pass
