@@ -4,10 +4,10 @@ import ocean
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description = 'This is a program for life simulation')
-    parser.add_argument('-s', '--skip', type=int, help = 'Pass some simulation steps')
-    parser.add_argument('--animal', help = 'Create new animal {shark, parrotfish, barracuda}')
-    parser.add_argument('--plant', nargs = 2, help = 'Create new plant')
-    parser.add_argument('-p', '--print', nargs = '?', help = 'Print current ocean state')
+    parser.add_argument('-s', '--skip', type = int, metavar = '<steps>', help = 'Pass some simulation steps')
+    parser.add_argument('--animal', choices = ['shark', 'parrotfish', 'barracuda'], help = 'Create new animal')
+    parser.add_argument('--plant', nargs = 2, type = int, metavar = ('<lifespan>', '<energy_value>'), help = 'Create new plant')
+    parser.add_argument('-p', '--print', action = 'store_true', help = 'Print current ocean state')
 
     args = parser.parse_args()
 
