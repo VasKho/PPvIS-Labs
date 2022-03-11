@@ -1,0 +1,78 @@
+{
+    "area": [
+        20, 
+        20
+    ], 
+    "livings": [
+        {
+            "type": "parrotfish", 
+            "health": 100, 
+            "age": 0, 
+            "hunger": 100, 
+            "position": [
+                19, 
+                2
+            ]
+        }, 
+        {
+            "type": "barracuda", 
+            "health": 100, 
+            "age": 0, 
+            "hunger": 100, 
+            "position": [
+                8, 
+                10
+            ]
+        }, 
+        {
+            "type": "shark", 
+            "health": 100, 
+            "age": 0, 
+            "hunger": 100, 
+            "position": [
+                19, 
+                14
+            ]
+        }, 
+        {
+            "type": "shark", 
+            "health": 100, 
+            "age": 0, 
+            "hunger": 100, 
+            "position": [
+                19, 
+                14
+            ]
+        }, 
+        {
+            "type": "shark", 
+            "health": 100, 
+            "age": 0, 
+            "hunger": 100, 
+            "position": [
+                6, 
+                18
+            ]
+        }, 
+        {
+            "type": "parrotfish", 
+            "health": 100, 
+            "age": 0, 
+            "hunger": 100, 
+            "position": [
+                17, 
+                2
+            ]
+        }
+    ], 
+    "plants": [
+        {
+            "lifespan": 20, 
+            "energy_value": 5, 
+            "position": [
+                12, 
+                1
+            ]
+        }
+    ]
+}
