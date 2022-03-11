@@ -1,0 +1,98 @@
+@startuml class_diagram
+
+abstract Food
+{
+    +energy_value: int
+    +for_herbivorous: bool
+}
+
+abstract Animal
+{
+    +health: int
+    +age: int
+    +hunger: int
+    +lifespan: int
+    __
+    +__init__(health: int, age: int, lifespan: int, energy_value: int, for_herbivorous: bool, hunger: int = 100)
+    +move(): string
+    +starve()
+    +death(): bool
+    +{abstract} eat(meal: Food)
+    +{abstract} reproduct(): Animal
+    +{abstract} class_name(): string
+}
+
+abstract Predator
+{
+    __
+    +eat(meal: Food)
+}
+
+abstract Herbivorous
+{
+    __
+    +eat(meal: Food)
+}
+
+class Plant
+{
+    +lifespan: int
+    +for_herbivorous = True
+    __
+    +__init__(lifespan: int, energy_value: int)
+}
+
+class Area
+{
+    +area: tuple[int, int]
+    +livings: dict[Animal, tuple[int, int]]
+    +plants: dict[Plant, tuple[int, int]]
+    __
+    +__init__(size: tuple[int, int], livings: dict = dict(), plants: dict = dict())
+    +add_animal(new_animal: Animal, position: tuple[int, int])
+    +add_plant(new_plant: Plant, position: tuple[int, int])
+    +remove_animal(animal: Animal)
+    +remove_plant(plant: Plant)
+}
+
+
+Food <|-- Animal
+Predator --|> Animal
+Herbivorous --|> Animal
+Plant --|> Food
+
+Area o-- Animal
+
+
+class Ocean
+
+class Shark
+{
+    __
+    +__init__(health: int, age: int, hunger: int = 100)
+    +class_name(): string
+    +reproduct(): Shark
+}
+
+class Parrotfish
+{
+    __
+    +__init__(health: int, age: int, hunger: int = 100)
+    +class_name(): string
+    +reproduct(): Parrotfish
+}
+
+class Barracuda
+{
+    __
+    +__init__(health: int, age: int, hunger: int = 100)
+    +class_name(): string
+    +reproduct(): Barracuda
+}
+
+Ocean --|> Area
+Shark --|> Predator
+Parrotfish --|> Herbivorous
+Barracuda --|> Predator
+
+@enduml
