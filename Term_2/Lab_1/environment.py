@@ -1,13 +1,13 @@
 from random import choice
 from abc import ABC, abstractmethod
 
-class Food:
+class Food(ABC):
     energy_value: int
     for_herbivorous: bool
     pass
 
 
-class Animal(ABC, Food):
+class Animal(Food):
     health: int
     age: int
     hunger: int

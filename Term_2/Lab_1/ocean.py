@@ -122,27 +122,28 @@ def skip(field: Ocean, number_of_steps: int):
             if pairs[i][0].class_name() != pairs[i][1].class_name():
                 if isinstance(pairs[i][0], env.Predator):
                     pairs[i][0].eat(pairs[i][1])
+                    print(f'{pairs[i][1].class_name()} has been eaten by {pairs[i][0].class_name()}')
                     field.remove_animal(pairs[i][1])
                     pairs.remove(pairs[i])
-                    print(f'{pairs[i][1].class_name()} has been eaten by {pairs[i][0].class_name()}')
                     i = 0
                     continue
                 elif isinstance(pairs[i][1], env.Predator):
                     pairs[i][1].eat(pairs[i][0])
+                    print(f'{pairs[i][0].class_name()} has been eaten by {pairs[i][1].class_name()}')
                     field.remove_animal(pairs[i][0])
                     pairs.remove(pairs[i])
-                    print(f'{pairs[i][0].class_name()} has been eaten by {pairs[i][1].class_name()}')
                     i = 0
                     continue
             i += 1
 
-        herbivorous_lst = [animal for animal in field.livings if isinstance(field.livings, env.Herbivorous)]
+        herbivorous_lst = [animal for animal in field.livings if isinstance(animal, env.Herbivorous)]
         plant_food = list(field.plants)
         for a in herbivorous_lst:
             edible = [plant for plant in plant_food if field.plants[plant] == field.livings[a]]
-            a.eat(edible[0])
-            field.remove_plant(edible[0])
-            print(f'{edible[0]} has been eaten by {a.class_name()}')
+            if edible:
+                a.eat(edible[0])
+                field.remove_plant(edible[0])
+                print(f'Plant has been eaten by {a.class_name()}')
 
         pairs = pairs_cp
         # Reproduction stuff
