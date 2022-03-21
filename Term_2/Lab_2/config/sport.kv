@@ -1,0 +1,121 @@
+#:import os os
+<DialogPopup>:
+    title_size: 30 
+    size_hint: (0.9, 0.9)
+
+
+<DialogLoader>:
+    BoxLayout:
+        size: root.size
+        pos: root.pos
+        orientation: "vertical"
+
+        FileChooserIconView:
+            id: filechooser
+            path: str(os.getcwd())
+
+        BoxLayout:
+            size_hint_y: .1
+            Button:
+                text: "Cancel"
+                on_release: root.cancel()
+
+            Button:
+                text: "Load"
+                on_release: root.load(filechooser.path, filechooser.selection)
+
+
+<DialogSaver>:
+    BoxLayout:
+        size: root.size
+        pos: root.pos
+        orientation: "vertical"
+
+        FileChooserIconView:
+            id: filechooser
+            path: str(os.getcwd())
+            on_selection: text_input.text = self.selection and self.selection[0] or ''
+
+        TextInput:
+            id: text_input
+            size_hint_y: None
+            height: 30
+            multiline: False
+
+        BoxLayout:
+            size_hint_y: .1
+            Button:
+                text: "Cancel"
+                on_release: root.cancel()
+
+            Button:
+                text: "Save"
+                on_release: root.save(filechooser.path, text_input.text)
+
+
+<TableOutlineLabel@Label>:
+    # Text properties
+    text_size: self.size
+    halign: 'center'
+    valign: 'middle'
+    font_size: 30
+    color: (0, 0, 0, 1)
+    # Label properties
+    size_hint_y: None
+    canvas.before:
+        Color:
+            rgba: (0, 0, 0, 1)
+        Line:
+            width: 1
+            close: True
+            rectangle: [self.x, self.y, self.width, self.height]
+
+
+<TableOutline@GridLayout>:
+    rows: 1
+    TableOutlineLabel:
+        text: 'ФИО спортсмена'
+    TableOutlineLabel:
+        text: 'Состав (если имеется)'
+    TableOutlineLabel:
+        text: 'Позиция'
+    TableOutlineLabel:
+        text: 'Титулы'
+    TableOutlineLabel:
+        text: 'Вид спорта'
+    TableOutlineLabel:
+        text: 'Разряд'
+
+
+<Screen>:
+    canvas.before:
+        Color:
+            rgba: (1, 1, 1, 1)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    ActionBar:
+        id: bar
+        pos_hint: {'x': 0, 'top': 1}
+        ActionView:
+            ActionPrevious:
+                with_previous: False
+                #app_icon: ''
+            ActionGroup:
+                text: 'File'
+                ActionButton:
+                    text: 'Open'
+                    on_release: root.show_load()
+                ActionButton:
+                    text: 'Save As'
+                    on_release: root.show_save()
+            ActionGroup:
+                text: 'Edit'
+                ActionButton:
+                    text: 'Add'
+                ActionButton:
+                    text: 'Delete'
+
+    TableOutline:
+        pos_hint: {'x': 0, 'top': 1 - bar.height/root.height}
