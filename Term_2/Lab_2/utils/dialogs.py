@@ -12,3 +12,10 @@ class DialogSaver(FloatLayout):
     save = ObjectProperty(None)
     cancel = ObjectProperty(None)
     pass
+
+
+class AddNoteDialog(FloatLayout):
+    pass
+
+class DeleteNoteDialog(FloatLayout):
+    pass
