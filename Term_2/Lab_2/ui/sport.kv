@@ -43,7 +43,7 @@
             multiline: False
 
         BoxLayout:
-            size_hint_y: .1
+            size_hint_x: .1
             Button:
                 text: "Cancel"
                 on_release: root.cancel()
@@ -51,6 +51,67 @@
             Button:
                 text: "Save"
                 on_release: root.save(filechooser.path, text_input.text)
+
+
+<AddNoteDialog>:
+    BoxLayout:
+        size: root.size
+        pos: root.pos
+        orientation: "vertical"
+
+        BoxLayout:
+            orientation: "vertical"
+            size_hint_y: .3
+            BoxLayout:
+                Label:
+                    size_hint_x: .2
+                    text: "Имя"
+                TextInput:
+                    id: name
+            BoxLayout:
+                Label:
+                    size_hint_x: .2
+                    text: "Состав"
+                Spinner:
+                    id: cast
+                    text: "N\\A"
+                    values: ("Основной", "Запасной", "N\\A")
+            BoxLayout:
+                Label:
+                    size_hint_x: .2
+                    text: "Позиция"
+                TextInput:
+                    id: position
+            BoxLayout:
+                Label:
+                    size_hint_x: .2
+                    text: "Титул"
+                TextInput:
+                    id: title
+            BoxLayout:
+                Label:
+                    size_hint_x: .2
+                    text: "Вид спорта"
+                TextInput:
+                    id: sport
+            BoxLayout:
+                Label:
+                    size_hint_x: .2
+                    text: "Разряд"
+                Spinner:
+                    id: rank
+                    text: "Нет"
+                    values: ("1-й юношеский", "2-й разряд", "3-й разряд", "Кмс", "Мастер спорта", "Нет")
+
+        BoxLayout:
+            size_hint_y: .1
+            Button:
+                text: "Cancel"
+                on_release: root.cancel()
+
+            Button:
+                text: "Add"
+                on_release: root.add(name.text, cast.text, position.text, title.text, sport.text, rank.text)
 
 
 <TableOutlineLabel@Label>:
@@ -101,7 +162,7 @@
         ActionView:
             ActionPrevious:
                 with_previous: False
-                #app_icon: ''
+                app_icon: ''
             ActionGroup:
                 text: 'File'
                 ActionButton:
@@ -114,6 +175,7 @@
                 text: 'Edit'
                 ActionButton:
                     text: 'Add'
+                    on_release: root.show_add()
                 ActionButton:
                     text: 'Delete'
 
