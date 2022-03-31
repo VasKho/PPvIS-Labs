@@ -114,7 +114,7 @@
                 on_release: root.add(name.text, cast.text, position.text, title.text, sport.text, rank.text)
 
 
-<TableOutlineLabel@Label>:
+<TableOutlineLabel>:
     # Text properties
     text_size: self.size
     halign: 'center'
@@ -132,8 +132,8 @@
             rectangle: [self.x, self.y, self.width, self.height]
 
 
-<TableOutline@GridLayout>:
-    rows: 1
+<TableOutline>:
+    cols: 6
     TableOutlineLabel:
         text: 'ФИО спортсмена'
     TableOutlineLabel:
@@ -157,8 +157,7 @@
             size: self.size
 
     ActionBar:
-        id: bar
-        pos_hint: {'x': 0, 'top': 1}
+        pos_hint: {'x': 0, 'top': self.height/root.height}
         ActionView:
             ActionPrevious:
                 with_previous: False
@@ -178,6 +177,3 @@
                     on_release: root.show_add()
                 ActionButton:
                     text: 'Delete'
-
-    TableOutline:
-        pos_hint: {'x': 0, 'top': 1 - bar.height/root.height}

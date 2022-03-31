@@ -1,13 +1,26 @@
+import os
+
 from kivy.app import App
 from kivy.app import Builder
 from kivy.properties import ObjectProperty
-from kivy.uix.floatlayout import FloatLayout
+from kivy.uix.relativelayout import RelativeLayout
+from kivy.uix.gridlayout import GridLayout
+from kivy.uix.label import Label
 
 import ui.dialogs as dialogs
 import utils.parser as parser
 
 
-class Screen(FloatLayout):
+class TableOutline(GridLayout):
+    pass
+
+
+class TableOutlineLabel(Label):
+    pass
+
+
+class Screen(RelativeLayout):
+    table: TableOutline
     loadfile = ObjectProperty(None)
     savefile = ObjectProperty(None)
     context = ObjectProperty(None)
@@ -29,13 +42,18 @@ class Screen(FloatLayout):
 
 
     def load(self, path, filename):
-        os.path.join(path, filename[0]))
+        registry = parser.parse_file(os.path.join(path, filename[0]))
+        for sportsman in registry:
+            self.table.add_widget(TableOutlineLabel(text=sportsman.name))
+            self.table.add_widget(TableOutlineLabel(text=sportsman.cast))
+            self.table.add_widget(TableOutlineLabel(text=sportsman.position))
+            self.table.add_widget(TableOutlineLabel(text=sportsman.title))
+            self.table.add_widget(TableOutlineLabel(text=sportsman.sport))
+            self.table.add_widget(TableOutlineLabel(text=sportsman.rank))
         self.dismiss_popup()
 
 
     def save(self, path, filename):
-        # with open(os.path.join(path, filename), 'w') as stream:
-        #     stream.write(self.context)
         self.dismiss_popup()
 
 
@@ -48,7 +66,10 @@ class Screen(FloatLayout):
 
 class DatabaseApp(App):
     def build(self):
-        return Screen()
+        screen = Screen()
+        screen.table = TableOutline(pos_hint={'x': 0, 'top': 1})
+        screen.add_widget(screen.table)
+        return screen
 
 
 Builder.load_file('./ui/sport.kv')
