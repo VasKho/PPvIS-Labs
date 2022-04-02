@@ -39,7 +39,7 @@ class DeleteNoteDialog(FloatLayout):
     def modify_input(self):
         if self.spinner.text not in ['Состав', 'Разряд']:
             self.content.remove_widget(self.input)
-            self.input = TextInput()
+            self.input = TextInput(multiline=False)
             self.content.add_widget(self.input)
         elif self.spinner.text == 'Состав':
             self.content.remove_widget(self.input)

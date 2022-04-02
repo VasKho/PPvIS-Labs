@@ -125,6 +125,7 @@
             on_text: root.modify_input()
         TextInput:
             id: choice
+            multiline: False
 
     GridLayout:
         rows: 1
@@ -136,7 +137,7 @@
 
         Button:
             text: "Delete"
-            on_release: root.delete(tag.text, choice.text, screen.file)
+            on_release: root.delete(root.spinner.text, root.input.text)
 
 
 <TableOutlineLabel>:

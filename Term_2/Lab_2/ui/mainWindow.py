@@ -90,11 +90,24 @@ class Screen(RelativeLayout):
         self.table.add_widget(TableOutlineLabel(text=title))
         self.table.add_widget(TableOutlineLabel(text=sport))
         self.table.add_widget(TableOutlineLabel(text=rank))
-        pass
+        self.dismiss_popup()
 
 
-    def delete(self):
-        pass
+    def delete(self, tag_name: str, info: str):
+        self.context.delete_from_context(tag_name, info)
+        for widget in self.children:
+            if isinstance(widget, TableOutline):
+                self.remove_widget(widget)
+        self.table = TableOutline()
+        self.add_widget(self.table)
+        for i in self.context.content:
+            self.table.add_widget(TableOutlineLabel(text=i.name))
+            self.table.add_widget(TableOutlineLabel(text=i.cast))
+            self.table.add_widget(TableOutlineLabel(text=i.position))
+            self.table.add_widget(TableOutlineLabel(text=i.title))
+            self.table.add_widget(TableOutlineLabel(text=i.sport))
+            self.table.add_widget(TableOutlineLabel(text=i.rank))
+        self.dismiss_popup()
     pass
 
 

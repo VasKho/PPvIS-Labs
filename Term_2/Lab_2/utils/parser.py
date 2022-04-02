@@ -4,7 +4,7 @@ from xml.dom import minidom
 
 
 class Sportsman:
-    def __init__(self, name: str='', cast: str='', position: str='', title: int=0, sport: str='', rank: str='') -> None:
+    def __init__(self, name: str='', cast: str='', position: str='', title: str='', sport: str='', rank: str='') -> None:
         self.name = name
         self.cast = cast
         self.position = position

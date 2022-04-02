@@ -12,7 +12,20 @@ class Context:
         self.content.append(parser.Sportsman(name, cast, position, title, sport, rank))
 
 
-    def delete_from_context(self, tag_name: str, info: str):
+    def delete_from_context(self, key: str, info: str):
+        tag_name = ''
+        if key == 'Имя':
+            tag_name = 'name'
+        elif key == 'Состав':
+            tag_name = 'cast'
+        elif key == 'Позиция':
+            tag_name = 'position'
+        elif key == 'Титул':
+            tag_name = 'title'
+        elif key == 'Вид спорта':
+            tag_name = 'sport'
+        elif key == 'Разряд':
+            tag_name = 'rank'
         to_remove = []
         for i in self.content:
             if i.__dict__[tag_name] == info:
