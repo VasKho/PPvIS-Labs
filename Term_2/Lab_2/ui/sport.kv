@@ -188,7 +188,7 @@
         text: 'Разряд'
 
 
-<Screen>:
+<DispScreen>:
     canvas.before:
         Color:
             rgba: (1, 1, 1, 1)
@@ -202,6 +202,28 @@
             ActionPrevious:
                 with_previous: False
                 app_icon: ''
+            ActionButton:
+                text: 'a'
+            ActionButton:
+                text: '<<'
+                on_release: 
+                    root.parent.transition.direction = 'right'
+                    root.parent.first()
+            ActionButton:
+                text: '<'
+                on_release: 
+                    root.parent.transition.direction = 'right'
+                    root.parent.prev()
+            ActionButton:
+                text: '>'
+                on_release: 
+                    root.parent.transition.direction = 'left'
+                    root.parent.next()
+            ActionButton:
+                text: '>>'
+                on_release: 
+                    root.parent.transition.direction = 'left'
+                    root.parent.last()
             ActionButton:
                 text: 'Exit'
                 on_release: app.stop()
