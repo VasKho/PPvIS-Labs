@@ -37,25 +37,25 @@ class Screen(RelativeLayout):
 
     def show_load(self):
         content = dialogs.DialogLoader(load=self.load, cancel=self.dismiss_popup)
-        self._popup = dialogs.DialogPopup(title="Load file", content=content)
+        self._popup = dialogs.DialogPopup(title='Load file', content=content)
         self._popup.open()
 
 
     def show_save(self):
         content = dialogs.DialogSaver(save=self.save, cancel=self.dismiss_popup)
-        self._popup = dialogs.DialogPopup(title="Save file", content=content)
+        self._popup = dialogs.DialogPopup(title='Save file', content=content)
         self._popup.open()
 
 
     def show_add(self):
         content = dialogs.AddNoteDialog(add=self.add, cancel=self.dismiss_popup)
-        self._popup = dialogs.DialogPopup(title="Add note", content=content)
+        self._popup = dialogs.DialogPopup(title='Add note', content=content)
         self._popup.open()
 
 
     def show_delete(self):
         content = dialogs.DeleteNoteDialog(delete=self.delete, cancel=self.dismiss_popup)
-        self._popup = dialogs.DialogPopup(title="Delete note", content=content)
+        self._popup = dialogs.DialogPopup(title='Delete note', content=content)
         self._popup.open()
 
 
@@ -94,7 +94,7 @@ class Screen(RelativeLayout):
 
 
     def delete(self, tag_name: str, info: str):
-        self.context.delete_from_context(tag_name, info)
+        deleted = self.context.delete_from_context(tag_name, info)
         for widget in self.children:
             if isinstance(widget, TableOutline):
                 self.remove_widget(widget)
@@ -108,6 +108,10 @@ class Screen(RelativeLayout):
             self.table.add_widget(TableOutlineLabel(text=i.sport))
             self.table.add_widget(TableOutlineLabel(text=i.rank))
         self.dismiss_popup()
+
+        content = dialogs.ResultDialog(result=deleted, close=self.dismiss_popup)
+        self._popup = dialogs.ResultPopup(title='', content=content)
+        self._popup.open()
     pass
 
 

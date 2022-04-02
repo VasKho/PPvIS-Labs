@@ -1,9 +1,23 @@
 #:import os os
+<ResultDialog>:
+    BoxLayout:
+        size: root.size
+        pos: root.pos
+        orientation: 'vertical'
+
+        Label:
+            text: 'Было удалено {} записей'.format(root.result) if root.result != 0 else 'Записи не найдены'
+        Button:
+            size_hint_y: .2
+            text: 'OK'
+            on_release: root.close()
+
+
 <DialogLoader>:
     BoxLayout:
         size: root.size
         pos: root.pos
-        orientation: "vertical"
+        orientation: 'vertical'
 
         FileChooserIconView:
             id: filechooser
@@ -12,11 +26,11 @@
         BoxLayout:
             size_hint_y: .1
             Button:
-                text: "Cancel"
+                text: 'Cancel'
                 on_release: root.cancel()
 
             Button:
-                text: "Load"
+                text: 'Load'
                 on_release: root.load(filechooser.path, filechooser.selection)
 
 
@@ -24,7 +38,7 @@
     BoxLayout:
         size: root.size
         pos: root.pos
-        orientation: "vertical"
+        orientation: 'vertical'
 
         FileChooserIconView:
             id: filechooser
@@ -40,11 +54,11 @@
         BoxLayout:
             size_hint_y: .1
             Button:
-                text: "Cancel"
+                text: 'Cancel'
                 on_release: root.cancel()
 
             Button:
-                text: "Save"
+                text: 'Save'
                 on_release: root.save(filechooser.path, text_input.text)
 
 
@@ -52,60 +66,60 @@
     BoxLayout:
         size: root.size
         pos: root.pos
-        orientation: "vertical"
+        orientation: 'vertical'
 
         BoxLayout:
-            orientation: "vertical"
+            orientation: 'vertical'
             size_hint_y: .3
             BoxLayout:
                 Label:
                     size_hint_x: .2
-                    text: "Имя"
+                    text: 'Имя'
                 TextInput:
                     id: name
             BoxLayout:
                 Label:
                     size_hint_x: .2
-                    text: "Состав"
+                    text: 'Состав'
                 Spinner:
                     id: cast
-                    text: "N\\A"
-                    values: ("Основной", "Запасной", "N\\A")
+                    text: 'N\\A'
+                    values: ('Основной', 'Запасной', 'N\\A')
             BoxLayout:
                 Label:
                     size_hint_x: .2
-                    text: "Позиция"
+                    text: 'Позиция'
                 TextInput:
                     id: position
             BoxLayout:
                 Label:
                     size_hint_x: .2
-                    text: "Титул"
+                    text: 'Титул'
                 TextInput:
                     id: title
             BoxLayout:
                 Label:
                     size_hint_x: .2
-                    text: "Вид спорта"
+                    text: 'Вид спорта'
                 TextInput:
                     id: sport
             BoxLayout:
                 Label:
                     size_hint_x: .2
-                    text: "Разряд"
+                    text: 'Разряд'
                 Spinner:
                     id: rank
-                    text: "Нет"
-                    values: ("1-й юношеский", "2-й разряд", "3-й разряд", "Кмс", "Мастер спорта", "Нет")
+                    text: 'Нет'
+                    values: ('1-й юношеский', '2-й разряд', '3-й разряд', 'Кмс', 'Мастер спорта', 'Нет')
 
         BoxLayout:
             size_hint_y: .1
             Button:
-                text: "Cancel"
+                text: 'Cancel'
                 on_release: root.cancel()
 
             Button:
-                text: "Add"
+                text: 'Add'
                 on_release: root.add(name.text, cast.text, position.text, title.text, sport.text, rank.text)
 
 
@@ -120,8 +134,8 @@
         size_hint_y: .1
         Spinner:
             id: tag
-            text: "Имя"
-            values: ("Имя", "Состав", "Позиция", "Титул", "Вид спорта", "Разряд")
+            text: 'Имя'
+            values: ('Имя', 'Состав', 'Позиция', 'Титул', 'Вид спорта', 'Разряд')
             on_text: root.modify_input()
         TextInput:
             id: choice
@@ -132,11 +146,11 @@
         pos: (root.x, root.top-root.height)
         size_hint_y: .1
         Button:
-            text: "Cancel"
+            text: 'Cancel'
             on_release: root.cancel()
 
         Button:
-            text: "Delete"
+            text: 'Delete'
             on_release: root.delete(root.spinner.text, root.input.text)
 
 
