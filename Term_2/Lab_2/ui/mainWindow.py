@@ -61,6 +61,11 @@ class Screen(RelativeLayout):
 
     def load(self, path, filename):
         self.file = os.path.join(path, filename[0])
+        for widget in self.children:
+            if isinstance(widget, TableOutline):
+                self.remove_widget(widget)
+        self.table = TableOutline()
+        self.add_widget(self.table)
         self.context = context.Context(self.file)
         for sportsman in self.context.content:
             self.table.add_widget(TableOutlineLabel(text=sportsman.name))

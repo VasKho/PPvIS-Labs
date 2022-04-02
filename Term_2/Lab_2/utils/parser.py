@@ -4,7 +4,7 @@ from xml.dom import minidom
 
 
 class Sportsman:
-    def __init__(self, name: str='', cast: str='', position: str='', title: str='', sport: str='', rank: str='') -> None:
+    def __init__(self, name: str='', cast: str='', position: str='', title: int=0, sport: str='', rank: str='') -> None:
         self.name = name
         self.cast = cast
         self.position = position
@@ -64,7 +64,7 @@ def parse_file(path: str="") -> list[Sportsman]:
 
 
 def write_to_xml(sportsmans: list[Sportsman], path: str):
-    def create_field(dom: minidom.Document, tag_name: str, text: str) -> minidom.Element:
+    def create_field(dom: minidom.Document, tag_name: str, text) -> minidom.Element:
         tag = dom.createElement(tag_name)
         text_node = dom.createTextNode(text)
         tag.appendChild(text_node)
