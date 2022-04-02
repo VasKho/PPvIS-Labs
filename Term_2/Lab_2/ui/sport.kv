@@ -1,9 +1,4 @@
 #:import os os
-<DialogPopup>:
-    title_size: 30 
-    size_hint: (0.9, 0.9)
-
-
 <DialogLoader>:
     BoxLayout:
         size: root.size
@@ -43,7 +38,7 @@
             multiline: False
 
         BoxLayout:
-            size_hint_x: .1
+            size_hint_y: .1
             Button:
                 text: "Cancel"
                 on_release: root.cancel()
@@ -114,6 +109,36 @@
                 on_release: root.add(name.text, cast.text, position.text, title.text, sport.text, rank.text)
 
 
+<DeleteNoteDialog>:
+    content: content
+    spinner: tag
+    input: choice
+    GridLayout:
+        id: content
+        rows: 1
+        pos: (root.x, root.top-root.height/3)
+        size_hint_y: .1
+        Spinner:
+            id: tag
+            text: "Имя"
+            values: ("Имя", "Состав", "Позиция", "Титул", "Вид спорта", "Разряд")
+            on_text: root.modify_input()
+        TextInput:
+            id: choice
+
+    GridLayout:
+        rows: 1
+        pos: (root.x, root.top-root.height)
+        size_hint_y: .1
+        Button:
+            text: "Cancel"
+            on_release: root.cancel()
+
+        Button:
+            text: "Delete"
+            on_release: root.delete(tag.text, choice.text, screen.file)
+
+
 <TableOutlineLabel>:
     # Text properties
     text_size: self.size
@@ -162,18 +187,18 @@
             ActionPrevious:
                 with_previous: False
                 app_icon: ''
-            ActionGroup:
-                text: 'File'
-                ActionButton:
-                    text: 'Open'
-                    on_release: root.show_load()
-                ActionButton:
-                    text: 'Save As'
-                    on_release: root.show_save()
-            ActionGroup:
-                text: 'Edit'
-                ActionButton:
-                    text: 'Add'
-                    on_release: root.show_add()
-                ActionButton:
-                    text: 'Delete'
+            ActionButton:
+                text: 'Exit'
+                on_release: app.stop()
+            ActionButton:
+                text: 'Open'
+                on_release: root.show_load()
+            ActionButton:
+                text: 'Save As'
+                on_release: root.show_save()
+            ActionButton:
+                text: 'Add'
+                on_release: root.show_add()
+            ActionButton:
+                text: 'Delete'
+                on_release: root.show_delete()
