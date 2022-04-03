@@ -17,6 +17,17 @@ class ResultPopup(Popup):
     pass
 
 
+class UpdatePopup(Popup):
+    def __init__(self, **kwargs):
+        super().__init__(size_hint=(0.5, 0.2), **kwargs)
+    pass
+
+
+class UpdateRowsDialog(FloatLayout):
+    change = ObjectProperty(None)
+    pass
+
+
 class ResultDialog(FloatLayout):
     result = NumericProperty(0)
     close = ObjectProperty(None)

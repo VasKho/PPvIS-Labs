@@ -1,5 +1,4 @@
 import os
-from math import ceil
 
 from kivy.app import App
 from kivy.app import Builder
@@ -37,16 +36,16 @@ class DatabaseScreenManager(ScreenManager):
     def load(self, path, filename):
         self.file = os.path.join(path, filename[0])
         self.context = context.Context(self.file)
+        self.get_screen(self.current).dismiss_popup()
         self.out_context()
 
 
     def out_context(self):
         index = 1
-        self.get_screen(self.current).dismiss_popup()
         for widget in range(1, self.max_windows+1):
             self.remove_widget(self.get_screen(f'screen{widget}'))
-        self.max_windows = ceil(len(self.context.content)/self.max_rows)
-        self.add_widget(DispScreen(name=f'screen{index}'))
+        self.max_windows = 1
+        self.add_widget(DispScreen(name=f'screen{index}', max_rows=self.max_rows, fields=len(self.context.content)))
         self.get_screen(f'screen{index}').rows = 1
         for sportsman in self.context.content:
             if self.get_screen(f'screen{index}').rows <= self.max_rows:
@@ -58,7 +57,8 @@ class DatabaseScreenManager(ScreenManager):
                 self.get_screen(f'screen{index}').table.add_widget(TableOutlineLabel(text=sportsman.rank))
             else:
                 index += 1
-                self.add_widget(DispScreen(name=f'screen{index}'))
+                self.add_widget(DispScreen(name=f'screen{index}', max_rows=self.max_rows, fields=len(self.context.content)))
+                self.max_windows += 1
                 self.get_screen(f'screen{index}').rows = 1
                 self.get_screen(f'screen{index}').table.add_widget(TableOutlineLabel(text=sportsman.name))
                 self.get_screen(f'screen{index}').table.add_widget(TableOutlineLabel(text=sportsman.cast))
@@ -67,6 +67,18 @@ class DatabaseScreenManager(ScreenManager):
                 self.get_screen(f'screen{index}').table.add_widget(TableOutlineLabel(text=sportsman.sport))
                 self.get_screen(f'screen{index}').table.add_widget(TableOutlineLabel(text=sportsman.rank))
             self.get_screen(f'screen{index}').rows += 1
+
+
+    def show_update(self):
+        def set_new_max_rows(new_value):
+            if new_value != '':
+                self.max_rows = new_value
+            self.out_context()
+            self._popup.dismiss()
+
+        content = dialogs.UpdateRowsDialog(change=set_new_max_rows)
+        self._popup = dialogs.UpdatePopup(title='', content=content)
+        self._popup.open()
 
 
     def save(self, path, filename):
@@ -154,18 +166,6 @@ class DispScreen(Screen):
     def delete(self, tag_name: str, info: str):
         deleted = self.parent.context.delete_from_context(tag_name, info)
         self.parent.out_context()
-        # for widget in self.children:
-        #     if isinstance(widget, TableOutline):
-        #         self.remove_widget(widget)
-        # self.table = TableOutline()
-        # self.add_widget(self.table)
-        # for i in self.parent.context.content:
-        #     self.table.add_widget(TableOutlineLabel(text=i.name))
-        #     self.table.add_widget(TableOutlineLabel(text=i.cast))
-        #     self.table.add_widget(TableOutlineLabel(text=i.position))
-        #     self.table.add_widget(TableOutlineLabel(text=i.title))
-        #     self.table.add_widget(TableOutlineLabel(text=i.sport))
-        #     self.table.add_widget(TableOutlineLabel(text=i.rank))
         self.dismiss_popup()
 
         content = dialogs.ResultDialog(result=deleted, close=self.dismiss_popup)

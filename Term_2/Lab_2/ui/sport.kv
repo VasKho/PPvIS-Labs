@@ -1,4 +1,21 @@
 #:import os os
+<UpdateRowsDialog>:
+    BoxLayout:
+        size: root.size
+        pos: root.pos
+        orientation: 'vertical'
+
+        TextInput:
+            id: tin
+            text: ''
+            multiline: False
+        Button:
+            size_hint_y: .2
+            text: 'OK'
+            on_release: 
+                root.change(tin.text)
+
+
 <ResultDialog>:
     BoxLayout:
         size: root.size
@@ -189,6 +206,8 @@
 
 
 <DispScreen>:
+    max_rows: self.max_rows
+    fields: self.fields
     canvas.before:
         Color:
             rgba: (1, 1, 1, 1)
@@ -203,7 +222,10 @@
                 with_previous: False
                 app_icon: ''
             ActionButton:
-                #text: '{}'.format(root.parent.max_rows)
+                text: '{}/{} записей'.format(root.max_rows, root.fields) if root.fields != None else '5/0 записей'
+                on_release: 
+                    root.parent.show_update()
+                    text: '{}/{} записей'.format(root.max_rows, root.fields) if root.fields != None else '{}/0 записей'.format(root.max_rows)
             ActionButton:
                 text: '<<'
                 on_release: 
