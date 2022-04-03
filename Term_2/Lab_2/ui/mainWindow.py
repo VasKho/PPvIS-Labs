@@ -1,5 +1,5 @@
 import os
-from math import floor
+from math import ceil
 
 from kivy.app import App
 from kivy.app import Builder
@@ -23,38 +23,50 @@ class TableOutlineLabel(Label):
 class DatabaseScreenManager(ScreenManager):
     file = StringProperty(None)
     context = ObjectProperty(None)
-    notes = NumericProperty(5)
-    current_window = NumericProperty(0)
+    max_rows = NumericProperty(5)
+    max_windows = NumericProperty(1)
+    current_window = NumericProperty(1)
 
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.add_widget(DispScreen(name="home"))
+        self.add_widget(DispScreen(name='screen1'))
         self.context = context.Context()
 
 
     def load(self, path, filename):
-        index = 0
         self.file = os.path.join(path, filename[0])
         self.context = context.Context(self.file)
+        self.out_context()
+
+
+    def out_context(self):
+        index = 1
         self.get_screen(self.current).dismiss_popup()
-        for widget in self.children:
-            self.remove_widget(widget)
+        for widget in range(1, self.max_windows+1):
+            self.remove_widget(self.get_screen(f'screen{widget}'))
+        self.max_windows = ceil(len(self.context.content)/self.max_rows)
         self.add_widget(DispScreen(name=f'screen{index}'))
-        row = 1
+        self.get_screen(f'screen{index}').rows = 1
         for sportsman in self.context.content:
-            self.get_screen(f'screen{index}').table.add_widget(TableOutlineLabel(text=sportsman.name))
-            self.get_screen(f'screen{index}').table.add_widget(TableOutlineLabel(text=sportsman.cast))
-            self.get_screen(f'screen{index}').table.add_widget(TableOutlineLabel(text=sportsman.position))
-            self.get_screen(f'screen{index}').table.add_widget(TableOutlineLabel(text=sportsman.title))
-            self.get_screen(f'screen{index}').table.add_widget(TableOutlineLabel(text=sportsman.sport))
-            self.get_screen(f'screen{index}').table.add_widget(TableOutlineLabel(text=sportsman.rank))
-            if row < self.notes:
-                row += 1
+            if self.get_screen(f'screen{index}').rows <= self.max_rows:
+                self.get_screen(f'screen{index}').table.add_widget(TableOutlineLabel(text=sportsman.name))
+                self.get_screen(f'screen{index}').table.add_widget(TableOutlineLabel(text=sportsman.cast))
+                self.get_screen(f'screen{index}').table.add_widget(TableOutlineLabel(text=sportsman.position))
+                self.get_screen(f'screen{index}').table.add_widget(TableOutlineLabel(text=sportsman.title))
+                self.get_screen(f'screen{index}').table.add_widget(TableOutlineLabel(text=sportsman.sport))
+                self.get_screen(f'screen{index}').table.add_widget(TableOutlineLabel(text=sportsman.rank))
             else:
-                row = 1
                 index += 1
                 self.add_widget(DispScreen(name=f'screen{index}'))
+                self.get_screen(f'screen{index}').rows = 1
+                self.get_screen(f'screen{index}').table.add_widget(TableOutlineLabel(text=sportsman.name))
+                self.get_screen(f'screen{index}').table.add_widget(TableOutlineLabel(text=sportsman.cast))
+                self.get_screen(f'screen{index}').table.add_widget(TableOutlineLabel(text=sportsman.position))
+                self.get_screen(f'screen{index}').table.add_widget(TableOutlineLabel(text=sportsman.title))
+                self.get_screen(f'screen{index}').table.add_widget(TableOutlineLabel(text=sportsman.sport))
+                self.get_screen(f'screen{index}').table.add_widget(TableOutlineLabel(text=sportsman.rank))
+            self.get_screen(f'screen{index}').rows += 1
 
 
     def save(self, path, filename):
@@ -63,29 +75,30 @@ class DatabaseScreenManager(ScreenManager):
 
 
     def next(self):
-        if self.current_window < floor(len(self.context.content)/self.notes):
+        if self.current_window < self.max_windows:
             self.current = 'screen{}'.format(self.current_window+1)
             self.current_window += 1
 
     def last(self):
-        self.current_window = floor(len(self.context.content)/self.notes)
-        self.current = f'screen{floor(len(self.context.content)/self.notes)}'
+        self.current_window = self.max_windows
+        self.current = f'screen{self.max_windows}'
 
 
     def prev(self):
-        if self.current_window > 0:
+        if self.current_window > 1:
             self.current = 'screen{}'.format(self.current_window-1)
             self.current_window -= 1
 
 
     def first(self):
-        self.current_window = 0
-        self.current = 'screen0'
+        self.current_window = 1
+        self.current = 'screen1'
     pass
 
 
 class DispScreen(Screen):
     table = ObjectProperty(None)
+    rows = NumericProperty(1)
 
     
     def __init__(self, **kw):
@@ -124,29 +137,35 @@ class DispScreen(Screen):
 
     def add(self, name: str, cast: str, position: str, title: str, sport: str, rank: str):
         self.parent.context.add_to_context(name, cast, position, title, sport, rank)
-        self.table.add_widget(TableOutlineLabel(text=name))
-        self.table.add_widget(TableOutlineLabel(text=cast))
-        self.table.add_widget(TableOutlineLabel(text=position))
-        self.table.add_widget(TableOutlineLabel(text=title))
-        self.table.add_widget(TableOutlineLabel(text=sport))
-        self.table.add_widget(TableOutlineLabel(text=rank))
+        if self.rows > self.parent.max_rows:
+            self.parent.max_windows += 1
+            self.parent.add_widget(DispScreen(name=f'screen{self.parent.max_windows}'))
+        else:
+            self.rows += 1
+        self.parent.get_screen(f'screen{self.parent.max_windows}').table.add_widget(TableOutlineLabel(text=name))
+        self.parent.get_screen(f'screen{self.parent.max_windows}').table.add_widget(TableOutlineLabel(text=cast))
+        self.parent.get_screen(f'screen{self.parent.max_windows}').table.add_widget(TableOutlineLabel(text=position))
+        self.parent.get_screen(f'screen{self.parent.max_windows}').table.add_widget(TableOutlineLabel(text=title))
+        self.parent.get_screen(f'screen{self.parent.max_windows}').table.add_widget(TableOutlineLabel(text=sport))
+        self.parent.get_screen(f'screen{self.parent.max_windows}').table.add_widget(TableOutlineLabel(text=rank))
         self.dismiss_popup()
 
 
     def delete(self, tag_name: str, info: str):
         deleted = self.parent.context.delete_from_context(tag_name, info)
-        for widget in self.children:
-            if isinstance(widget, TableOutline):
-                self.remove_widget(widget)
-        self.table = TableOutline()
-        self.add_widget(self.table)
-        for i in self.parent.context.content:
-            self.table.add_widget(TableOutlineLabel(text=i.name))
-            self.table.add_widget(TableOutlineLabel(text=i.cast))
-            self.table.add_widget(TableOutlineLabel(text=i.position))
-            self.table.add_widget(TableOutlineLabel(text=i.title))
-            self.table.add_widget(TableOutlineLabel(text=i.sport))
-            self.table.add_widget(TableOutlineLabel(text=i.rank))
+        self.parent.out_context()
+        # for widget in self.children:
+        #     if isinstance(widget, TableOutline):
+        #         self.remove_widget(widget)
+        # self.table = TableOutline()
+        # self.add_widget(self.table)
+        # for i in self.parent.context.content:
+        #     self.table.add_widget(TableOutlineLabel(text=i.name))
+        #     self.table.add_widget(TableOutlineLabel(text=i.cast))
+        #     self.table.add_widget(TableOutlineLabel(text=i.position))
+        #     self.table.add_widget(TableOutlineLabel(text=i.title))
+        #     self.table.add_widget(TableOutlineLabel(text=i.sport))
+        #     self.table.add_widget(TableOutlineLabel(text=i.rank))
         self.dismiss_popup()
 
         content = dialogs.ResultDialog(result=deleted, close=self.dismiss_popup)
