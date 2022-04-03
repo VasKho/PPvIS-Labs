@@ -1,6 +1,6 @@
+from kivy.properties import ObjectProperty, NumericProperty
 from kivy.uix.popup import Popup
 from kivy.uix.floatlayout import FloatLayout
-from kivy.properties import ObjectProperty, NumericProperty
 from kivy.uix.textinput import TextInput
 from kivy.uix.spinner import Spinner
 
