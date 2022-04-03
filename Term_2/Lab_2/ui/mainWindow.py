@@ -72,7 +72,7 @@ class DatabaseScreenManager(ScreenManager):
     def show_update(self):
         def set_new_max_rows(new_value):
             if new_value != '':
-                self.max_rows = new_value
+                self.max_rows = int(new_value)
             self.out_context()
             self._popup.dismiss()
 
@@ -149,17 +149,7 @@ class DispScreen(Screen):
 
     def add(self, name: str, cast: str, position: str, title: str, sport: str, rank: str):
         self.parent.context.add_to_context(name, cast, position, title, sport, rank)
-        if self.rows > self.parent.max_rows:
-            self.parent.max_windows += 1
-            self.parent.add_widget(DispScreen(name=f'screen{self.parent.max_windows}'))
-        else:
-            self.rows += 1
-        self.parent.get_screen(f'screen{self.parent.max_windows}').table.add_widget(TableOutlineLabel(text=name))
-        self.parent.get_screen(f'screen{self.parent.max_windows}').table.add_widget(TableOutlineLabel(text=cast))
-        self.parent.get_screen(f'screen{self.parent.max_windows}').table.add_widget(TableOutlineLabel(text=position))
-        self.parent.get_screen(f'screen{self.parent.max_windows}').table.add_widget(TableOutlineLabel(text=title))
-        self.parent.get_screen(f'screen{self.parent.max_windows}').table.add_widget(TableOutlineLabel(text=sport))
-        self.parent.get_screen(f'screen{self.parent.max_windows}').table.add_widget(TableOutlineLabel(text=rank))
+        self.parent.out_context()
         self.dismiss_popup()
 
 
