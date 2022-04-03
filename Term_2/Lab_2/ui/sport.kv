@@ -171,6 +171,37 @@
             on_release: root.delete(root.spinner.text, root.input.text)
 
 
+<SearchDialog>:
+    content: content
+    spinner: tag
+    input: choice
+    GridLayout:
+        id: content
+        rows: 1
+        pos: (root.x, root.top-root.height/3)
+        size_hint_y: .1
+        Spinner:
+            id: tag
+            text: 'Имя'
+            values: ('Имя', 'Состав', 'Позиция', 'Титул', 'Вид спорта', 'Разряд')
+            on_text: root.modify_input()
+        TextInput:
+            id: choice
+            multiline: False
+
+    GridLayout:
+        rows: 1
+        pos: (root.x, root.top-root.height)
+        size_hint_y: .1
+        Button:
+            text: 'Cancel'
+            on_release: root.cancel()
+
+        Button:
+            text: 'Search'
+            on_release: root.search(root.spinner.text, root.input.text)
+
+
 <TableOutlineLabel>:
     # Text properties
     text_size: self.size
@@ -255,6 +286,9 @@
             ActionButton:
                 text: 'Save As'
                 on_release: root.show_save()
+            ActionButton:
+                text: 'Search'
+                on_release: root.show_search()
             ActionButton:
                 text: 'Add'
                 on_release: root.show_add()

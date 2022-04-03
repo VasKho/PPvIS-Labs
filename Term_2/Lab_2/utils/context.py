@@ -37,4 +37,25 @@ class Context:
 
     def save_context(self, path: str):
         parser.write_to_xml(self.content, path)
+
+
+    def find_in_context(self, key: str, info: str) -> list[parser.Sportsman]:
+        tag_name = ''
+        if key == 'Имя':
+            tag_name = 'name'
+        elif key == 'Состав':
+            tag_name = 'cast'
+        elif key == 'Позиция':
+            tag_name = 'position'
+        elif key == 'Титул':
+            tag_name = 'title'
+        elif key == 'Вид спорта':
+            tag_name = 'sport'
+        elif key == 'Разряд':
+            tag_name = 'rank'
+        found = []
+        for i in self.content:
+            if i.__dict__[tag_name] == info:
+                found.append(i)
+        return found
     pass

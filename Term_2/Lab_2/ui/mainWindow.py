@@ -31,6 +31,7 @@ class DatabaseScreenManager(ScreenManager):
         super().__init__(**kwargs)
         self.add_widget(DispScreen(name='screen1'))
         self.context = context.Context()
+        self.search_result = list()
 
 
     def load(self, path, filename):
@@ -58,6 +59,36 @@ class DatabaseScreenManager(ScreenManager):
             else:
                 index += 1
                 self.add_widget(DispScreen(name=f'screen{index}', max_rows=self.max_rows, fields=len(self.context.content)))
+                self.max_windows += 1
+                self.get_screen(f'screen{index}').rows = 1
+                self.get_screen(f'screen{index}').table.add_widget(TableOutlineLabel(text=sportsman.name))
+                self.get_screen(f'screen{index}').table.add_widget(TableOutlineLabel(text=sportsman.cast))
+                self.get_screen(f'screen{index}').table.add_widget(TableOutlineLabel(text=sportsman.position))
+                self.get_screen(f'screen{index}').table.add_widget(TableOutlineLabel(text=sportsman.title))
+                self.get_screen(f'screen{index}').table.add_widget(TableOutlineLabel(text=sportsman.sport))
+                self.get_screen(f'screen{index}').table.add_widget(TableOutlineLabel(text=sportsman.rank))
+            self.get_screen(f'screen{index}').rows += 1
+
+
+    def out_search(self, tag_name: str, info: str):
+        self.search_result = self.context.find_in_context(tag_name, info)
+        index = 1
+        for widget in range(1, self.max_windows+1):
+            self.remove_widget(self.get_screen(f'screen{widget}'))
+        self.max_windows = 1
+        self.add_widget(DispScreen(name=f'screen{index}', max_rows=self.max_rows, fields=len(self.search_result)))
+        self.get_screen(f'screen{index}').rows = 1
+        for sportsman in self.search_result:
+            if self.get_screen(f'screen{index}').rows <= self.max_rows:
+                self.get_screen(f'screen{index}').table.add_widget(TableOutlineLabel(text=sportsman.name))
+                self.get_screen(f'screen{index}').table.add_widget(TableOutlineLabel(text=sportsman.cast))
+                self.get_screen(f'screen{index}').table.add_widget(TableOutlineLabel(text=sportsman.position))
+                self.get_screen(f'screen{index}').table.add_widget(TableOutlineLabel(text=sportsman.title))
+                self.get_screen(f'screen{index}').table.add_widget(TableOutlineLabel(text=sportsman.sport))
+                self.get_screen(f'screen{index}').table.add_widget(TableOutlineLabel(text=sportsman.rank))
+            else:
+                index += 1
+                self.add_widget(DispScreen(name=f'screen{index}', max_rows=self.max_rows, fields=len(self.search_result)))
                 self.max_windows += 1
                 self.get_screen(f'screen{index}').rows = 1
                 self.get_screen(f'screen{index}').table.add_widget(TableOutlineLabel(text=sportsman.name))
@@ -143,9 +174,14 @@ class DispScreen(Screen):
 
     def show_delete(self):
         content = dialogs.DeleteNoteDialog(delete=self.delete, cancel=self.dismiss_popup)
-        self._popup = dialogs.DialogPopup(title='Delete note', content=content)
+        self._popup = dialogs.DialogPopup(title='Delete notes', content=content)
         self._popup.open()
 
+
+    def show_search(self):
+        content = dialogs.SearchDialog(search=self.search, cancel=self.dismiss_popup)
+        self._popup = dialogs.DialogPopup(title='Search notes', content=content)
+        self._popup.open()
 
     def add(self, name: str, cast: str, position: str, title: str, sport: str, rank: str):
         self.parent.context.add_to_context(name, cast, position, title, sport, rank)
@@ -161,6 +197,11 @@ class DispScreen(Screen):
         content = dialogs.ResultDialog(result=deleted, close=self.dismiss_popup)
         self._popup = dialogs.ResultPopup(title='', content=content)
         self._popup.open()
+
+
+    def search(self, tag_name: str, info: str):
+        self.parent.out_search(tag_name, info)
+        self.dismiss_popup()
     pass
 
 

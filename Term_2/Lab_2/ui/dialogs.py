@@ -73,3 +73,26 @@ class DeleteNoteDialog(FloatLayout):
             self.input = Spinner(text='Нет', values=('1-й юношеский', '2-й разряд', '3-й разряд', 'Кмс', 'Мастер спорта', 'Нет'))
             self.content.add_widget(self.input)
     pass
+
+
+class SearchDialog(FloatLayout):
+    content = ObjectProperty(None)
+    spinner = ObjectProperty(None)
+    input = ObjectProperty(None)
+    search = ObjectProperty(None)
+    cancel = ObjectProperty(None)
+
+    def modify_input(self):
+        if self.spinner.text not in ['Состав', 'Разряд']:
+            self.content.remove_widget(self.input)
+            self.input = TextInput(multiline=False)
+            self.content.add_widget(self.input)
+        elif self.spinner.text == 'Состав':
+            self.content.remove_widget(self.input)
+            self.input = Spinner(text='N\\A', values=('Основной', 'Запасной', 'N\\A'))
+            self.content.add_widget(self.input)
+        elif self.spinner.text == 'Разряд':
+            self.content.remove_widget(self.input)
+            self.input = Spinner(text='Нет', values=('1-й юношеский', '2-й разряд', '3-й разряд', 'Кмс', 'Мастер спорта', 'Нет'))
+            self.content.add_widget(self.input)
+    pass
