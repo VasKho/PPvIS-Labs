@@ -41,15 +41,16 @@ class Weapon(ABC):
 
 class Pistol(Weapon):
     def __init__(self) -> None:
-        super().__init__(5)
+        super().__init__(0.5)
         self.reloading = False
         self.last_reload_time = time.time()
 
 
     def fire(self, owner):
         if not self.reloading:
-            self.bullet = Bullet("./weapon/src/bullet.png", 10*sin(radians(owner.angle)), 10*cos(radians(owner.angle)))
+            self.bullet = Bullet("./weapon/src/bullet.png", 30*sin(radians(owner.angle)), 30*cos(radians(owner.angle)))
             self.bullet.rect.x = owner.position['x']
             self.bullet.rect.y = owner.position['y']
+            self.last_reload_time = time.time()
             return self.bullet
     pass

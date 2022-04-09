@@ -2,7 +2,8 @@ import pygame
 from player.player import Player
 from enemies.enemies import Antleredrascal
 from enemies.enemies import Archfiend
-from weapon.weapon import Pistol
+from enemies.enemies import Crimsonimp
+
 
 pygame.init()
 
@@ -29,9 +30,11 @@ enemy_list.add(antler)
 
 arch = Archfiend()
 enemy_list.add(arch)
+
+crimson = Crimsonimp()
+enemy_list.add(crimson)
 bullets = pygame.sprite.Group()
 
-pistol = Pistol()
 
 while running:
     clock.tick(40)
@@ -66,7 +69,7 @@ while running:
 
 
     if key_pressed_is[pygame.K_SPACE]:
-        bullet = slayer.shoot(pistol)
+        bullet = slayer.shoot()
         if bullet is not None:
             bullets.add(bullet)
     bullets.update()
