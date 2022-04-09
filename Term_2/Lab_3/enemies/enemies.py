@@ -1,17 +1,21 @@
 import pygame
 import os
 from random import randrange
+import glob
+from abc import ABC, abstractclassmethod
 
 
-class Antleredrascal(pygame.sprite.Sprite):
-    def __init__(self):
+class Enemy(ABC, pygame.sprite.Sprite):
+    @abstractclassmethod
+    def __init__(self, path_to_image: str, velocity: int) -> None:
         pygame.sprite.Sprite.__init__(self)
         self.images = []
         self.frame = 0
-        self.velocity = 50
+        self.velocity = velocity
 
         for i in range(1, 41):
-            img = pygame.image.load(os.path.abspath('enemies/src/antleredrascalidle/antleredrascalidle-' + str(i) + '.png')).convert()
+            current_image = [im for im in glob.glob(path_to_image + '/*-' + str(i) + '.png')]
+            img = pygame.image.load(current_image[0]).convert()
             img = pygame.transform.scale(img, (0.09*pygame.display.Info().current_w, 0.16*pygame.display.Info().current_h))
             img.set_colorkey((255, 255, 255))
             self.images.append(img)
@@ -26,30 +30,22 @@ class Antleredrascal(pygame.sprite.Sprite):
             self.frame += 1
         else: self.frame = 0
         self.image = self.images[self.frame]
+    pass
+
+
+class Antleredrascal(Enemy):
+    def __init__(self):
+        super().__init__("enemies/src/antleredrascalidle", 50)
     pass 
 
 
-class Archfiend(pygame.sprite.Sprite):
+class Archfiend(Enemy):
     def __init__(self):
-        pygame.sprite.Sprite.__init__(self)
-        self.images = []
-        self.frame = 0
-        self.velocity = 30
-
-        for i in range(1, 41):
-            img = pygame.image.load(os.path.abspath('enemies/src/archfiendidle/archfiendidle-' + str(i) + '.png')).convert()
-            img = pygame.transform.scale(img, (0.09*pygame.display.Info().current_w, 0.16*pygame.display.Info().current_h))
-            img.set_colorkey((255, 255, 255))
-            self.images.append(img)
-            self.image = self.images[0]
-            self.rect = self.image.get_rect()
-            self.rect.x = randrange(0, pygame.display.Info().current_w)
-            self.rect.y = randrange(0, pygame.display.Info().current_h)
+        super().__init__('enemies/src/archfiendidle', 30)
+    pass
 
 
-    def update(self):
-        if self.frame < len(self.images) - 1:
-            self.frame += 1
-        else: self.frame = 0
-        self.image = self.images[self.frame]
+class Crimsonimp(Enemy):
+    def __init__(self):
+        super().__init__("enemies/src/crimsonimpidle", 30)
     pass
