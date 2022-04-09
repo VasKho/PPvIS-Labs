@@ -4,4 +4,4 @@ soundtrack/menu/*
 soundtrack/game/*
 !soundtrack/game/.gitkeep
 
-**/__pycache__
+__pycache__/
