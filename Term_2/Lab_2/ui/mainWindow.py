@@ -68,6 +68,7 @@ class DatabaseScreenManager(ScreenManager):
                 self.get_screen(f'screen{index}').table.add_widget(TableOutlineLabel(text=sportsman.sport))
                 self.get_screen(f'screen{index}').table.add_widget(TableOutlineLabel(text=sportsman.rank))
             self.get_screen(f'screen{index}').rows += 1
+        self.current_window = 1
 
 
     def out_search(self, tag_name: str, info: str):
@@ -98,11 +99,12 @@ class DatabaseScreenManager(ScreenManager):
                 self.get_screen(f'screen{index}').table.add_widget(TableOutlineLabel(text=sportsman.sport))
                 self.get_screen(f'screen{index}').table.add_widget(TableOutlineLabel(text=sportsman.rank))
             self.get_screen(f'screen{index}').rows += 1
+        self.current_window = 1
 
 
     def show_update(self):
         def set_new_max_rows(new_value):
-            if new_value != '':
+            if new_value != '' and int(new_value) > 0:
                 self.max_rows = int(new_value)
             self.out_context()
             self._popup.dismiss()

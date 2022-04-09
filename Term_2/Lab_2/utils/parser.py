@@ -13,6 +13,8 @@ class Sportsman:
         self.rank = rank
     pass
 
+available_sports = set()
+
 
 class RegistryHandler(handler.ContentHandler):
     def __init__(self) -> None:
@@ -45,6 +47,7 @@ class RegistryHandler(handler.ContentHandler):
         elif self.CurrentData == "title":
             self.registry[-1].title = content
         elif self.CurrentData == "sport":
+            available_sports.add(content)
             self.registry[-1].sport = content
         elif self.CurrentData == "rank":
             self.registry[-1].rank = content

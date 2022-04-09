@@ -4,6 +4,8 @@ from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.textinput import TextInput
 from kivy.uix.spinner import Spinner
 
+import utils.context as context
+
 
 class DialogPopup(Popup):
     def __init__(self, **kwargs):
@@ -60,7 +62,7 @@ class DeleteNoteDialog(FloatLayout):
     cancel = ObjectProperty(None)
 
     def modify_input(self):
-        if self.spinner.text not in ['Состав', 'Разряд']:
+        if self.spinner.text not in ['Состав', 'Разряд', 'Вид спорта']:
             self.content.remove_widget(self.input)
             self.input = TextInput(multiline=False)
             self.content.add_widget(self.input)
@@ -71,6 +73,10 @@ class DeleteNoteDialog(FloatLayout):
         elif self.spinner.text == 'Разряд':
             self.content.remove_widget(self.input)
             self.input = Spinner(text='Нет', values=('1-й юношеский', '2-й разряд', '3-й разряд', 'Кмс', 'Мастер спорта', 'Нет'))
+            self.content.add_widget(self.input)
+        elif self.spinner.text == 'Вид спорта':
+            self.content.remove_widget(self.input)
+            self.input = Spinner(text=list(context.available_sports)[0], values=tuple(context.available_sports))
             self.content.add_widget(self.input)
     pass
 
@@ -83,7 +89,7 @@ class SearchDialog(FloatLayout):
     cancel = ObjectProperty(None)
 
     def modify_input(self):
-        if self.spinner.text not in ['Состав', 'Разряд']:
+        if self.spinner.text not in ['Состав', 'Разряд', 'Вид спорта']:
             self.content.remove_widget(self.input)
             self.input = TextInput(multiline=False)
             self.content.add_widget(self.input)
@@ -94,5 +100,9 @@ class SearchDialog(FloatLayout):
         elif self.spinner.text == 'Разряд':
             self.content.remove_widget(self.input)
             self.input = Spinner(text='Нет', values=('1-й юношеский', '2-й разряд', '3-й разряд', 'Кмс', 'Мастер спорта', 'Нет'))
+            self.content.add_widget(self.input)
+        elif self.spinner.text == 'Вид спорта':
+            self.content.remove_widget(self.input)
+            self.input = Spinner(text=list(context.available_sports)[0], values=tuple(context.available_sports))
             self.content.add_widget(self.input)
     pass
