@@ -1,0 +1,5 @@
+soundtrack/menu/*
+!soundtrack/menu/.gitkeep
+
+soundtrack/game/*
+!soundtrack/game/.gitkeep
