@@ -3,3 +3,5 @@ soundtrack/menu/*
 
 soundtrack/game/*
 !soundtrack/game/.gitkeep
+
+**/__pycache__
