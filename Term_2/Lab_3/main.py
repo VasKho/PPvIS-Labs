@@ -1,22 +1,23 @@
 import pygame
-from player.player import Player
+from level.level import Level
 from enemies.enemies import (
-        Antleredrascal,
+        Goblin,
         Archfiend,
         Floatingeye,
-        Crimsonimp,
-        Glaringoverlord,
-        Hornedbrute,
+        Imp,
+        Overlord,
+        Brute,
         Pitbalor,
-        Skeweringstalker,
-        Taintedscoundrel,
-        Grinninggremlin
+        Stalker,
+        Tainted,
+        Gremlin
         )
 
 
 pygame.init()
 
-level = pygame.display.set_mode((0, 0), pygame.FULLSCREEN) 
+
+display = pygame.display.set_mode((0, 0), pygame.FULLSCREEN) 
 pygame.display.set_caption('DOOM')
 
 pygame.mixer.init()
@@ -28,49 +29,27 @@ running = True
 
 clock = pygame.time.Clock()
 
-enemy_list = pygame.sprite.Group()
-player_list = pygame.sprite.Group()
+
+level = Level("level/src/desert.jpg")
+player = level.player
 
 
-slayer = Player()
-
-antler = Antleredrascal()
-enemy_list.add(antler)
-
-arch = Archfiend()
-enemy_list.add(arch)
-
-crimson = Crimsonimp()
-enemy_list.add(crimson)
-
-floatingeye = Floatingeye()
-enemy_list.add(floatingeye)
-
-overlord = Glaringoverlord()
-enemy_list.add(overlord)
-
-horn = Hornedbrute()
-enemy_list.add(horn)
-
-pit = Pitbalor()
-enemy_list.add(pit)
-
-stalker = Skeweringstalker()
-enemy_list.add(stalker)
-
-scoundler = Taintedscoundrel()
-enemy_list.add(scoundler)
-
-gremlin = Grinninggremlin()
-enemy_list.add(gremlin)
-bullets = pygame.sprite.Group()
+level.add_enemy(Goblin)
+level.add_enemy(Archfiend)
+level.add_enemy(Imp)
+level.add_enemy(Floatingeye)
+level.add_enemy(Overlord)
+level.add_enemy(Brute)
+level.add_enemy(Pitbalor)
+level.add_enemy(Stalker)
+level.add_enemy(Tainted)
+level.add_enemy(Gremlin)
 
 
 while running:
     clock.tick(40)
 
 
-    level.fill((0, 0, 0))
     key_pressed_is = pygame.key.get_pressed()
 
 
@@ -83,42 +62,44 @@ while running:
                 running = False
 
     if key_pressed_is[pygame.K_UP]:
-        slayer.rotate('up')
+        player.rotate('up')
     if key_pressed_is[pygame.K_DOWN]:
-        slayer.rotate('down')
+        player.rotate('down')
     if key_pressed_is[pygame.K_LEFT]:
-        slayer.rotate('left')
+        player.rotate('left')
     if key_pressed_is[pygame.K_RIGHT]:
-        slayer.rotate('right')
+        player.rotate('right')
 
-    player_rect = slayer.image.get_rect(center=(slayer.position['x'], slayer.position['y']))
-    # player_rect = slayer.image.get_rect(center=(pygame.display.Info().current_w//2, pygame.display.Info().current_h//2))
-    rot_image = pygame.transform.rotate(slayer.image, slayer.angle)
+    # player_rect = slayer.image.get_rect(center=(slayer.position['x'], slayer.position['y']))
+    player_rect = player.image.get_rect(center=(pygame.display.Info().current_w//2, pygame.display.Info().current_h//2))
+    rot_image = pygame.transform.rotate(player.image, player.angle)
     rot_image_rect = rot_image.get_rect(center = player_rect.center)
-    level.fill((0, 0, 0))
-    level.blit(rot_image, rot_image_rect.topleft)
+    level.rect.center = (player.position['x'], player.position['y'])
+    display.fill((0, 0, 0))
+    display.blit(level.background, level.rect.topleft)
+    display.blit(rot_image, rot_image_rect.topleft)
 
 
     if key_pressed_is[pygame.K_SPACE]:
-        bullet = slayer.shoot()
+        bullet = player.shoot()
         if bullet is not None:
-            bullets.add(bullet)
-    bullets.update()
-    bullets.draw(level)
+            level.bullets.add(bullet)
+    level.bullets.update()
+    level.bullets.draw(display)
         
 
 
     if key_pressed_is[pygame.K_w]:
-        slayer.position['y'] -= slayer.velocity
+        player.move_up()
     if key_pressed_is[pygame.K_s]:
-        slayer.position['y'] += slayer.velocity
+        player.move_down()
     if key_pressed_is[pygame.K_a]:
-        slayer.position['x'] -= slayer.velocity
+        player.move_left()
     if key_pressed_is[pygame.K_d]:
-        slayer.position['x'] += slayer.velocity
+        player.move_right()
 
 
-    enemy_list.update()
-    enemy_list.draw(level)
+    level.enemies.update()
+    level.enemies.draw(display)
 
     pygame.display.update()

@@ -11,7 +11,8 @@ class Player(pygame.sprite.Sprite):
         self.angle = 180
         self.velocity = 20
         self.position = {'x': pygame.display.Info().current_w//2, 'y': pygame.display.Info().current_h//2}
-        self.weapon = Pistol()
+        self.weapon = [Pistol()]
+        self.current_weapon = self.weapon[-1]
 
         img = pygame.image.load(os.path.abspath('player/src/marine.png')).convert()
         img = pygame.transform.scale(img, (0.09*pygame.display.Info().current_w, 0.16*pygame.display.Info().current_h))
@@ -20,6 +21,19 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = pygame.display.Info().current_w//2
         self.rect.y = pygame.display.Info().current_h//2
+
+
+    def move_up(self):
+        self.position['y'] += self.velocity
+
+    def move_down(self):
+        self.position['y'] -= self.velocity
+
+    def move_left(self):
+        self.position['x'] += self.velocity
+
+    def move_right(self):
+        self.position['x'] -= self.velocity
 
 
     def rotate(self, key: str):
@@ -45,10 +59,14 @@ class Player(pygame.sprite.Sprite):
                 self.angle = (self.angle + 9) % 360
 
 
+    def pickup_weapon(self, weapon):
+        self.weapon.append(weapon) 
+
+
     def shoot(self):
-        if time.time() > self.weapon.last_reload_time + self.weapon.reload_time: 
-            self.weapon.reloading = False
-        bullet = self.weapon.fire(self)
-        self.weapon.reloading = True
+        if time.time() > self.current_weapon.last_reload_time + self.current_weapon.reload_time: 
+            self.current_weapon.reloading = False
+        bullet = self.current_weapon.fire(self)
+        self.current_weapon.reloading = True
         return bullet
     pass

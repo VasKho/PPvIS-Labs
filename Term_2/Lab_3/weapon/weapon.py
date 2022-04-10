@@ -16,7 +16,6 @@ class Bullet(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
     
 
-    # Shit is somewhere here
     def update(self):
         if self.rect.x in range(0, pygame.display.Info().current_w):
             self.rect.x += self.vel_x
@@ -49,8 +48,8 @@ class Pistol(Weapon):
     def fire(self, owner):
         if not self.reloading:
             self.bullet = Bullet("./weapon/src/bullet.png", 30*sin(radians(owner.angle)), 30*cos(radians(owner.angle)))
-            self.bullet.rect.x = owner.position['x']
-            self.bullet.rect.y = owner.position['y']
+            self.bullet.rect.x = pygame.display.Info().current_w//2
+            self.bullet.rect.y = pygame.display.Info().current_h//2
             self.last_reload_time = time.time()
             return self.bullet
     pass

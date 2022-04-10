@@ -20,8 +20,8 @@ class Enemy(ABC, pygame.sprite.Sprite):
             self.images.append(img)
             self.image = self.images[0]
             self.rect = self.image.get_rect()
-            self.rect.x = randrange(0, pygame.display.Info().current_w)
-            self.rect.y = randrange(0, pygame.display.Info().current_h)
+            self.rect.x = randrange(0, 2*pygame.display.Info().current_w)
+            self.rect.y = randrange(0, 2*pygame.display.Info().current_h)
 
 
     def update(self):
@@ -32,61 +32,61 @@ class Enemy(ABC, pygame.sprite.Sprite):
     pass
 
 
-class Antleredrascal(Enemy):
+class Goblin(Enemy):
     def __init__(self):
-        super().__init__("enemies/src/antleredrascalidle", 50)
+        super().__init__("enemies/src/goblin", 50)
     pass 
 
 
 class Archfiend(Enemy):
     def __init__(self):
-        super().__init__('enemies/src/archfiendidle', 30)
+        super().__init__('enemies/src/archfiend', 30)
     pass
 
 
-class Crimsonimp(Enemy):
+class Imp(Enemy):
     def __init__(self):
-        super().__init__("enemies/src/crimsonimpidle", 30)
+        super().__init__("enemies/src/imp", 30)
     pass
 
 
 class Floatingeye(Enemy):
     def __init__(self):
-        super().__init__("enemies/src/floatingeyeidle", 30)
+        super().__init__("enemies/src/floatingeye", 30)
     pass
 
 
-class Glaringoverlord(Enemy):
+class Overlord(Enemy):
     def __init__(self):
-        super().__init__("enemies/src/glaringoverlordidle", 30)
+        super().__init__("enemies/src/Overlord", 30)
     pass
 
 
-class Grinninggremlin(Enemy):
+class Gremlin(Enemy):
     def __init__(self):
-        super().__init__("enemies/src/grinninggremlinidle", 30)
+        super().__init__("enemies/src/gremlin", 30)
     pass
 
 
-class Hornedbrute(Enemy):
+class Brute(Enemy):
     def __init__(self):
-        super().__init__("enemies/src/hornedbruteidle", 30)
+        super().__init__("enemies/src/brute", 30)
     pass
 
 
 class Pitbalor(Enemy):
     def __init__(self):
-        super().__init__("enemies/src/pitbaloridle", 30)
+        super().__init__("enemies/src/pitbalor", 30)
     pass
 
 
-class Skeweringstalker(Enemy):
+class Stalker(Enemy):
     def __init__(self):
-        super().__init__("enemies/src/skeweringstalkeridle", 30)
+        super().__init__("enemies/src/stalker", 30)
     pass
 
 
-class Taintedscoundrel(Enemy):
+class Tainted(Enemy):
     def __init__(self):
-        super().__init__("enemies/src/taintedscoundrelidle", 30)
+        super().__init__("enemies/src/tainted", 30)
     pass
