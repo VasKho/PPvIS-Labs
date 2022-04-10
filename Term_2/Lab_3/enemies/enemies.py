@@ -58,7 +58,7 @@ class Floatingeye(Enemy):
 
 class Overlord(Enemy):
     def __init__(self):
-        super().__init__("enemies/src/Overlord", 30)
+        super().__init__("enemies/src/overlord", 30)
     pass
 
 
