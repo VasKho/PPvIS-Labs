@@ -1,8 +1,17 @@
 import pygame
 from player.player import Player
-from enemies.enemies import Antleredrascal
-from enemies.enemies import Archfiend
-from enemies.enemies import Crimsonimp
+from enemies.enemies import (
+        Antleredrascal,
+        Archfiend,
+        Floatingeye,
+        Crimsonimp,
+        Glaringoverlord,
+        Hornedbrute,
+        Pitbalor,
+        Skeweringstalker,
+        Taintedscoundrel,
+        Grinninggremlin
+        )
 
 
 pygame.init()
@@ -33,6 +42,27 @@ enemy_list.add(arch)
 
 crimson = Crimsonimp()
 enemy_list.add(crimson)
+
+floatingeye = Floatingeye()
+enemy_list.add(floatingeye)
+
+overlord = Glaringoverlord()
+enemy_list.add(overlord)
+
+horn = Hornedbrute()
+enemy_list.add(horn)
+
+pit = Pitbalor()
+enemy_list.add(pit)
+
+stalker = Skeweringstalker()
+enemy_list.add(stalker)
+
+scoundler = Taintedscoundrel()
+enemy_list.add(scoundler)
+
+gremlin = Grinninggremlin()
+enemy_list.add(gremlin)
 bullets = pygame.sprite.Group()
 
 
@@ -62,6 +92,7 @@ while running:
         slayer.rotate('right')
 
     player_rect = slayer.image.get_rect(center=(slayer.position['x'], slayer.position['y']))
+    # player_rect = slayer.image.get_rect(center=(pygame.display.Info().current_w//2, pygame.display.Info().current_h//2))
     rot_image = pygame.transform.rotate(slayer.image, slayer.angle)
     rot_image_rect = rot_image.get_rect(center = player_rect.center)
     level.fill((0, 0, 0))

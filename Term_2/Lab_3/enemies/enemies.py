@@ -1,5 +1,4 @@
 import pygame
-import os
 from random import randrange
 import glob
 from abc import ABC, abstractclassmethod
@@ -48,4 +47,46 @@ class Archfiend(Enemy):
 class Crimsonimp(Enemy):
     def __init__(self):
         super().__init__("enemies/src/crimsonimpidle", 30)
+    pass
+
+
+class Floatingeye(Enemy):
+    def __init__(self):
+        super().__init__("enemies/src/floatingeyeidle", 30)
+    pass
+
+
+class Glaringoverlord(Enemy):
+    def __init__(self):
+        super().__init__("enemies/src/glaringoverlordidle", 30)
+    pass
+
+
+class Grinninggremlin(Enemy):
+    def __init__(self):
+        super().__init__("enemies/src/grinninggremlinidle", 30)
+    pass
+
+
+class Hornedbrute(Enemy):
+    def __init__(self):
+        super().__init__("enemies/src/hornedbruteidle", 30)
+    pass
+
+
+class Pitbalor(Enemy):
+    def __init__(self):
+        super().__init__("enemies/src/pitbaloridle", 30)
+    pass
+
+
+class Skeweringstalker(Enemy):
+    def __init__(self):
+        super().__init__("enemies/src/skeweringstalkeridle", 30)
+    pass
+
+
+class Taintedscoundrel(Enemy):
+    def __init__(self):
+        super().__init__("enemies/src/taintedscoundrelidle", 30)
     pass
