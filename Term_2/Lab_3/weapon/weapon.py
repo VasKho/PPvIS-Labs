@@ -29,6 +29,7 @@ class Bullet(pygame.sprite.Sprite):
 
 
 class Weapon(ABC):
+    @abstractclassmethod
     def __init__(self, reload_time) -> None:
         self.reload_time = reload_time
 

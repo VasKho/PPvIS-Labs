@@ -17,9 +17,6 @@ from enemies.enemies import (
 pygame.init()
 
 
-display = pygame.display.set_mode((0, 0), pygame.FULLSCREEN) 
-pygame.display.set_caption('DOOM')
-
 pygame.mixer.init()
 pygame.mixer.music.load('./soundtrack/game/doom.ogg')
 pygame.mixer.music.set_volume(0.7)
@@ -27,10 +24,9 @@ pygame.mixer.music.play()
 
 running = True
 
-clock = pygame.time.Clock()
-
 
 level = Level("level/src/desert.jpg")
+display = level.display
 player = level.player
 
 
@@ -47,11 +43,8 @@ level.add_enemy(Gremlin)
 
 
 while running:
-    clock.tick(40)
-
 
     key_pressed_is = pygame.key.get_pressed()
-
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -70,36 +63,30 @@ while running:
     if key_pressed_is[pygame.K_RIGHT]:
         player.rotate('right')
 
-    # player_rect = slayer.image.get_rect(center=(slayer.position['x'], slayer.position['y']))
-    player_rect = player.image.get_rect(center=(pygame.display.Info().current_w//2, pygame.display.Info().current_h//2))
-    rot_image = pygame.transform.rotate(player.image, player.angle)
-    rot_image_rect = rot_image.get_rect(center = player_rect.center)
-    level.rect.center = (player.position['x'], player.position['y'])
-    display.fill((0, 0, 0))
-    display.blit(level.background, level.rect.topleft)
-    display.blit(rot_image, rot_image_rect.topleft)
-
 
     if key_pressed_is[pygame.K_SPACE]:
         bullet = player.shoot()
         if bullet is not None:
             level.bullets.add(bullet)
-    level.bullets.update()
-    level.bullets.draw(display)
         
 
 
     if key_pressed_is[pygame.K_w]:
         player.move_up()
+        for enemy in level.enemies:
+            enemy.rect.y += player.velocity
     if key_pressed_is[pygame.K_s]:
         player.move_down()
+        for enemy in level.enemies:
+            enemy.rect.y -= player.velocity
     if key_pressed_is[pygame.K_a]:
         player.move_left()
+        for enemy in level.enemies:
+            enemy.rect.x += player.velocity
     if key_pressed_is[pygame.K_d]:
         player.move_right()
+        for enemy in level.enemies:
+            enemy.rect.x -= player.velocity
 
 
-    level.enemies.update()
-    level.enemies.draw(display)
-
-    pygame.display.update()
+    level.update()

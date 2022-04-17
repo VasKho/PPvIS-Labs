@@ -23,6 +23,10 @@ class Player(pygame.sprite.Sprite):
         self.rect.y = pygame.display.Info().current_h//2
 
 
+    def get_pos(self):
+        return (self.position['x'], self.position['y'])
+
+
     def move_up(self):
         self.position['y'] += self.velocity
 
