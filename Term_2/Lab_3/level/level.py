@@ -3,12 +3,15 @@ from player.player import Player
 from enemies.enemies import Enemy
 
 class Level:
+    BACK_COLOR = (255, 200, 68)
+    DISPLAY_SIZE = {'x': pygame.display.Info().current_w, 'y': pygame.display.Info().current_h}
+    LEVEL_SIZE = {'x': 2*pygame.display.Info().current_w, 'y': 2*pygame.display.Info().current_h}
     def __init__(self, path_to_background):
         self.clock = pygame.time.Clock()
         self.display = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 
         self.background = pygame.image.load(path_to_background).convert()
-        self.background = pygame.transform.scale(self.background, (2*pygame.display.Info().current_w, 2*pygame.display.Info().current_h))
+        self.background = pygame.transform.scale(self.background, (Level.LEVEL_SIZE['x'], Level.LEVEL_SIZE['y']))
         self.rect = self.background.get_rect()
 
         self.player = Player()
@@ -36,8 +39,7 @@ class Level:
         for en in self.enemies:
             en.trace((pygame.display.Info().current_w//2, pygame.display.Info().current_h//2))
 
-
-        self.display.fill((0, 0, 0))
+        self.display.fill(Level.BACK_COLOR)
         self.update_background()
         self.draw_player()
 

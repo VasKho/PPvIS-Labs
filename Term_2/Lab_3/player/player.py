@@ -28,16 +28,20 @@ class Player(pygame.sprite.Sprite):
 
 
     def move_up(self):
-        self.position['y'] += self.velocity
+        if self.position['y'] < 1.45*pygame.display.Info().current_h:
+            self.position['y'] += self.velocity
 
     def move_down(self):
-        self.position['y'] -= self.velocity
+        if self.position['y'] > -0.45*pygame.display.Info().current_h:
+            self.position['y'] -= self.velocity
 
     def move_left(self):
-        self.position['x'] += self.velocity
+        if self.position['x'] < 1.47*pygame.display.Info().current_w:
+            self.position['x'] += self.velocity
 
     def move_right(self):
-        self.position['x'] -= self.velocity
+        if self.position['x'] > -0.47*pygame.display.Info().current_w:
+            self.position['x'] -= self.velocity
 
 
     def rotate(self, key: str):
