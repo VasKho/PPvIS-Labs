@@ -2,7 +2,7 @@ import pygame
 import os
 import time
 
-from weapon.weapon import Pistol
+from weapon.weapon import Pistol, Bullet
 
 
 class Player(pygame.sprite.Sprite):
@@ -23,25 +23,33 @@ class Player(pygame.sprite.Sprite):
         self.rect.y = pygame.display.Info().current_h//2
 
 
-    def get_pos(self):
+    def get_pos(self) -> tuple[int, int]:
         return (self.position['x'], self.position['y'])
 
 
-    def move_up(self):
+    def move_up(self) -> bool:
         if self.position['y'] < 1.45*pygame.display.Info().current_h:
             self.position['y'] += self.velocity
+            return True
+        return False
 
-    def move_down(self):
+    def move_down(self) -> bool:
         if self.position['y'] > -0.45*pygame.display.Info().current_h:
             self.position['y'] -= self.velocity
+            return True
+        return False
 
-    def move_left(self):
+    def move_left(self) -> bool:
         if self.position['x'] < 1.47*pygame.display.Info().current_w:
             self.position['x'] += self.velocity
+            return True
+        return False
 
-    def move_right(self):
+    def move_right(self) -> bool:
         if self.position['x'] > -0.47*pygame.display.Info().current_w:
             self.position['x'] -= self.velocity
+            return True
+        return False
 
 
     def rotate(self, key: str):
@@ -71,7 +79,7 @@ class Player(pygame.sprite.Sprite):
         self.weapon.append(weapon) 
 
 
-    def shoot(self):
+    def shoot(self) -> Bullet:
         if time.time() > self.current_weapon.last_reload_time + self.current_weapon.reload_time: 
             self.current_weapon.reloading = False
         bullet = self.current_weapon.fire(self)

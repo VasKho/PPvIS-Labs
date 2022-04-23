@@ -72,21 +72,21 @@ while running:
 
 
     if key_pressed_is[pygame.K_w]:
-        player.move_up()
-        for enemy in level.enemies:
-            enemy.pos['y'] += player.velocity
+        if player.move_up():
+            for enemy in level.enemies:
+                enemy.pos['y'] += player.velocity
     if key_pressed_is[pygame.K_s]:
-        player.move_down()
-        for enemy in level.enemies:
-            enemy.pos['y'] -= player.velocity
+        if player.move_down():
+            for enemy in level.enemies:
+                enemy.pos['y'] -= player.velocity
     if key_pressed_is[pygame.K_a]:
-        player.move_left()
-        for enemy in level.enemies:
-            enemy.pos['x'] += player.velocity
+        if player.move_left():
+            for enemy in level.enemies:
+                enemy.pos['x'] += player.velocity
     if key_pressed_is[pygame.K_d]:
-        player.move_right()
-        for enemy in level.enemies:
-            enemy.pos['x'] -= player.velocity
+        if player.move_right():
+            for enemy in level.enemies:
+                enemy.pos['x'] -= player.velocity
 
 
     level.update()

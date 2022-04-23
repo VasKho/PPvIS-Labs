@@ -42,6 +42,7 @@ class Enemy(ABC, pygame.sprite.Sprite):
             self.frame += 1
         else: self.frame = 0
         self.image = self.images[self.frame]
+        self.rect = self.image.get_rect(center=(self.pos['x'], self.pos['y']))
     pass
 
 

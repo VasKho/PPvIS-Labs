@@ -33,17 +33,34 @@ class Level:
         self.display.blit(self.background, self.rect.topleft)
 
 
+    def player_collide(self):
+        for enemy in self.enemies:
+            if self.player.rect.colliderect(enemy.rect):
+                self.player.kill()
+
+
+    def bullet_collide(self):
+        for bullet in self.bullets:
+            for enemy in self.enemies:
+                if bullet.rect.colliderect(enemy.rect):
+                    bullet.kill()
+                    enemy.kill()
+                
+
+
     def update(self):
         player_rect = self.player.rect.topleft
         for en in self.enemies:
             en.trace(player_rect)
 
+        self.player_collide()
         self.display.fill(Level.BACK_COLOR)
         self.update_background()
         self.draw_player()
 
         self.bullets.update()
         self.bullets.draw(self.display)
+        self.bullet_collide()
 
         self.enemies.update()
         self.enemies.draw(self.display)
