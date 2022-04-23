@@ -19,20 +19,22 @@ class Enemy(ABC, pygame.sprite.Sprite):
             img = pygame.transform.scale(img, (0.09*pygame.display.Info().current_w, 0.16*pygame.display.Info().current_h))
             img.set_colorkey((255, 255, 255))
             self.images.append(img)
-            self.image = self.images[0]
-            self.rect = self.image.get_rect()
-            self.rect.x = randrange(0, 2*pygame.display.Info().current_w)
-            self.rect.y = randrange(0, 2*pygame.display.Info().current_h)
+        self.image = self.images[0]
+        self.rect = self.image.get_rect()
+        self.rect.x = randrange(0, 2*pygame.display.Info().current_w)
+        self.rect.y = randrange(0, 2*pygame.display.Info().current_h)
+        self.pos = {'x': self.rect.center[0], 'y': self.rect.center[1]}
 
 
     def trace(self, point: tuple[int, int]):
-        vec_length = sqrt((point[0]-self.rect.x)**2 + (point[1]-self.rect.y)**2)
-        if vec_length == 0:
+        vec_length = sqrt((point[0]-self.pos['x'])**2 + (point[1]-self.pos['y'])**2)
+        if vec_length < 20:
             return
-        angle_sin = (point[1]-self.rect.y)/vec_length
-        angle_cos = (point[0]-self.rect.x)/vec_length
-        self.rect.x = self.rect.x + int(self.velocity*angle_cos)
-        self.rect.y = self.rect.y + int(self.velocity*angle_sin)
+        angle_sin = (point[1]-self.pos['y'])/vec_length
+        angle_cos = (point[0]-self.pos['x'])/vec_length
+        self.pos['x'] += int(self.velocity*angle_cos)
+        self.pos['y'] += int(self.velocity*angle_sin)
+        self.rect = self.image.get_rect(center=(self.pos['x'], self.pos['y']))
 
 
     def update(self):
