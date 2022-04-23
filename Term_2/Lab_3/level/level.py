@@ -3,13 +3,6 @@ from player.player import Player
 from enemies.enemies import Enemy
 
 
-class Healthbar(pygame.sprite.Sprite):
-    def __init__(self):
-        pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Rect(0, 0, 500, 50)
-    pass
-
-
 class Level:
     BACK_COLOR = (255, 200, 68)
     def __init__(self, path_to_background):

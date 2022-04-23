@@ -1,4 +1,5 @@
 import pygame
+from menu.menu import Menu
 from level.level import Level
 from enemies.enemies import (
         Goblin,
@@ -29,7 +30,7 @@ level = Level("level/src/desert.jpg")
 display = level.display
 player = level.player
 
-level.add_enemy(Goblin)
+# level.add_enemy(Goblin)
 # level.add_enemy(Archfiend)
 # level.add_enemy(Imp)
 # level.add_enemy(Floatingeye)
@@ -40,8 +41,11 @@ level.add_enemy(Goblin)
 # level.add_enemy(Tainted)
 # level.add_enemy(Gremlin)
 
+menu = Menu(display)
+menu.run()
 
 while running:
+    
 
     key_pressed_is = pygame.key.get_pressed()
 
@@ -51,7 +55,7 @@ while running:
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
-                running = False
+                menu.run()
 
     if key_pressed_is[pygame.K_UP]:
         player.rotate('up')
@@ -67,7 +71,7 @@ while running:
         bullet = player.shoot()
         if bullet is not None:
             level.bullets.add(bullet)
-        
+       
 
 
     if key_pressed_is[pygame.K_w]:
