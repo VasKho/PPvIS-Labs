@@ -6,7 +6,7 @@ import time
 
 
 class Bullet(pygame.sprite.Sprite):
-    def __init__(self, bullet_image, vel_x, vel_y):
+    def __init__(self, damage, bullet_image, vel_x, vel_y):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load(os.path.abspath(bullet_image)).convert()
         self.image = pygame.transform.scale(self.image, (0.01*pygame.display.Info().current_w, 0.01*pygame.display.Info().current_h))
@@ -14,6 +14,7 @@ class Bullet(pygame.sprite.Sprite):
         self.vel_x = vel_x
         self.vel_y = vel_y
         self.rect = self.image.get_rect()
+        self.damage = damage
     
 
     def update(self):
@@ -48,9 +49,8 @@ class Pistol(Weapon):
 
     def fire(self, owner):
         if not self.reloading:
-            self.bullet = Bullet("./weapon/src/bullet.png", 30*sin(radians(owner.angle)), 30*cos(radians(owner.angle)))
-            self.bullet.rect.x = pygame.display.Info().current_w//2
-            self.bullet.rect.y = pygame.display.Info().current_h//2
+            self.bullet = Bullet(10, "./weapon/src/bullet.png", 30*sin(radians(owner.angle)), 30*cos(radians(owner.angle)))
+            self.bullet.rect = self.bullet.image.get_rect(center=(pygame.display.Info().current_w//2, pygame.display.Info().current_h//2))
             self.last_reload_time = time.time()
             return self.bullet
     pass

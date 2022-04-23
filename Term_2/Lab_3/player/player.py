@@ -13,6 +13,7 @@ class Player(pygame.sprite.Sprite):
         self.position = {'x': pygame.display.Info().current_w//2, 'y': pygame.display.Info().current_h//2}
         self.weapon = [Pistol()]
         self.current_weapon = self.weapon[-1]
+        self.health = 100
 
         img = pygame.image.load(os.path.abspath('player/src/marine.png')).convert()
         img = pygame.transform.scale(img, (0.09*pygame.display.Info().current_w, 0.16*pygame.display.Info().current_h))
@@ -50,6 +51,12 @@ class Player(pygame.sprite.Sprite):
             self.position['x'] -= self.velocity
             return True
         return False
+
+
+    def get_damage(self, damage):
+        self.health -= damage
+        if self.health <= 0:
+            self.kill()
 
 
     def rotate(self, key: str):

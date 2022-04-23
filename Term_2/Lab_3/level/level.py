@@ -2,6 +2,14 @@ import pygame
 from player.player import Player
 from enemies.enemies import Enemy
 
+
+class Healthbar(pygame.sprite.Sprite):
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.Rect(0, 0, 500, 50)
+    pass
+
+
 class Level:
     BACK_COLOR = (255, 200, 68)
     def __init__(self, path_to_background):
@@ -36,7 +44,7 @@ class Level:
     def player_collide(self):
         for enemy in self.enemies:
             if self.player.rect.colliderect(enemy.rect):
-                self.player.kill()
+                self.player.get_damage(enemy.damage)
 
 
     def bullet_collide(self):
@@ -44,7 +52,7 @@ class Level:
             for enemy in self.enemies:
                 if bullet.rect.colliderect(enemy.rect):
                     bullet.kill()
-                    enemy.kill()
+                    enemy.get_damage(bullet.damage)
                 
 
 
@@ -53,17 +61,18 @@ class Level:
         for en in self.enemies:
             en.trace(player_rect)
 
-        self.player_collide()
         self.display.fill(Level.BACK_COLOR)
         self.update_background()
         self.draw_player()
 
         self.bullets.update()
         self.bullets.draw(self.display)
-        self.bullet_collide()
 
         self.enemies.update()
         self.enemies.draw(self.display)
+
+        self.player_collide()
+        self.bullet_collide()
 
         pygame.display.update()
         self.clock.tick(40)

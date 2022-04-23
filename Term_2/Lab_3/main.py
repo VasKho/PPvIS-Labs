@@ -29,17 +29,16 @@ level = Level("level/src/desert.jpg")
 display = level.display
 player = level.player
 
-
 level.add_enemy(Goblin)
-level.add_enemy(Archfiend)
-level.add_enemy(Imp)
-level.add_enemy(Floatingeye)
-level.add_enemy(Overlord)
-level.add_enemy(Brute)
-level.add_enemy(Pitbalor)
-level.add_enemy(Stalker)
-level.add_enemy(Tainted)
-level.add_enemy(Gremlin)
+# level.add_enemy(Archfiend)
+# level.add_enemy(Imp)
+# level.add_enemy(Floatingeye)
+# level.add_enemy(Overlord)
+# level.add_enemy(Brute)
+# level.add_enemy(Pitbalor)
+# level.add_enemy(Stalker)
+# level.add_enemy(Tainted)
+# level.add_enemy(Gremlin)
 
 
 while running:

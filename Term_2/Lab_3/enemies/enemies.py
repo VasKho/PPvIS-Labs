@@ -7,11 +7,13 @@ from math import sqrt
 
 class Enemy(ABC, pygame.sprite.Sprite):
     @abstractclassmethod
-    def __init__(self, path_to_image: str, velocity: int) -> None:
+    def __init__(self, path_to_image: str, velocity: int, health: int, damage: int) -> None:
         pygame.sprite.Sprite.__init__(self)
         self.images = []
         self.frame = 0
         self.velocity = velocity
+        self.health = health
+        self.damage = damage
 
         for i in range(1, 41):
             current_image = [im for im in glob.glob(path_to_image + '/*-' + str(i) + '.png')]
@@ -37,6 +39,12 @@ class Enemy(ABC, pygame.sprite.Sprite):
         self.rect = self.image.get_rect(center=(self.pos['x'], self.pos['y']))
 
 
+    def get_damage(self, damage):
+        self.health -= damage
+        if self.health <= 0:
+            self.kill()
+
+
     def update(self):
         if self.frame < len(self.images) - 1:
             self.frame += 1
@@ -48,59 +56,59 @@ class Enemy(ABC, pygame.sprite.Sprite):
 
 class Goblin(Enemy):
     def __init__(self):
-        super().__init__("enemies/src/goblin", 10)
+        super().__init__("enemies/src/goblin", 10, 100, 5)
     pass 
 
 
 class Archfiend(Enemy):
     def __init__(self):
-        super().__init__('enemies/src/archfiend', 13)
+        super().__init__('enemies/src/archfiend', 13, 350, 90)
     pass
 
 
 class Imp(Enemy):
     def __init__(self):
-        super().__init__("enemies/src/imp", 19)
+        super().__init__("enemies/src/imp", 19, 100, 5)
     pass
 
 
 class Floatingeye(Enemy):
     def __init__(self):
-        super().__init__("enemies/src/floatingeye", 5)
+        super().__init__("enemies/src/floatingeye", 5, 500, 100)
     pass
 
 
 class Overlord(Enemy):
     def __init__(self):
-        super().__init__("enemies/src/overlord", 15)
+        super().__init__("enemies/src/overlord", 15, 200, 35)
     pass
 
 
 class Gremlin(Enemy):
     def __init__(self):
-        super().__init__("enemies/src/gremlin", 17)
+        super().__init__("enemies/src/gremlin", 17, 30, 1)
     pass
 
 
 class Brute(Enemy):
     def __init__(self):
-        super().__init__("enemies/src/brute", 17)
+        super().__init__("enemies/src/brute", 17, 50, 30)
     pass
 
 
 class Pitbalor(Enemy):
     def __init__(self):
-        super().__init__("enemies/src/pitbalor", 14)
+        super().__init__("enemies/src/pitbalor", 14, 80, 40)
     pass
 
 
 class Stalker(Enemy):
     def __init__(self):
-        super().__init__("enemies/src/stalker", 16)
+        super().__init__("enemies/src/stalker", 16, 290, 70)
     pass
 
 
 class Tainted(Enemy):
     def __init__(self):
-        super().__init__("enemies/src/tainted", 13)
+        super().__init__("enemies/src/tainted", 13, 60, 69)
     pass
