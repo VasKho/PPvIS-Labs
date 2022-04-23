@@ -29,7 +29,7 @@ class Menu:
                                                                            2)
 
             score = self.button_font.render('SCORE', True, Menu.FONT_COLOR)
-            self.display.blit(score, (self.size[0]//2-start.get_width()//2, self.size[1]//2.7))
+            self.display.blit(score, (self.size[0]//2-score.get_width()//2, self.size[1]//2.7))
             score_btn = pygame.draw.rect(self.display, Menu.BUTTON_COLOR, [self.size[0]//2-start.get_width()//2-10,
                                                                            int(self.size[1]//2.7)-10,
                                                                            start.get_width()+20,
@@ -37,7 +37,7 @@ class Menu:
                                                                            2)
 
             exit_button = self.button_font.render('EXIT', True, Menu.FONT_COLOR)
-            self.display.blit(exit_button, (self.size[0]//2-start.get_width()//2, self.size[1]//2))
+            self.display.blit(exit_button, (self.size[0]//2-exit_button.get_width()//2, self.size[1]//2))
             exit_btn = pygame.draw.rect(self.display, Menu.BUTTON_COLOR, [self.size[0]//2-start.get_width()//2-10,
                                                                           self.size[1]//2-10,
                                                                           start.get_width()+20,
