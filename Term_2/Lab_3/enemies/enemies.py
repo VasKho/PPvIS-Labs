@@ -2,12 +2,11 @@ import pygame
 import yaml
 from random import randrange
 import glob
-from abc import ABC, abstractclassmethod
+from abc import ABC
 from math import sqrt
 
 
 class Enemy(ABC, pygame.sprite.Sprite):
-    @abstractclassmethod
     def __init__(self, **kwargs) -> None:
         pygame.sprite.Sprite.__init__(self)
         self.images = []
@@ -24,10 +23,8 @@ class Enemy(ABC, pygame.sprite.Sprite):
             img.set_colorkey((255, 255, 255))
             self.images.append(img)
         self.image = self.images[0]
-        self.rect = self.image.get_rect()
-        self.rect.x = randrange(0, 2*pygame.display.Info().current_w)
-        self.rect.y = randrange(0, 2*pygame.display.Info().current_h)
-        self.pos = {'x': self.rect.center[0], 'y': self.rect.center[1]}
+        self.pos = {'x': randrange(0, pygame.display.Info().current_w), 'y': randrange(0, pygame.display.Info().current_h)}
+        self.rect = self.image.get_rect(center=(self.pos['x'], self.pos['y']))
 
 
     def trace(self, point: tuple[int, int]):
@@ -38,7 +35,8 @@ class Enemy(ABC, pygame.sprite.Sprite):
         angle_cos = (point[0]-self.pos['x'])/vec_length
         self.pos['x'] += int(self.velocity*angle_cos)
         self.pos['y'] += int(self.velocity*angle_sin)
-        self.rect = self.image.get_rect(center=(self.pos['x'], self.pos['y']))
+        image = self.images[self.frame]
+        self.rect = image.get_rect(center=(self.pos['x'], self.pos['y']))
 
 
     def get_damage(self, damage):
@@ -50,7 +48,8 @@ class Enemy(ABC, pygame.sprite.Sprite):
     def update(self):
         if self.frame < len(self.images) - 1:
             self.frame += 1
-        else: self.frame = 0
+        else:
+            self.frame = 0
         self.image = self.images[self.frame]
         self.rect = self.image.get_rect(center=(self.pos['x'], self.pos['y']))
     pass
@@ -117,7 +116,6 @@ class Pitbalor(Enemy):
         with open("enemies/config.yaml", 'r') as file:
             conf = yaml.safe_load(file)
             super().__init__(**conf['Pitbalor'])
-
     pass
 
 
@@ -126,7 +124,6 @@ class Stalker(Enemy):
         with open("enemies/config.yaml", 'r') as file:
             conf = yaml.safe_load(file)
             super().__init__(**conf['Stalker'])
-
     pass
 
 
@@ -135,5 +132,4 @@ class Tainted(Enemy):
         with open("enemies/config.yaml", 'r') as file:
             conf = yaml.safe_load(file)
             super().__init__(**conf['Tainted'])
-
     pass
