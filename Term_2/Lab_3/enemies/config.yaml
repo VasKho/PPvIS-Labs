@@ -1,0 +1,59 @@
+Goblin:
+  path_to_image: "enemies/src/goblin"
+  velocity: 10
+  health: 100
+  damage: 5
+
+Archfiend:
+  path_to_image: "enemies/src/archfiend"
+  velocity: 13
+  health: 350
+  damage: 90
+
+Imp:
+  path_to_image: "enemies/src/imp"
+  velocity: 19
+  health: 100
+  damage: 5
+
+Floatingeye:
+  path_to_image: "enemies/src/floatingeye"
+  velocity: 5
+  health: 500
+  damage: 100
+
+Overlord:
+  path_to_image: "enemies/src/overlord"
+  velocity: 15
+  health: 200
+  damage: 35
+
+Gremlin:
+  path_to_image: "enemies/src/gremlin"
+  velocity: 17
+  health: 30
+  damage: 1
+
+Brute:
+  path_to_image: "enemies/src/brute"
+  velocity: 17
+  health: 50
+  damage: 30
+
+Pitbalor:
+  path_to_image: "enemies/src/pitbalor"
+  velocity: 14
+  health: 80
+  damage: 40
+
+Stalker:
+  path_to_image: "enemies/src/stalker"
+  velocity: 16
+  health: 290
+  damage: 70
+
+Tainted:
+  path_to_image: "enemies/src/tainted"
+  velocity: 13
+  health: 60
+  damage: 69

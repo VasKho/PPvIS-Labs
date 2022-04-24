@@ -1,4 +1,5 @@
 import pygame
+import yaml
 from random import randrange
 import glob
 from abc import ABC, abstractclassmethod
@@ -7,16 +8,17 @@ from math import sqrt
 
 class Enemy(ABC, pygame.sprite.Sprite):
     @abstractclassmethod
-    def __init__(self, path_to_image: str, velocity: int, health: int, damage: int) -> None:
+    def __init__(self, **kwargs) -> None:
         pygame.sprite.Sprite.__init__(self)
         self.images = []
         self.frame = 0
-        self.velocity = velocity
-        self.health = health
-        self.damage = damage
+
+        self.velocity = kwargs['velocity']
+        self.health = kwargs['health']
+        self.damage = kwargs['damage']
 
         for i in range(1, 41):
-            current_image = [im for im in glob.glob(path_to_image + '/*-' + str(i) + '.png')]
+            current_image = [im for im in glob.glob(kwargs['path_to_image'] + '/*-' + str(i) + '.png')]
             img = pygame.image.load(current_image[0]).convert()
             img = pygame.transform.scale(img, (0.09*pygame.display.Info().current_w, 0.16*pygame.display.Info().current_h))
             img.set_colorkey((255, 255, 255))
@@ -56,59 +58,82 @@ class Enemy(ABC, pygame.sprite.Sprite):
 
 class Goblin(Enemy):
     def __init__(self):
-        super().__init__("enemies/src/goblin", 10, 100, 5)
+        with open("enemies/config.yaml", 'r') as file:
+            conf = yaml.safe_load(file)
+            super().__init__(**conf['Goblin'])
     pass 
 
 
 class Archfiend(Enemy):
     def __init__(self):
-        super().__init__('enemies/src/archfiend', 13, 350, 90)
+        with open("enemies/config.yaml", 'r') as file:
+            conf = yaml.safe_load(file)
+            super().__init__(**conf['Archfiend'])
     pass
 
 
 class Imp(Enemy):
     def __init__(self):
-        super().__init__("enemies/src/imp", 19, 100, 5)
+        with open("enemies/config.yaml", 'r') as file:
+            conf = yaml.safe_load(file)
+            super().__init__(**conf['Imp'])
     pass
 
 
 class Floatingeye(Enemy):
     def __init__(self):
-        super().__init__("enemies/src/floatingeye", 5, 500, 100)
+        with open("enemies/config.yaml", 'r') as file:
+            conf = yaml.safe_load(file)
+            super().__init__(**conf['Floatingeye'])
     pass
 
 
 class Overlord(Enemy):
     def __init__(self):
-        super().__init__("enemies/src/overlord", 15, 200, 35)
+        with open("enemies/config.yaml", 'r') as file:
+            conf = yaml.safe_load(file)
+            super().__init__(**conf['Overlord'])
     pass
 
 
 class Gremlin(Enemy):
     def __init__(self):
-        super().__init__("enemies/src/gremlin", 17, 30, 1)
+        with open("enemies/config.yaml", 'r') as file:
+            conf = yaml.safe_load(file)
+            super().__init__(**conf['Gremlin'])
     pass
 
 
 class Brute(Enemy):
     def __init__(self):
-        super().__init__("enemies/src/brute", 17, 50, 30)
+        with open("enemies/config.yaml", 'r') as file:
+            conf = yaml.safe_load(file)
+            super().__init__(**conf['Brute'])
     pass
 
 
 class Pitbalor(Enemy):
     def __init__(self):
-        super().__init__("enemies/src/pitbalor", 14, 80, 40)
+        with open("enemies/config.yaml", 'r') as file:
+            conf = yaml.safe_load(file)
+            super().__init__(**conf['Pitbalor'])
+
     pass
 
 
 class Stalker(Enemy):
-    def __init__(self):
-        super().__init__("enemies/src/stalker", 16, 290, 70)
+    def __init__(self): 
+        with open("enemies/config.yaml", 'r') as file:
+            conf = yaml.safe_load(file)
+            super().__init__(**conf['Stalker'])
+
     pass
 
 
 class Tainted(Enemy):
     def __init__(self):
-        super().__init__("enemies/src/tainted", 13, 60, 69)
+        with open("enemies/config.yaml", 'r') as file:
+            conf = yaml.safe_load(file)
+            super().__init__(**conf['Tainted'])
+
     pass
