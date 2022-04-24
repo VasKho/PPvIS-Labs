@@ -1,15 +1,20 @@
 import pygame
+import yaml
 
 
 class Menu:
-    BACK_COLOR = (0, 0, 0)
-    FONT_COLOR = (255, 0, 0)
-    BUTTON_COLOR = (255, 255, 255)
     def __init__(self, display: pygame.surface.Surface):
+        with open("menu/config.yaml", 'r') as file:
+            conf = yaml.safe_load(file)
+            Menu.BACK_COLOR = pygame.Color(conf['back_color'])
+            Menu.FONT_COLOR = pygame.Color(conf['font_color'])
+            Menu.BUTTON_COLOR = pygame.Color(conf['button_color'])
+
+            self.name_font = pygame.font.Font(conf['font_path'], conf['name_font_size'])
+            self.button_font = pygame.font.Font(conf['font_path'], conf['buttons_font_size'])
+
         self.size = display.get_size()
         self.display = display
-        self.name_font = pygame.font.Font('./menu/src/PixelDevilsdeal.ttf', 60)
-        self.button_font = pygame.font.Font('./menu/src/PixelDevilsdeal.ttf', 40)
 
 
     def run(self):

@@ -1,0 +1,6 @@
+back_color: "#000000"
+font_color: [255, 0, 0]
+button_color: "#FFFFFF"
+font_path: 'menu/src/PixelDevilsdeal.ttf'
+name_font_size: 60
+buttons_font_size: 40
