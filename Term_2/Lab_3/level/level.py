@@ -95,4 +95,10 @@ class Level:
                         enemy.pos['x'] -= self.player.velocity
 
             self.map.update()
+            if len(self.map.enemies) == 0:
+                pygame.mixer.music.stop()
+                pygame.mouse.set_visible(True)
+                return True
+
+        return False
     pass

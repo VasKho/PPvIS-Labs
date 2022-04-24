@@ -1,4 +1,4 @@
 back_color: "#FFC846"
 background_path: "level/src/desert.jpg"
-enemies: [Goblin, Imp, Gremlin]
-number_of_enemies: 15
+enemies: [Goblin, Imp, Gremlin, Brute]
+number_of_enemies: 40

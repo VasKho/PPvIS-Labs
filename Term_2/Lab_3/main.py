@@ -3,20 +3,29 @@ from menu.menu import Menu
 from level.level import Level
 
 
-
-pygame.init()
-display = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
-
-
-while True:
+def show_menu():
     menu = Menu(display)
     menu.run()
     del menu
 
-    # for i in range(1, 21):
-    #     level = Level(display, f"level/config/level{i}.yaml")
-    #     level.start()
-    #     del level
-    level = Level(display, f"level/config/level1.yaml")
-    level.start()
-    del level
+
+pygame.init()
+display = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+
+level_number = 1
+max_levels = 2
+
+show_menu()
+
+while True:
+    level = Level(display, f"level/config/level{level_number}.yaml")
+    if level.start():
+        del level
+        if level_number < max_levels:
+            level_number += 1
+            level = Level(display, f"level/config/level{level_number}.yaml")
+        else:
+            show_menu()
+    else:
+        del level
+        show_menu()
