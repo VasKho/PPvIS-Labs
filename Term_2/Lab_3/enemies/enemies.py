@@ -1,9 +1,10 @@
 import pygame
 import yaml
-from random import randrange
+from random import randrange, choice
 import glob
 from abc import ABC
-from math import sqrt
+from math import sqrt, sin, cos
+import time
 
 
 class Enemy(ABC, pygame.sprite.Sprite):
@@ -15,6 +16,8 @@ class Enemy(ABC, pygame.sprite.Sprite):
         self.velocity = kwargs['velocity']
         self.health = kwargs['health']
         self.damage = kwargs['damage']
+        self.change_direction_time = time.time()
+        self.randomize_angle = 0
 
         for i in range(1, 41):
             current_image = [im for im in glob.glob(kwargs['path_to_image'] + '/*-' + str(i) + '.png')]
@@ -28,13 +31,19 @@ class Enemy(ABC, pygame.sprite.Sprite):
 
 
     def trace(self, point: tuple[int, int]):
+        if time.time() > self.change_direction_time + 1.5:
+            self.randomize_angle = choice([0, 90, 180, 270])
+            self.change_direction_time = time.time()
+
         vec_length = sqrt((point[0]-self.pos['x'])**2 + (point[1]-self.pos['y'])**2)
         if vec_length < 20:
             return
         angle_sin = (point[1]-self.pos['y'])/vec_length
         angle_cos = (point[0]-self.pos['x'])/vec_length
-        self.pos['x'] += int(self.velocity*angle_cos)
-        self.pos['y'] += int(self.velocity*angle_sin)
+        res_sin = angle_sin*cos(self.randomize_angle) + sin(self.randomize_angle)*angle_cos
+        res_cos = angle_cos*cos(self.randomize_angle) - angle_sin*sin(self.randomize_angle)
+        self.pos['x'] += int(self.velocity*res_cos)
+        self.pos['y'] += int(self.velocity*res_sin)
         image = self.images[self.frame]
         self.rect = image.get_rect(center=(self.pos['x'], self.pos['y']))
 

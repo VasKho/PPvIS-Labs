@@ -49,7 +49,8 @@ class Map:
             for enemy in self.enemies:
                 if bullet.rect.colliderect(enemy.rect):
                     bullet.kill()
-                    enemy.get_damage(bullet.damage)
+                    # enemy.get_damage(bullet.damage)
+                    enemy.kill()
                 
 
 

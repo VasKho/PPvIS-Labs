@@ -26,6 +26,10 @@ class Level:
             self.enemy_list = conf['enemies']
             self.max_number_of_enemies = conf['number_of_enemies']
 
+        pygame.mixer.init()
+        pygame.mixer.music.load('./soundtrack/game/doom.ogg')
+        pygame.mixer.music.set_volume(0.7)
+
 
     def spawn_enemy(self):
         if self.num_of_enemies < self.max_number_of_enemies:
@@ -35,9 +39,6 @@ class Level:
 
 
     def start(self):
-        pygame.mixer.init()
-        pygame.mixer.music.load('./soundtrack/game/doom.ogg')
-        pygame.mixer.music.set_volume(0.7)
         pygame.mixer.music.play()
 
 
