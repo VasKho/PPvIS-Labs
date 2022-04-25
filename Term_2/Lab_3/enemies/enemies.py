@@ -44,7 +44,6 @@ class Enemy(ABC, pygame.sprite.Sprite):
         self.rect.move_ip(int(self.velocity*res_cos), int(self.velocity*res_sin))
 
 
-
     def get_damage(self, damage):
         self.health -= damage
         if self.health <= 0:
