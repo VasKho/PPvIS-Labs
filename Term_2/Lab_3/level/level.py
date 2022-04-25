@@ -45,10 +45,11 @@ class Level:
         pygame.mouse.set_visible(False)
 
         running = True
+        self.spawn_enemy()
 
         while running:
 
-            self.spawn_enemy()
+            # self.spawn_enemy()
             
             key_pressed_is = pygame.key.get_pressed()
 
@@ -81,19 +82,19 @@ class Level:
             if key_pressed_is[pygame.K_w]:
                 if self.player.move_up():
                     for enemy in self.map.enemies:
-                        enemy.pos['y'] += self.player.velocity
+                        enemy.rect.move_ip(0, self.player.velocity)
             if key_pressed_is[pygame.K_s]:
                 if self.player.move_down():
                     for enemy in self.map.enemies:
-                        enemy.pos['y'] -= self.player.velocity
+                        enemy.rect.move_ip(0, -self.player.velocity)
             if key_pressed_is[pygame.K_a]:
                 if self.player.move_left():
                     for enemy in self.map.enemies:
-                        enemy.pos['x'] += self.player.velocity
+                        enemy.rect.move_ip(self.player.velocity, 0)
             if key_pressed_is[pygame.K_d]:
                 if self.player.move_right():
                     for enemy in self.map.enemies:
-                        enemy.pos['x'] -= self.player.velocity
+                        enemy.rect.move_ip(-self.player.velocity, 0)
 
             self.map.update()
             if len(self.map.enemies) == 0:

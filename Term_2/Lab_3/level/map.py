@@ -55,9 +55,9 @@ class Map:
 
 
     def update(self):
-        player_rect = self.player.rect.topleft
         for en in self.enemies:
-            en.trace(player_rect)
+            en.trace(self.player.rect.topleft)
+            en.rect.clamp_ip(self.rect)
 
         self.display.fill(self.BACK_COLOR)
         self.update_background()

@@ -26,26 +26,23 @@ class Enemy(ABC, pygame.sprite.Sprite):
             img.set_colorkey((255, 255, 255))
             self.images.append(img)
         self.image = self.images[0]
-        self.pos = {'x': randrange(0, pygame.display.Info().current_w), 'y': randrange(0, pygame.display.Info().current_h)}
-        self.rect = self.image.get_rect(center=(self.pos['x'], self.pos['y']))
+        self.rect = self.image.get_rect(center=(randrange(0, pygame.display.Info().current_w), randrange(0, pygame.display.Info().current_h)))
 
 
     def trace(self, point: tuple[int, int]):
-        if time.time() > self.change_direction_time + 1.5:
+        vec_length = sqrt((point[0]-self.rect.x)**2 + (point[1]-self.rect.y)**2)
+        if time.time() > self.change_direction_time + 1.5 and vec_length < 900:
             self.randomize_angle = choice([0, 90, 180, 270])
             self.change_direction_time = time.time()
 
-        vec_length = sqrt((point[0]-self.pos['x'])**2 + (point[1]-self.pos['y'])**2)
-        if vec_length < 20:
+        if vec_length < 10:
             return
-        angle_sin = (point[1]-self.pos['y'])/vec_length
-        angle_cos = (point[0]-self.pos['x'])/vec_length
+        angle_sin = (point[1]-self.rect.y)/vec_length
+        angle_cos = (point[0]-self.rect.x)/vec_length
         res_sin = angle_sin*cos(self.randomize_angle) + sin(self.randomize_angle)*angle_cos
         res_cos = angle_cos*cos(self.randomize_angle) - angle_sin*sin(self.randomize_angle)
-        self.pos['x'] += int(self.velocity*res_cos)
-        self.pos['y'] += int(self.velocity*res_sin)
-        image = self.images[self.frame]
-        self.rect = image.get_rect(center=(self.pos['x'], self.pos['y']))
+        self.rect.move_ip(int(self.velocity*res_cos), int(self.velocity*res_sin))
+
 
 
     def get_damage(self, damage):
@@ -60,7 +57,6 @@ class Enemy(ABC, pygame.sprite.Sprite):
         else:
             self.frame = 0
         self.image = self.images[self.frame]
-        self.rect = self.image.get_rect(center=(self.pos['x'], self.pos['y']))
     pass
 
 
