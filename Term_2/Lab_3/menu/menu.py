@@ -3,7 +3,7 @@ import yaml
 
 
 class Menu:
-    def __init__(self, display: pygame.surface.Surface):
+    def __init__(self, display: pygame.surface.Surface) -> None:
         with open("menu/config.yaml", 'r') as file:
             conf = yaml.safe_load(file)
             Menu.BACK_COLOR = pygame.Color(conf['back_color'])
@@ -17,12 +17,12 @@ class Menu:
         self.display = display
 
 
-    def run(self):
+    def run(self) -> None:
         running = True
         while running:
             self.display.fill(Menu.BACK_COLOR)
 
-            name = self.name_font.render('HELL SLAYER', True, Menu.FONT_COLOR)
+            name = self.name_font.render('PREVENTIVE STRIKE', True, Menu.FONT_COLOR)
             self.display.blit(name, (self.size[0]/2-name.get_width()/2, self.size[1]//8))
 
             start = self.button_font.render('START', True, Menu.FONT_COLOR)

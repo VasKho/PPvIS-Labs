@@ -48,7 +48,6 @@ class Level:
         spawn.start()
         self.num_of_enemies += 1
         spawn.join()
-        print(self.num_of_enemies)
 
         running = True
         while running:
