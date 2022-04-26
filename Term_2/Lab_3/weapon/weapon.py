@@ -4,7 +4,6 @@ import os
 from math import sin, cos, radians
 from abc import ABC, abstractclassmethod
 import time
-from player.player import Player
 
 
 class Bullet(pygame.sprite.Sprite):
@@ -37,7 +36,7 @@ class Weapon(ABC):
 
 
     @abstractclassmethod
-    def fire(self, owner: Player):
+    def fire(self, owner):
         pass
 
 
@@ -53,7 +52,7 @@ class Pistol(Weapon):
         self.last_reload_time = time.time()
 
 
-    def fire(self, owner: Player):
+    def fire(self, owner):
         if not self.reloading:
             self.bullet = Bullet(self.damage, self.bullet_image_path, self.bullet_velocity, owner.angle)
             self.bullet.rect = self.bullet.image.get_rect(center=(pygame.display.Info().current_w//2, pygame.display.Info().current_h//2))
