@@ -3,7 +3,7 @@ from menu.menu import Menu
 from level.level import Level
 
 
-def show_menu():
+def show_menu() -> None:
     menu = Menu(display)
     menu.run()
     del menu

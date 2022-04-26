@@ -5,7 +5,7 @@ from enemies.enemies import Enemy
 
 
 class Map:
-    def __init__(self, display, conf_path):
+    def __init__(self, display: pygame.surface.Surface, conf_path: str) -> None:
         with open(conf_path, 'r') as file:
             conf = yaml.safe_load(file)
             self.BACK_COLOR = pygame.Color(conf['back_color'])
@@ -22,11 +22,11 @@ class Map:
         self.bullets = pygame.sprite.Group()
 
 
-    def add_enemy(self, enemy: Enemy):
+    def add_enemy(self, enemy: Enemy) -> None:
         self.enemies.add(enemy())
 
 
-    def draw_player(self):
+    def draw_player(self) -> None:
         player_rect = self.player.image.get_rect(center=(pygame.display.Info().current_w//2, pygame.display.Info().current_h//2))
         rot_image = pygame.transform.rotate(self.player.image, self.player.angle)
         rot_image_rect = rot_image.get_rect(center = player_rect.center)
@@ -34,17 +34,17 @@ class Map:
         self.display.blit(rot_image, rot_image_rect.topleft)
 
 
-    def update_background(self):
+    def update_background(self) -> None:
         self.display.blit(self.background, self.rect.topleft)
 
 
-    def player_collide(self):
+    def player_collide(self) -> None:
         for enemy in self.enemies:
             if self.player.rect.colliderect(enemy.rect):
                 self.player.get_damage(enemy.damage)
 
 
-    def bullet_collide(self):
+    def bullet_collide(self) -> None:
         for bullet in self.bullets:
             for enemy in self.enemies:
                 if bullet.rect.colliderect(enemy.rect):
@@ -54,7 +54,7 @@ class Map:
                 
 
 
-    def update(self):
+    def update(self) -> None:
         for en in self.enemies:
             en.trace(self.player.rect.topleft)
             en.rect.clamp_ip(self.rect)

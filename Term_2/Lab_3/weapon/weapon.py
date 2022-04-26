@@ -4,10 +4,11 @@ import os
 from math import sin, cos, radians
 from abc import ABC, abstractclassmethod
 import time
+from player.player import Player
 
 
 class Bullet(pygame.sprite.Sprite):
-    def __init__(self, damage, bullet_image, velocity, angle):
+    def __init__(self, damage: int, bullet_image: str, velocity: int, angle: int) -> None:
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load(os.path.abspath(bullet_image)).convert()
         self.image = pygame.transform.scale(self.image, (0.01*pygame.display.Info().current_w, 0.01*pygame.display.Info().current_h))
@@ -18,7 +19,7 @@ class Bullet(pygame.sprite.Sprite):
         self.damage = damage
     
 
-    def update(self):
+    def update(self) -> None:
         if self.rect.x in range(0, pygame.display.Info().current_w):
             self.rect.x += self.velocity * sin(radians(self.angle))
         else:
@@ -31,12 +32,12 @@ class Bullet(pygame.sprite.Sprite):
 
 
 class Weapon(ABC):
-    def __init__(self, reload_time) -> None:
+    def __init__(self, reload_time: float) -> None:
         self.reload_time = reload_time
 
 
     @abstractclassmethod
-    def fire(self, owner):
+    def fire(self, owner: Player):
         pass
 
 
@@ -52,7 +53,7 @@ class Pistol(Weapon):
         self.last_reload_time = time.time()
 
 
-    def fire(self, owner):
+    def fire(self, owner: Player):
         if not self.reloading:
             self.bullet = Bullet(self.damage, self.bullet_image_path, self.bullet_velocity, owner.angle)
             self.bullet.rect = self.bullet.image.get_rect(center=(pygame.display.Info().current_w//2, pygame.display.Info().current_h//2))

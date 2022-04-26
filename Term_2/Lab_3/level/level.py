@@ -18,7 +18,7 @@ from enemies.enemies import (
 
 
 class Level:
-    def __init__(self, display: pygame.surface.Surface, conf_path: str):
+    def __init__(self, display: pygame.surface.Surface, conf_path: str) -> None:
         self.map = Map(display, conf_path)
         self.player = self.map.player
         self.num_of_enemies = 0
@@ -32,17 +32,15 @@ class Level:
         pygame.mixer.music.set_volume(0.7)
 
 
-    def spawn_enemy(self):
-        # if self.num_of_enemies < self.max_number_of_enemies:
+    def spawn_enemy(self) -> None:
         en = eval(rand.choice(self.enemy_list))
         enemy_object = en()
         while self.map.rect.clip(pygame.Rect((0, 0), (pygame.display.Info().current_w, pygame.display.Info().current_h))).contains(enemy_object):
             enemy_object = en()
         self.map.enemies.add(enemy_object)
-            # self.num_of_enemies += 1
 
 
-    def start(self):
+    def start(self) -> bool:
         pygame.mixer.music.play()
         pygame.mouse.set_visible(False)
 

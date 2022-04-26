@@ -2,11 +2,11 @@ import pygame
 import os
 import time
 
-from weapon.weapon import Pistol, Bullet
+from weapon.weapon import Weapon, Pistol, Bullet
 
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self):
+    def __init__(self) -> None:
         pygame.sprite.Sprite.__init__(self)
         self.angle = 180
         self.velocity = 20
@@ -53,13 +53,13 @@ class Player(pygame.sprite.Sprite):
         return False
 
 
-    def get_damage(self, damage):
+    def get_damage(self, damage: int) -> None:
         self.health -= damage
         if self.health <= 0:
             self.kill()
 
 
-    def rotate(self, key: str):
+    def rotate(self, key: str) -> None:
         if key == 'up':
             if self.angle in range(0, 180):
                 self.angle = (self.angle + 9) % 360
@@ -82,7 +82,7 @@ class Player(pygame.sprite.Sprite):
                 self.angle = (self.angle + 9) % 360
 
 
-    def pickup_weapon(self, weapon):
+    def pickup_weapon(self, weapon: Weapon) -> None:
         self.weapon.append(weapon) 
 
 

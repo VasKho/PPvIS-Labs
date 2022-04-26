@@ -29,7 +29,7 @@ class Enemy(ABC, pygame.sprite.Sprite):
         self.rect = self.image.get_rect(center=(randrange(0, pygame.display.Info().current_w), randrange(0, pygame.display.Info().current_h)))
 
 
-    def trace(self, point: tuple[int, int]):
+    def trace(self, point: tuple[int, int]) -> None:
         vec_length = sqrt((point[0]-self.rect.x)**2 + (point[1]-self.rect.y)**2)
         if time.time() > self.change_direction_time + 1.5 and vec_length < 900:
             self.randomize_angle = choice([0, 90, 180, 270])
@@ -44,13 +44,13 @@ class Enemy(ABC, pygame.sprite.Sprite):
         self.rect.move_ip(int(self.velocity*res_cos), int(self.velocity*res_sin))
 
 
-    def get_damage(self, damage):
+    def get_damage(self, damage: int) -> None:
         self.health -= damage
         if self.health <= 0:
             self.kill()
 
 
-    def update(self):
+    def update(self) -> None:
         if self.frame < len(self.images) - 1:
             self.frame += 1
         else:
@@ -60,7 +60,7 @@ class Enemy(ABC, pygame.sprite.Sprite):
 
 
 class Goblin(Enemy):
-    def __init__(self):
+    def __init__(self) -> None:
         with open("enemies/config.yaml", 'r') as file:
             conf = yaml.safe_load(file)
             super().__init__(**conf['Goblin'])
@@ -68,7 +68,7 @@ class Goblin(Enemy):
 
 
 class Archfiend(Enemy):
-    def __init__(self):
+    def __init__(self) -> None:
         with open("enemies/config.yaml", 'r') as file:
             conf = yaml.safe_load(file)
             super().__init__(**conf['Archfiend'])
@@ -76,7 +76,7 @@ class Archfiend(Enemy):
 
 
 class Imp(Enemy):
-    def __init__(self):
+    def __init__(self) -> None:
         with open("enemies/config.yaml", 'r') as file:
             conf = yaml.safe_load(file)
             super().__init__(**conf['Imp'])
@@ -84,7 +84,7 @@ class Imp(Enemy):
 
 
 class Floatingeye(Enemy):
-    def __init__(self):
+    def __init__(self) -> None:
         with open("enemies/config.yaml", 'r') as file:
             conf = yaml.safe_load(file)
             super().__init__(**conf['Floatingeye'])
@@ -92,7 +92,7 @@ class Floatingeye(Enemy):
 
 
 class Overlord(Enemy):
-    def __init__(self):
+    def __init__(self) -> None:
         with open("enemies/config.yaml", 'r') as file:
             conf = yaml.safe_load(file)
             super().__init__(**conf['Overlord'])
@@ -100,7 +100,7 @@ class Overlord(Enemy):
 
 
 class Gremlin(Enemy):
-    def __init__(self):
+    def __init__(self) -> None:
         with open("enemies/config.yaml", 'r') as file:
             conf = yaml.safe_load(file)
             super().__init__(**conf['Gremlin'])
@@ -108,7 +108,7 @@ class Gremlin(Enemy):
 
 
 class Brute(Enemy):
-    def __init__(self):
+    def __init__(self) -> None:
         with open("enemies/config.yaml", 'r') as file:
             conf = yaml.safe_load(file)
             super().__init__(**conf['Brute'])
@@ -116,7 +116,7 @@ class Brute(Enemy):
 
 
 class Pitbalor(Enemy):
-    def __init__(self):
+    def __init__(self) -> None:
         with open("enemies/config.yaml", 'r') as file:
             conf = yaml.safe_load(file)
             super().__init__(**conf['Pitbalor'])
@@ -124,7 +124,7 @@ class Pitbalor(Enemy):
 
 
 class Stalker(Enemy):
-    def __init__(self): 
+    def __init__(self) -> None: 
         with open("enemies/config.yaml", 'r') as file:
             conf = yaml.safe_load(file)
             super().__init__(**conf['Stalker'])
@@ -132,7 +132,7 @@ class Stalker(Enemy):
 
 
 class Tainted(Enemy):
-    def __init__(self):
+    def __init__(self) -> None:
         with open("enemies/config.yaml", 'r') as file:
             conf = yaml.safe_load(file)
             super().__init__(**conf['Tainted'])
