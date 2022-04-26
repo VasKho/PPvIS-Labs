@@ -1,3 +1,4 @@
+import threading
 import pygame
 import yaml
 import random as rand
@@ -32,26 +33,33 @@ class Level:
 
 
     def spawn_enemy(self):
-        if self.num_of_enemies < self.max_number_of_enemies:
-            en = eval(rand.choice(self.enemy_list))
-            self.map.enemies.add(en())
-            self.num_of_enemies += 1
+        # if self.num_of_enemies < self.max_number_of_enemies:
+        en = eval(rand.choice(self.enemy_list))
+        enemy_object = en()
+        while self.map.rect.clip(pygame.Rect((0, 0), (pygame.display.Info().current_w, pygame.display.Info().current_h))).contains(enemy_object):
+            enemy_object = en()
+        self.map.enemies.add(enemy_object)
+            # self.num_of_enemies += 1
 
 
     def start(self):
         pygame.mixer.music.play()
-
-
         pygame.mouse.set_visible(False)
 
-        running = True
-        self.spawn_enemy()
+        spawn = threading.Thread(target=self.spawn_enemy)
+        spawn.start()
+        self.num_of_enemies += 1
+        spawn.join()
+        print(self.num_of_enemies)
 
+        running = True
         while running:
 
-            # self.spawn_enemy()
-            
             key_pressed_is = pygame.key.get_pressed()
+
+            if self.num_of_enemies < self.max_number_of_enemies:
+                threading.Thread(target=self.spawn_enemy).start()
+                self.num_of_enemies += 1
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -62,6 +70,7 @@ class Level:
                         pygame.mixer.music.stop()
                         pygame.mouse.set_visible(True)
                         running = False
+
 
             if key_pressed_is[pygame.K_UP]:
                 self.player.rotate('up')
@@ -95,6 +104,7 @@ class Level:
                 if self.player.move_right():
                     for enemy in self.map.enemies:
                         enemy.rect.move_ip(-self.player.velocity, 0)
+
 
             self.map.update()
             if len(self.map.enemies) == 0:

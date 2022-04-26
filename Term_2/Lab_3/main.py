@@ -25,6 +25,7 @@ while True:
             level_number += 1
             level = Level(display, f"level/config/level{level_number}.yaml")
         else:
+            level_number = 1
             show_menu()
     else:
         del level

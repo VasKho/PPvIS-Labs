@@ -44,7 +44,6 @@ class Pistol(Weapon):
     def __init__(self) -> None:
         with open("weapon/config.yaml", 'r') as file:
             conf = yaml.safe_load(file)
-            print(conf)
             super().__init__(conf['Pistol']['reload_time'])
             self.damage = conf['Pistol']['damage']
             self.bullet_image_path = conf['Pistol']['bullet_image_path']
