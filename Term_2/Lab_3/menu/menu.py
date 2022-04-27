@@ -41,10 +41,18 @@ class Menu:
                                                                            start.get_height()+20],
                                                                            2)
 
+            help = self.button_font.render('HELP', True, Menu.FONT_COLOR)
+            self.display.blit(help, (self.size[0]//2-help.get_width()//2, self.size[1]//2))
+            help_btn = pygame.draw.rect(self.display, Menu.BUTTON_COLOR, [self.size[0]//2-start.get_width()//2-10,
+                                                                           int(self.size[1]//2)-10,
+                                                                           start.get_width()+20,
+                                                                           start.get_height()+20],
+                                                                           2)
+
             exit_button = self.button_font.render('EXIT', True, Menu.FONT_COLOR)
-            self.display.blit(exit_button, (self.size[0]//2-exit_button.get_width()//2, self.size[1]//2))
+            self.display.blit(exit_button, (self.size[0]//2-exit_button.get_width()//2, self.size[1]//1.6))
             exit_btn = pygame.draw.rect(self.display, Menu.BUTTON_COLOR, [self.size[0]//2-start.get_width()//2-10,
-                                                                          self.size[1]//2-10,
+                                                                          int(self.size[1]//1.6)-10,
                                                                           start.get_width()+20,
                                                                           start.get_height()+20],
                                                                           2)
@@ -63,6 +71,8 @@ class Menu:
                     if start_btn.collidepoint(mouse_pos):
                         running = False
                     if score_btn.collidepoint(mouse_pos):
+                        pass
+                    if help_btn.collidepoint(mouse_pos):
                         pass
                     if exit_btn.collidepoint(mouse_pos):
                         exit()
