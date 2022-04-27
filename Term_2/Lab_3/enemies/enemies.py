@@ -23,7 +23,7 @@ class Enemy(ABC, pygame.sprite.Sprite):
             current_image = [im for im in glob.glob(kwargs['path_to_image'] + '/*-' + str(i) + '.png')]
             img = pygame.image.load(current_image[0]).convert()
             img = pygame.transform.scale(img, (0.09*pygame.display.Info().current_w, 0.16*pygame.display.Info().current_h))
-            img.set_colorkey((255, 255, 255))
+            img.set_colorkey((0,0,0))
             self.images.append(img)
         self.image = self.images[0]
         self.rect = self.image.get_rect(center=(randrange(0, pygame.display.Info().current_w), randrange(0, pygame.display.Info().current_h)))
