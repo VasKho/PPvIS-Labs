@@ -28,7 +28,7 @@ class Level:
             self.max_number_of_enemies = conf['number_of_enemies']
 
         pygame.mixer.init()
-        # pygame.mixer.music.load('./soundtrack/game/doom.ogg')
+        pygame.mixer.music.load('./soundtrack/game/doom.ogg')
         pygame.mixer.music.set_volume(0.7)
 
 
@@ -41,7 +41,7 @@ class Level:
 
 
     def start(self) -> bool:
-        # pygame.mixer.music.play()
+        pygame.mixer.music.play()
         pygame.mouse.set_visible(False)
 
         spawn = threading.Thread(target=self.spawn_enemy)

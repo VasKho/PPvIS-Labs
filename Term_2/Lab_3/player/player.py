@@ -6,19 +6,21 @@ from weapon.weapon import Weapon, Pistol, Bullet
 
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self) -> None:
+    def __init__(self, **kwargs) -> None:
         pygame.sprite.Sprite.__init__(self)
-        self.angle = 180
-        self.velocity = 20
+        self.angle = kwargs['angle']
+        self.velocity = kwargs['velocity']
+        self.weapon = list()
+        for weapon in kwargs['weapon']:
+            self.weapon.append(eval(weapon)())
+        self.max_health = kwargs['max_health']
         self.position = {'x': pygame.display.Info().current_w//2, 'y': pygame.display.Info().current_h//2}
-        self.weapon = [Pistol()]
         self.current_weapon = self.weapon[-1]
-        self.max_health = 1000
         self.health = self.max_health
 
-        img = pygame.image.load(os.path.abspath('player/src/marine.png')).convert()
-        img = pygame.transform.scale(img, (0.09*pygame.display.Info().current_w, 0.16*pygame.display.Info().current_h))
-        img.set_colorkey((255, 255, 255))
+        img = pygame.image.load(os.path.abspath(kwargs['sprite_path'])).convert()
+        img = pygame.transform.scale(img, (kwargs['scale'][0]*pygame.display.Info().current_w, kwargs['scale'][1]*pygame.display.Info().current_h))
+        img.set_colorkey((0, 0, 0))
         self.image = img
         self.rect = self.image.get_rect()
         self.rect.x = pygame.display.Info().current_w//2

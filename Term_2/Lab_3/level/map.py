@@ -12,6 +12,7 @@ class Map:
             Map.FONT_COLOR = conf['font_color']
             self.background = pygame.image.load(conf['background_path']).convert()
             self.font = pygame.font.Font(conf['font_path'], conf['font_size'])
+            self.player = Player(**conf['Player'])
 
         self.clock = pygame.time.Clock()
         self.display = display
@@ -19,7 +20,6 @@ class Map:
         self.background = pygame.transform.scale(self.background, (2*pygame.display.Info().current_w, 2*pygame.display.Info().current_h))
         self.rect = self.background.get_rect()
 
-        self.player = Player()
         self.player_group = pygame.sprite.GroupSingle()
         self.player_group.add(self.player)
         self.enemies = pygame.sprite.Group()
