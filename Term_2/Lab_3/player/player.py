@@ -13,7 +13,8 @@ class Player(pygame.sprite.Sprite):
         self.position = {'x': pygame.display.Info().current_w//2, 'y': pygame.display.Info().current_h//2}
         self.weapon = [Pistol()]
         self.current_weapon = self.weapon[-1]
-        self.health = 100
+        self.max_health = 1000
+        self.health = self.max_health
 
         img = pygame.image.load(os.path.abspath('player/src/marine.png')).convert()
         img = pygame.transform.scale(img, (0.09*pygame.display.Info().current_w, 0.16*pygame.display.Info().current_h))

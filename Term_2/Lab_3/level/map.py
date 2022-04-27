@@ -9,7 +9,9 @@ class Map:
         with open(conf_path, 'r') as file:
             conf = yaml.safe_load(file)
             self.BACK_COLOR = pygame.Color(conf['back_color'])
+            Map.FONT_COLOR = conf['font_color']
             self.background = pygame.image.load(conf['background_path']).convert()
+            self.font = pygame.font.Font(conf['font_path'], conf['font_size'])
 
         self.clock = pygame.time.Clock()
         self.display = display
@@ -18,6 +20,8 @@ class Map:
         self.rect = self.background.get_rect()
 
         self.player = Player()
+        self.player_group = pygame.sprite.GroupSingle()
+        self.player_group.add(self.player)
         self.enemies = pygame.sprite.Group()
         self.bullets = pygame.sprite.Group()
 
@@ -32,6 +36,13 @@ class Map:
         rot_image_rect = rot_image.get_rect(center = player_rect.center)
         self.rect.center = self.player.get_pos()
         self.display.blit(rot_image, rot_image_rect.topleft)
+
+
+    def draw_player_health(self):
+        percent = int(self.player.health/self.player.max_health * 100)
+        name = self.font.render(str(percent) + '%', True, Map.FONT_COLOR)
+        self.display.blit(name, (30, 30))
+        pygame.draw.rect(self.display, (0,0,0), [20, 20, name.get_width()+20, name.get_height()+20], 2)
 
 
     def update_background(self) -> None:
@@ -62,6 +73,7 @@ class Map:
         self.display.fill(self.BACK_COLOR)
         self.update_background()
         self.draw_player()
+        self.draw_player_health()
 
         self.bullets.update()
         self.bullets.draw(self.display)
