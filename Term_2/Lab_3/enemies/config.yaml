@@ -3,57 +3,67 @@ Goblin:
   velocity: 10
   health: 100
   damage: 5
+  scale: [0.1, 0.13]
 
 Archfiend:
   path_to_image: "enemies/src/archfiend"
   velocity: 13
   health: 350
   damage: 90
+  scale: [0.09, 0.16]
 
 Imp:
   path_to_image: "enemies/src/imp"
   velocity: 19
   health: 100
   damage: 5
+  scale: [0.09, 0.15]
 
 Floatingeye:
   path_to_image: "enemies/src/floatingeye"
   velocity: 5
   health: 500
   damage: 100
+  scale: [0.09, 0.16]
 
 Overlord:
   path_to_image: "enemies/src/overlord"
   velocity: 15
   health: 200
   damage: 35
+  scale: [0.09, 0.16]
 
 Gremlin:
   path_to_image: "enemies/src/gremlin"
   velocity: 17
   health: 30
   damage: 1
+  scale: [0.09, 0.16]
 
 Brute:
   path_to_image: "enemies/src/brute"
   velocity: 17
   health: 50
   damage: 30
+  scale: [0.07, 0.16]
 
 Pitbalor:
   path_to_image: "enemies/src/pitbalor"
   velocity: 14
   health: 80
   damage: 40
+  scale: [0.09, 0.16]
 
 Stalker:
   path_to_image: "enemies/src/stalker"
   velocity: 16
   health: 290
   damage: 70
+  scale: [0.06, 0.15]
 
 Tainted:
   path_to_image: "enemies/src/tainted"
   velocity: 13
   health: 60
   damage: 69
+  scale: [0.09, 0.16]
