@@ -17,6 +17,7 @@ class Player(pygame.sprite.Sprite):
         self.position = {'x': pygame.display.Info().current_w//2, 'y': pygame.display.Info().current_h//2}
         self.current_weapon = self.weapon[-1]
         self.health = self.max_health
+        self.score = 0
 
         img = pygame.image.load(os.path.abspath(kwargs['sprite_path'])).convert()
         img = pygame.transform.scale(img, (kwargs['scale'][0]*pygame.display.Info().current_w, kwargs['scale'][1]*pygame.display.Info().current_h))
@@ -60,6 +61,10 @@ class Player(pygame.sprite.Sprite):
         self.health -= damage
         if self.health <= 0:
             self.kill()
+
+
+    def up_score(self, score):
+        self.score += score
 
 
     def rotate(self, key: str) -> None:

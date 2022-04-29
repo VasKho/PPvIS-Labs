@@ -3,6 +3,7 @@ import pygame
 import yaml
 import random as rand
 from level.map import Map
+from player.player import Player
 from enemies.enemies import (
         Goblin,
         Archfiend,
@@ -18,8 +19,8 @@ from enemies.enemies import (
 
 
 class Level:
-    def __init__(self, display: pygame.surface.Surface, conf_path: str) -> None:
-        self.map = Map(display, conf_path)
+    def __init__(self, display: pygame.surface.Surface, conf_path: str, player: Player=None) -> None:
+        self.map = Map(display, conf_path, player)
         self.player = self.map.player
         self.num_of_enemies = 0
         with open(conf_path, 'r') as file:
@@ -40,7 +41,7 @@ class Level:
         self.map.enemies.add(enemy_object)
 
 
-    def start(self) -> bool:
+    def start(self) -> Player:
         pygame.mixer.music.play()
         pygame.mouse.set_visible(False)
 
@@ -112,7 +113,7 @@ class Level:
             if len(self.map.enemies) == 0:
                 pygame.mixer.music.stop()
                 pygame.mouse.set_visible(True)
-                return True
+                return self.player
 
-        return False
+        return None
     pass

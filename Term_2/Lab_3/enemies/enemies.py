@@ -18,6 +18,7 @@ class Enemy(ABC, pygame.sprite.Sprite):
         self.damage = kwargs['damage']
         self.change_direction_time = time.time()
         self.randomize_angle = 0
+        self.score = kwargs['score']
 
         for i in range(1, 41):
             # TODO: Fix floatingeye sprite
@@ -45,10 +46,12 @@ class Enemy(ABC, pygame.sprite.Sprite):
         self.rect.move_ip(int(self.velocity*res_cos), int(self.velocity*res_sin))
 
 
-    def get_damage(self, damage: int) -> None:
+    def get_damage(self, damage: int) -> bool:
         self.health -= damage
         if self.health <= 0:
             self.kill()
+            return True
+        return False
 
 
     def update(self) -> None:
