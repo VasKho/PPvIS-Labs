@@ -3,3 +3,9 @@ Pistol:
   damage: 1000
   bullet_image_path: "./weapon/src/bullet.png"
   bullet_velocity: 30
+
+Shotgun:
+  reload_time: 0.5
+  damage: 20
+  bullet_image_path: "./weapon/src/shotgun_bullet.png"
+  bullet_velocity: 35

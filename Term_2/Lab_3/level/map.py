@@ -2,11 +2,15 @@ import pygame
 import yaml
 from player.player import Player
 from enemies.enemies import Enemy
+from weapon.weapon import (
+    Pistol,
+    Shotgun
+    )
 import time
 
 
 class Map:
-    def __init__(self, display: pygame.surface.Surface, conf_path: str, player: Player=None) -> None:
+    def __init__(self, display: pygame.surface.Surface, conf_path: str, score: int=0) -> None:
         with open(conf_path, 'r') as file:
             conf = yaml.safe_load(file)
             self.BACK_COLOR = pygame.Color(conf['back_color'])
@@ -14,10 +18,7 @@ class Map:
             self.background = pygame.image.load(conf['background_path']).convert()
             self.font = pygame.font.Font(conf['font_path'], conf['font_size'])
             self.go_font = pygame.font.Font(conf['font_path'], 2*conf['font_size'])
-            if player:
-                self.player = player
-            else:
-                self.player = Player(**conf['Player'])
+            self.player = Player(**conf['Player'], score=score)
 
         self.clock = pygame.time.Clock()
         self.display = display
@@ -96,7 +97,7 @@ class Map:
         self.enemies.update()
         self.enemies.draw(self.display)
 
-        self.player_collide()
+        # self.player_collide()
         self.bullet_collide()
 
         pygame.display.update()

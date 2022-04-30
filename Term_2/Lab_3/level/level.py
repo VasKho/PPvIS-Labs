@@ -5,22 +5,22 @@ import random as rand
 from level.map import Map
 from player.player import Player
 from enemies.enemies import (
-        Goblin,
-        Archfiend,
-        Floatingeye,
-        Imp,
-        Overlord,
-        Brute,
-        Pitbalor,
-        Stalker,
-        Tainted,
-        Gremlin
-        )
+    Goblin,
+    Archfiend,
+    Floatingeye,
+    Imp,
+    Overlord,
+    Brute,
+    Pitbalor,
+    Stalker,
+    Tainted,
+    Gremlin
+    )
 
 
 class Level:
-    def __init__(self, display: pygame.surface.Surface, conf_path: str, player: Player=None) -> None:
-        self.map = Map(display, conf_path, player)
+    def __init__(self, display: pygame.surface.Surface, conf_path: str, score: int=0) -> None:
+        self.map = Map(display, conf_path, score)
         self.player = self.map.player
         self.num_of_enemies = 0
         with open(conf_path, 'r') as file:
@@ -41,7 +41,7 @@ class Level:
         self.map.enemies.add(enemy_object)
 
 
-    def start(self) -> Player:
+    def start(self) -> list[int, Player]:
         pygame.mixer.music.play()
         pygame.mouse.set_visible(False)
 
@@ -103,6 +103,11 @@ class Level:
                     for enemy in self.map.enemies:
                         enemy.rect.move_ip(-self.player.velocity, 0)
 
+            if key_pressed_is[pygame.K_1]:
+                self.player.change_weapon(0)
+            if key_pressed_is[pygame.K_2]:
+                self.player.change_weapon(1)
+
             if len(self.map.player_group) == 0:
                 self.map.draw_game_over()
                 pygame.mixer.music.stop()
@@ -114,7 +119,7 @@ class Level:
             if len(self.map.enemies) == 0:
                 pygame.mixer.music.stop()
                 pygame.mouse.set_visible(True)
-                return self.player
+                return [self.player.score, self.player]
 
-        return None
+        return [self.player.score, None]
     pass

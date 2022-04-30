@@ -17,13 +17,13 @@ max_levels = 2
 
 show_menu()
 level = Level(display, f"level/config/level1.yaml")
-player = level.start()
+score = level.start()
 
 while True:
     for i in range(2, max_levels+1):
-        if player:
-            level = Level(display, f"level/config/level{i}.yaml", player)
+        if score[1]:
+            level = Level(display, f"level/config/level{i}.yaml", score[0])
         else:
             break
-        player = level.start()
+        score = level.start()
     show_menu()

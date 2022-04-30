@@ -59,3 +59,24 @@ class Pistol(Weapon):
             self.last_reload_time = time.time()
             return self.bullet
     pass
+
+
+class Shotgun(Weapon):
+    def __init__(self) -> None:
+        with open("weapon/config.yaml", 'r') as file:
+            conf = yaml.safe_load(file)
+            super().__init__(conf['Shotgun']['reload_time'])
+            self.damage = conf['Shotgun']['damage']
+            self.bullet_image_path = conf['Shotgun']['bullet_image_path']
+            self.bullet_velocity = conf['Shotgun']['bullet_velocity']
+        self.reloading = False
+        self.last_reload_time = time.time()
+
+
+    def fire(self, owner):
+        if not self.reloading:
+            self.bullet = Bullet(self.damage, self.bullet_image_path, self.bullet_velocity, owner.angle)
+            self.bullet.rect = self.bullet.image.get_rect(center=(pygame.display.Info().current_w//2, pygame.display.Info().current_h//2))
+            self.last_reload_time = time.time()
+            return self.bullet
+    pass
