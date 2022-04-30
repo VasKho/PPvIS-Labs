@@ -104,6 +104,7 @@ class Level:
                         enemy.rect.move_ip(-self.player.velocity, 0)
 
             if len(self.map.player_group) == 0:
+                self.map.draw_game_over()
                 pygame.mixer.music.stop()
                 pygame.mouse.set_visible(True)
                 break

@@ -2,6 +2,7 @@ import pygame
 import yaml
 from player.player import Player
 from enemies.enemies import Enemy
+import time
 
 
 class Map:
@@ -12,6 +13,7 @@ class Map:
             Map.FONT_COLOR = conf['font_color']
             self.background = pygame.image.load(conf['background_path']).convert()
             self.font = pygame.font.Font(conf['font_path'], conf['font_size'])
+            self.go_font = pygame.font.Font(conf['font_path'], 2*conf['font_size'])
             if player:
                 self.player = player
             else:
@@ -51,6 +53,12 @@ class Map:
         pygame.draw.rect(self.display, (0,0,0), [pygame.display.Info().current_w//2, 30, score.get_width()+20, score.get_height()+20], 2)
 
 
+    def draw_game_over(self) -> None:
+        go = self.go_font.render("YOU DIED", True, Map.FONT_COLOR)
+        self.display.blit(go, (pygame.display.Info().current_w//2 - go.get_width()//2, pygame.display.Info().current_h//2 - go.get_height()//2))
+        pygame.display.update()
+        time.sleep(1)
+
 
     def update_background(self) -> None:
         self.display.blit(self.background, self.rect.topleft)
@@ -70,7 +78,6 @@ class Map:
                     if enemy.get_damage(bullet.damage):
                         self.player.up_score(enemy.score)
                     # enemy.kill()
-                
 
 
     def update(self) -> None:
@@ -89,7 +96,7 @@ class Map:
         self.enemies.update()
         self.enemies.draw(self.display)
 
-        # self.player_collide()
+        self.player_collide()
         self.bullet_collide()
 
         pygame.display.update()
