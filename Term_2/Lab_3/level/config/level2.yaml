@@ -9,7 +9,7 @@ font_size: 60
 Player:
   angle: 180
   velocity: 20
-  weapon: [Pistol, Shotgun]
+  weapon: [Shotgun, Minigun]
   max_health: 1000
   sprite_path: "player/src/marine.png"
   scale: [0.07, 0.15]

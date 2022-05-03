@@ -1,11 +1,15 @@
-Pistol:
-  reload_time: 0.5
-  damage: 1000
-  bullet_image_path: "./weapon/src/bullet.png"
-  bullet_velocity: 30
-
 Shotgun:
   reload_time: 0.5
-  damage: 20
-  bullet_image_path: "./weapon/src/shotgun_bullet.png"
+  damage: 1000
+  bullet_image_path: "weapon/src/shotgun_bullet.png"
+  bullet_velocity: 30
+  weapon_image_path: "weapon/src/shotgun.png"
+  weapon_scale: [0.1, 0.1]
+
+Minigun:
+  reload_time: 0.01
+  damage: 5
+  bullet_image_path: "weapon/src/minigun_bullet.png"
   bullet_velocity: 35
+  weapon_image_path: "weapon/src/minigun.png"
+  weapon_scale: [0.1, 0.1]

@@ -27,7 +27,7 @@ Floatingeye:
   velocity: 5
   health: 500
   damage: 100
-  scale: [0.09, 0.16]
+  scale: [0.06, 0.13]
   score: 61
 
 Overlord:

@@ -4,6 +4,7 @@ import os
 from math import sin, cos, radians
 from abc import ABC, abstractclassmethod
 import time
+from random import choice
 
 
 class Bullet(pygame.sprite.Sprite):
@@ -11,7 +12,7 @@ class Bullet(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load(os.path.abspath(bullet_image)).convert()
         self.image = pygame.transform.scale(self.image, (0.01*pygame.display.Info().current_w, 0.01*pygame.display.Info().current_h))
-        self.image.set_colorkey((255, 255, 255))
+        self.image.set_colorkey((0, 0, 0))
         self.velocity = velocity
         self.angle = angle
         self.rect = self.image.get_rect()
@@ -40,14 +41,19 @@ class Weapon(ABC):
         pass
 
 
-class Pistol(Weapon):
+class Shotgun(Weapon):
     def __init__(self) -> None:
         with open("weapon/config.yaml", 'r') as file:
             conf = yaml.safe_load(file)
-            super().__init__(conf['Pistol']['reload_time'])
-            self.damage = conf['Pistol']['damage']
-            self.bullet_image_path = conf['Pistol']['bullet_image_path']
-            self.bullet_velocity = conf['Pistol']['bullet_velocity']
+            super().__init__(conf['Shotgun']['reload_time'])
+            self.damage = conf['Shotgun']['damage']
+            self.bullet_image_path = conf['Shotgun']['bullet_image_path']
+            self.bullet_velocity = conf['Shotgun']['bullet_velocity']
+            self.image = pygame.image.load(conf['Shotgun']['weapon_image_path']).convert()
+            self.image.set_colorkey((0, 0, 0))
+            self.image = pygame.transform.scale(self.image, (\
+                    conf['Shotgun']['weapon_scale'][0]*pygame.display.Info().current_w,\
+                    conf['Shotgun']['weapon_scale'][1]*pygame.display.Info().current_h))
         self.reloading = False
         self.last_reload_time = time.time()
 
@@ -61,14 +67,19 @@ class Pistol(Weapon):
     pass
 
 
-class Shotgun(Weapon):
+class Minigun(Weapon):
     def __init__(self) -> None:
         with open("weapon/config.yaml", 'r') as file:
             conf = yaml.safe_load(file)
-            super().__init__(conf['Shotgun']['reload_time'])
-            self.damage = conf['Shotgun']['damage']
-            self.bullet_image_path = conf['Shotgun']['bullet_image_path']
-            self.bullet_velocity = conf['Shotgun']['bullet_velocity']
+            super().__init__(conf['Minigun']['reload_time'])
+            self.damage = conf['Minigun']['damage']
+            self.bullet_image_path = conf['Minigun']['bullet_image_path']
+            self.bullet_velocity = conf['Minigun']['bullet_velocity']
+            self.image = pygame.image.load(conf['Minigun']['weapon_image_path']).convert()
+            self.image.set_colorkey((0, 0, 0))
+            self.image = pygame.transform.scale(self.image, (\
+                    conf['Minigun']['weapon_scale'][0]*pygame.display.Info().current_w,\
+                    conf['Minigun']['weapon_scale'][1]*pygame.display.Info().current_h))
         self.reloading = False
         self.last_reload_time = time.time()
 
@@ -76,7 +87,8 @@ class Shotgun(Weapon):
     def fire(self, owner):
         if not self.reloading:
             self.bullet = Bullet(self.damage, self.bullet_image_path, self.bullet_velocity, owner.angle)
-            self.bullet.rect = self.bullet.image.get_rect(center=(pygame.display.Info().current_w//2, pygame.display.Info().current_h//2))
+            normalize = choice([0, 5, 10])
+            self.bullet.rect = self.bullet.image.get_rect(center=(pygame.display.Info().current_w//2+normalize, pygame.display.Info().current_h//2+normalize))
             self.last_reload_time = time.time()
             return self.bullet
     pass

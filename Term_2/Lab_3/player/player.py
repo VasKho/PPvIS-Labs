@@ -4,8 +4,8 @@ import time
 
 from weapon.weapon import (
     Weapon,
-    Pistol,
     Shotgun,
+    Minigun,
     Bullet
     )
 
@@ -96,11 +96,6 @@ class Player(pygame.sprite.Sprite):
                 self.angle = (self.angle - 9) % 360
             elif self.angle in range(271, 360) or self.angle in range(0, 90):
                 self.angle = (self.angle + 9) % 360
-
-
-    def pickup_weapon(self, weapon: Weapon) -> None:
-        self.weapon.append(weapon) 
-        self.current_weapon = self.weapon[-1]
 
 
     def change_weapon(self, number: int) -> None:

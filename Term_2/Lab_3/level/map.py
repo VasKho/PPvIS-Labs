@@ -3,8 +3,8 @@ import yaml
 from player.player import Player
 from enemies.enemies import Enemy
 from weapon.weapon import (
-    Pistol,
-    Shotgun
+    Shotgun,
+    Minigun
     )
 import time
 
@@ -52,6 +52,7 @@ class Map:
         score = self.font.render(str(self.player.score), True, Map.FONT_COLOR)
         self.display.blit(score, (pygame.display.Info().current_w//2+10, 30))
         pygame.draw.rect(self.display, (0,0,0), [pygame.display.Info().current_w//2, 30, score.get_width()+20, score.get_height()+20], 2)
+        self.display.blit(self.player.current_weapon.image, (300, 20))
 
 
     def draw_game_over(self) -> None:

@@ -21,7 +21,6 @@ class Enemy(ABC, pygame.sprite.Sprite):
         self.score = kwargs['score']
 
         for i in range(1, 41):
-            # TODO: Fix floatingeye sprite
             current_image = [im for im in glob.glob(kwargs['path_to_image'] + '/*-' + str(i) + '.png')]
             img = pygame.image.load(current_image[0]).convert()
             img = pygame.transform.scale(img, (kwargs['scale'][0]*pygame.display.Info().current_w, kwargs['scale'][1]*pygame.display.Info().current_h))
