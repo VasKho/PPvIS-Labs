@@ -56,10 +56,68 @@ class Map:
 
 
     def draw_game_over(self) -> None:
-        go = self.go_font.render("YOU DIED", True, Map.FONT_COLOR)
+        go = self.go_font.render("EMOTIONAL DAMAGE", True, Map.FONT_COLOR)
         self.display.blit(go, (pygame.display.Info().current_w//2 - go.get_width()//2, pygame.display.Info().current_h//2 - go.get_height()//2))
         pygame.display.update()
         time.sleep(1)
+
+
+    def get_input(self) -> str:
+        self.display.fill(self.BACK_COLOR)
+        self.update_background()
+        self.draw_player()
+        self.draw_player_stats()
+        self.enemies.draw(self.display)
+        pygame.display.update()
+        user_text = ''
+
+        input_rect = pygame.Rect(pygame.display.Info().current_w//2-300, pygame.display.Info().current_h//2-50, 600, 100)
+        clock = pygame.time.Clock()
+        active = False
+        color = (255, 153, 51)
+
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    return None
+
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if input_rect.collidepoint(event.pos):
+                        active = True
+                    else:
+                        active = False
+
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_RETURN:
+                        return user_text
+
+                    if event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_ESCAPE:
+                            return None
+
+                    if event.key == pygame.K_BACKSPACE:
+                        self.display.fill(self.BACK_COLOR)
+                        self.update_background()
+                        self.draw_player()
+                        self.draw_player_stats()
+                        self.enemies.draw(self.display)
+                        pygame.draw.rect(self.display, color, input_rect)
+                        user_text = user_text[:-1]
+                    elif event.key != pygame.K_ESCAPE:
+                        user_text += event.unicode
+
+                if active:
+                    color = (153, 153, 255)
+                else:
+                    color = (255, 153, 51)
+            
+                
+            pygame.draw.rect(self.display, color, input_rect)
+            text_surface = self.font.render(user_text, True, Map.FONT_COLOR)
+            self.display.blit(text_surface, (input_rect.x+30, input_rect.y+30))
+            input_rect.w = min(1000, text_surface.get_width()+10)
+            pygame.display.flip()
+            clock.tick(60)
 
 
     def update_background(self) -> None:
@@ -79,7 +137,6 @@ class Map:
                     bullet.kill()
                     if enemy.get_damage(bullet.damage):
                         self.player.up_score(enemy.score)
-                    # enemy.kill()
 
 
     def update(self) -> None:
@@ -98,7 +155,7 @@ class Map:
         self.enemies.update()
         self.enemies.draw(self.display)
 
-        # self.player_collide()
+        self.player_collide()
         self.bullet_collide()
 
         pygame.display.update()

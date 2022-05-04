@@ -1,3 +1,4 @@
+import score_table.score as st
 import threading
 import pygame
 import yaml
@@ -16,6 +17,10 @@ from enemies.enemies import (
     Tainted,
     Gremlin
     )
+
+
+DEATH = pygame.USEREVENT + 0
+PASS = pygame.USEREVENT + 1
 
 
 class Level:
@@ -41,7 +46,7 @@ class Level:
         self.map.enemies.add(enemy_object)
 
 
-    def start(self) -> list[int, Player]:
+    def start(self):
         pygame.mixer.music.play()
         pygame.mouse.set_visible(False)
 
@@ -110,8 +115,13 @@ class Level:
 
             if len(self.map.player_group) == 0:
                 self.map.draw_game_over()
-                pygame.mixer.music.stop()
                 pygame.mouse.set_visible(True)
+                # score_table = st.ScoreTable.read_from_xml("score_table/score_table.xml")
+                # name = self.map.get_input()
+                # if name:
+                #     score_table.add(name=name, score=self.player.score)
+                #     st.ScoreTable.write_to_xml(score_table, "score_table/score_table.xml")
+                pygame.mixer.music.stop()
                 break
 
 
@@ -119,7 +129,8 @@ class Level:
             if len(self.map.enemies) == 0:
                 pygame.mixer.music.stop()
                 pygame.mouse.set_visible(True)
-                return [self.player.score, self.player]
+                pygame.event.post(pygame.event.Event(PASS, score=self.player.score))
+                return
 
-        return [self.player.score, None]
+        pygame.event.post(pygame.event.Event(DEATH, score=self.player.score))
     pass

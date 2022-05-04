@@ -1,29 +1,24 @@
 import pygame
 from menu.menu import Menu
-from level.level import Level
+from level.level import Level, DEATH, PASS
 
 
-def show_menu() -> None:
-    menu = Menu(display)
-    menu.run()
-    del menu
-
+def start_game():
+    level_number = 1
+    while level_number < max_levels:
+        if level_number == 1:
+            level = Level(display, "level/config/level1.yaml")
+            level.start()
+        for event in pygame.event.get():
+            if event.type == DEATH:
+                return
+            if event.type == PASS:
+                level_number += 1
+                level = Level(display, f"level/config/level{level_number}.yaml", event.score)
+                level.start()
 
 pygame.init()
+max_levels = 3
 display = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
-
-level_number = 1
-max_levels = 2
-
-show_menu()
-level = Level(display, f"level/config/level1.yaml")
-score = level.start()
-
-while True:
-    for i in range(2, max_levels+1):
-        if score[1]:
-            level = Level(display, f"level/config/level{i}.yaml", score[0])
-        else:
-            break
-        score = level.start()
-    show_menu()
+menu = Menu(display, start=start_game, show_score=None, help=None)
+menu.run()
