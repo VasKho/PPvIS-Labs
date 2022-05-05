@@ -116,11 +116,13 @@ class Level:
             if len(self.map.player_group) == 0:
                 self.map.draw_game_over()
                 pygame.mouse.set_visible(True)
-                # score_table = st.ScoreTable.read_from_xml("score_table/score_table.xml")
-                # name = self.map.get_input()
-                # if name:
-                #     score_table.add(name=name, score=self.player.score)
-                #     st.ScoreTable.write_to_xml(score_table, "score_table/score_table.xml")
+                score_table = st.ScoreTable.read_from_xml("score_table/score_table.xml")
+                name = self.map.get_input()
+                if name:
+                    score_table.add(name=name, score=self.player.score)
+                else: 
+                    score_table.add(name="Unknown", score=self.player.score)
+                st.ScoreTable.write_to_xml(score_table, "score_table/score_table.xml")
                 pygame.mixer.music.stop()
                 break
 

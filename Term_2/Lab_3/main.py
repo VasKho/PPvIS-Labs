@@ -1,6 +1,7 @@
 import pygame
 from menu.menu import Menu
 from level.level import Level, DEATH, PASS
+import time
 
 
 def start_game():

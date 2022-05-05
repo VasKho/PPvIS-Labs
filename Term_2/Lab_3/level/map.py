@@ -7,6 +7,8 @@ from weapon.weapon import (
     Minigun
     )
 import time
+import pygame_menu
+from menu.menu import MenuTheme
 
 
 class Map:
@@ -16,6 +18,7 @@ class Map:
             self.BACK_COLOR = pygame.Color(conf['back_color'])
             Map.FONT_COLOR = conf['font_color']
             self.background = pygame.image.load(conf['background_path']).convert()
+            self.font_path = conf['font_path']
             self.font = pygame.font.Font(conf['font_path'], conf['font_size'])
             self.go_font = pygame.font.Font(conf['font_path'], 2*conf['font_size'])
             self.player = Player(**conf['Player'], score=score)
@@ -36,7 +39,7 @@ class Map:
         self.enemies.add(enemy())
 
 
-    def draw_player(self) -> None:
+    def __draw_player(self) -> None:
         player_rect = self.player.image.get_rect(center=(pygame.display.Info().current_w//2, pygame.display.Info().current_h//2))
         rot_image = pygame.transform.rotate(self.player.image, self.player.angle)
         rot_image_rect = rot_image.get_rect(center = player_rect.center)
@@ -44,7 +47,7 @@ class Map:
         self.display.blit(rot_image, rot_image_rect.topleft)
 
 
-    def draw_player_stats(self):
+    def __draw_player_stats(self):
         percent = int(self.player.health/self.player.max_health * 100)
         health = self.font.render(str(percent) + '%', True, Map.FONT_COLOR)
         self.display.blit(health, (30, 30))
@@ -63,74 +66,46 @@ class Map:
 
 
     def get_input(self) -> str:
+        self._player_name = None
+        menu = pygame_menu.Menu('', 
+                1000,
+                400,
+                theme=MenuTheme()
+                )
+        menu.set_title("Enter your name")
+        menu.add.vertical_margin(30)
+
+        def _write_input(Name):
+            self._player_name = Name
+
+        menu.add.text_input("Name: ", font_name=self.font_path, onchange=_write_input, maxchar=15)
+        menu.add.vertical_fill()
+        menu.add.button("Confirm", menu.disable)
+        menu.add.vertical_margin(30)
+        menu.mainloop(self.display, bgfun=self.__draw_context)
+        return self._player_name
+
+
+    def __draw_context(self):
         self.display.fill(self.BACK_COLOR)
-        self.update_background()
-        self.draw_player()
-        self.draw_player_stats()
+        self.__update_background()
+        self.__draw_player()
+        self.__draw_player_stats()
+        self.bullets.draw(self.display)
         self.enemies.draw(self.display)
-        pygame.display.update()
-        user_text = ''
-
-        input_rect = pygame.Rect(pygame.display.Info().current_w//2-300, pygame.display.Info().current_h//2-50, 600, 100)
-        clock = pygame.time.Clock()
-        active = False
-        color = (255, 153, 51)
-
-        while True:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    return None
-
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    if input_rect.collidepoint(event.pos):
-                        active = True
-                    else:
-                        active = False
-
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_RETURN:
-                        return user_text
-
-                    if event.type == pygame.KEYDOWN:
-                        if event.key == pygame.K_ESCAPE:
-                            return None
-
-                    if event.key == pygame.K_BACKSPACE:
-                        self.display.fill(self.BACK_COLOR)
-                        self.update_background()
-                        self.draw_player()
-                        self.draw_player_stats()
-                        self.enemies.draw(self.display)
-                        pygame.draw.rect(self.display, color, input_rect)
-                        user_text = user_text[:-1]
-                    elif event.key != pygame.K_ESCAPE:
-                        user_text += event.unicode
-
-                if active:
-                    color = (153, 153, 255)
-                else:
-                    color = (255, 153, 51)
-            
-                
-            pygame.draw.rect(self.display, color, input_rect)
-            text_surface = self.font.render(user_text, True, Map.FONT_COLOR)
-            self.display.blit(text_surface, (input_rect.x+30, input_rect.y+30))
-            input_rect.w = min(1000, text_surface.get_width()+10)
-            pygame.display.flip()
-            clock.tick(60)
 
 
-    def update_background(self) -> None:
+    def __update_background(self) -> None:
         self.display.blit(self.background, self.rect.topleft)
 
 
-    def player_collide(self) -> None:
+    def __player_collide(self) -> None:
         for enemy in self.enemies:
             if self.player.rect.colliderect(enemy.rect):
                 self.player.get_damage(enemy.damage)
 
 
-    def bullet_collide(self) -> None:
+    def __bullet_collide(self) -> None:
         for bullet in self.bullets:
             for enemy in self.enemies:
                 if bullet.rect.colliderect(enemy.rect):
@@ -143,20 +118,12 @@ class Map:
         for en in self.enemies:
             en.trace(self.player.rect.topleft)
             en.rect.clamp_ip(self.rect)
-
-        self.display.fill(self.BACK_COLOR)
-        self.update_background()
-        self.draw_player()
-        self.draw_player_stats()
-
         self.bullets.update()
-        self.bullets.draw(self.display)
-
         self.enemies.update()
-        self.enemies.draw(self.display)
+        self.__player_collide()
+        self.__bullet_collide()
 
-        self.player_collide()
-        self.bullet_collide()
+        self.__draw_context()
 
         pygame.display.update()
         self.clock.tick(40)

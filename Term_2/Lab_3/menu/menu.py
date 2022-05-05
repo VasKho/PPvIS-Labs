@@ -3,20 +3,26 @@ import yaml
 import pygame_menu
 
 
+class MenuTheme(pygame_menu.Theme):
+    def __init__(self) -> None:
+        super().__init__()
+        with open("menu/config.yaml", 'r') as file:
+            conf = yaml.safe_load(file)
+            self.background_color = pygame.Color(conf['back_color'])
+            self.widget_font = conf['font_path']
+            self.widget_font_color = conf['font_color']
+            self.widget_border_color = conf['button_color']
+            self.title_font_size = conf['name_font_size']
+            self.title_font = conf['font_path']
+            self.title_font_color = conf['font_color']
+            self.widget_font_size = conf['buttons_font_size']
+            self.title_bar_style = pygame_menu.widgets.MENUBAR_STYLE_NONE
+
+
 class Menu:
     def __init__(self, display, **kwargs) -> None:
         self.display = display
-        self.theme = pygame_menu.Theme()
-        with open("menu/config.yaml", 'r') as file:
-            conf = yaml.safe_load(file)
-            self.theme.background_color = pygame.Color(conf['back_color'])
-            self.theme.widget_font = conf['font_path']
-            self.theme.widget_font_color = conf['font_color']
-            self.theme.widget_border_color = conf['button_color']
-            self.theme.title_font_size = conf['name_font_size']
-            self.theme.widget_font_size = conf['buttons_font_size']
-            self.theme.title_bar_style = pygame_menu.widgets.MENUBAR_STYLE_NONE
-
+        self.theme = MenuTheme()
         self.menu = pygame_menu.Menu('', 
                 pygame.display.Info().current_w,
                 pygame.display.Info().current_h,
