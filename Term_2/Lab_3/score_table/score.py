@@ -9,7 +9,7 @@ class ScoreTable:
 
 
     def add(self, name: str, score: int) -> None:
-        self.fields.update({name: score})
+        self.fields.update({str(name): int(score)})
 
 
     @staticmethod
@@ -27,6 +27,12 @@ class ScoreTable:
         
     @staticmethod
     def write_to_xml(score_table, path: str):
+        marklist = sorted(((value, key) for (key,value) in score_table.fields.items()), reverse=True)
+        sortdict = dict([(k, v) for v, k in marklist])
+        filtered_table = ScoreTable()
+        for index, pair in enumerate(sortdict.items()):
+            if index < 10:
+                filtered_table.add(pair[0], pair[1])
         def create_field(dom: minidom.Document, tag_name: str, text) -> minidom.Element:
             tag = dom.createElement(tag_name)
             text_node = dom.createTextNode(text)
@@ -36,19 +42,13 @@ class ScoreTable:
         with open(path, mode="w") as xml_file:
             DOMTree = minidom.Document()
             table = DOMTree.createElement("score_table")
-            for (key, value) in score_table.fields.items():
+            for (key, value) in filtered_table.fields.items():
                 player = DOMTree.createElement('player')
                 player.appendChild(create_field(DOMTree, "name", key))
                 player.appendChild(create_field(DOMTree, "score", str(value)))
                 table.appendChild(player)
             DOMTree.appendChild(table)
             DOMTree.writexml(xml_file, addindent='\t', newl='\n', encoding="UTF-8")
-
-
-    def __str__(self):
-        marklist = sorted((value, key) for (key, value) in self.fields.items())
-        sortdict = dict([(k, v) for v, k in marklist])
-        return str(sortdict)
     pass
 
 
@@ -61,7 +61,6 @@ class ScoreTableHandler(handler.ContentHandler):
 
     def startElement(self, tag, attributes):
         self.CurrentData = tag
-        pass
 
 
     def endElement(self, tag):
@@ -78,5 +77,4 @@ class ScoreTableHandler(handler.ContentHandler):
             self.name = content
         elif self.CurrentData == "score":
             self.score = content
-        pass
     pass

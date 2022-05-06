@@ -1,9 +1,7 @@
 import pygame
 import score_table.score as st
-from level.map import Map
 from menu.menu import Menu
 from level.level import Level, DEATH, PASS
-import time
 
 
 def start_game():
@@ -39,5 +37,5 @@ def start_game():
 pygame.init()
 max_levels = 3
 display = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
-menu = Menu(display, start=start_game, show_score=None, help=None)
+menu = Menu(display, start=start_game)
 menu.run()
