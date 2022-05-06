@@ -55,12 +55,14 @@ class Shotgun(Weapon):
                     conf['Shotgun']['weapon_scale'][0]*pygame.display.Info().current_w,\
                     conf['Shotgun']['weapon_scale'][1]*pygame.display.Info().current_h))
             self.bullet_scale = conf['Shotgun']['bullet_scale']
+            self.sound = pygame.mixer.Sound(conf['Shotgun']['sound_path'])
         self.reloading = False
         self.last_reload_time = time.time()
 
 
     def fire(self, owner):
         if not self.reloading:
+            self.sound.play()
             self.bullet = Bullet(self.damage, self.bullet_image_path, self.bullet_velocity, owner.angle, self.bullet_scale)
             self.bullet.rect = self.bullet.image.get_rect(center=(pygame.display.Info().current_w//2, pygame.display.Info().current_h//2))
             self.last_reload_time = time.time()
@@ -82,12 +84,14 @@ class Minigun(Weapon):
                     conf['Minigun']['weapon_scale'][0]*pygame.display.Info().current_w,\
                     conf['Minigun']['weapon_scale'][1]*pygame.display.Info().current_h))
             self.bullet_scale = conf['Minigun']['bullet_scale']
+            self.sound = pygame.mixer.Sound(conf['Minigun']['sound_path'])
         self.reloading = False
         self.last_reload_time = time.time()
 
 
     def fire(self, owner):
         if not self.reloading:
+            self.sound.play()
             self.bullet = Bullet(self.damage, self.bullet_image_path, self.bullet_velocity, owner.angle, self.bullet_scale)
             normalize = choice([0, 5, 10])
             self.bullet.rect = self.bullet.image.get_rect(center=(pygame.display.Info().current_w//2+normalize, pygame.display.Info().current_h//2+normalize))
@@ -110,12 +114,14 @@ class RBG(Weapon):
                     conf['RBG']['weapon_scale'][0]*pygame.display.Info().current_w,\
                     conf['RBG']['weapon_scale'][1]*pygame.display.Info().current_h))
             self.bullet_scale = conf['RBG']['bullet_scale']
+            self.sound = pygame.mixer.Sound(conf['RBG']['sound_path'])
         self.reloading = False
         self.last_reload_time = time.time()
 
 
     def fire(self, owner):
         if not self.reloading:
+            self.sound.play()
             self.bullet = Bullet(self.damage, self.bullet_image_path, self.bullet_velocity, owner.angle, self.bullet_scale)
             self.bullet.rect = self.bullet.image.get_rect(center=(pygame.display.Info().current_w//2, pygame.display.Info().current_h//2))
             self.last_reload_time = time.time()

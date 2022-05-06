@@ -6,6 +6,7 @@ Shotgun:
   weapon_image_path: "weapon/src/shotgun.png"
   weapon_scale: [0.1, 0.1]
   bullet_scale: [0.02, 0.03]
+  sound_path: "weapon/src/shotgun.mp3"
 
 Minigun:
   reload_time: 0.01
@@ -15,6 +16,7 @@ Minigun:
   weapon_image_path: "weapon/src/minigun.png"
   weapon_scale: [0.1, 0.1]
   bullet_scale: [0.01, 0.01]
+  sound_path: "weapon/src/minigun.mp3"
 
 RBG:
   reload_time: 0.7
@@ -24,3 +26,4 @@ RBG:
   weapon_image_path: "weapon/src/RBG.png"
   weapon_scale: [0.1, 0.1]
   bullet_scale: [0.03, 0.05]
+  sound_path: "weapon/src/RBG.mp3"

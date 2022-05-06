@@ -124,7 +124,7 @@ class Map:
             en.rect.clamp_ip(self.rect)
         self.bullets.update()
         self.enemies.update()
-        self._player_collide()
+        # self._player_collide()
         self._bullet_collide()
 
         self._draw_context()
