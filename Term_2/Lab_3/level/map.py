@@ -4,7 +4,8 @@ from player.player import Player
 from enemies.enemies import Enemy
 from weapon.weapon import (
     Shotgun,
-    Minigun
+    Minigun,
+    RBG
     )
 import time
 import pygame_menu
@@ -39,7 +40,7 @@ class Map:
         self.enemies.add(enemy())
 
 
-    def __draw_player(self) -> None:
+    def _draw_player(self) -> None:
         player_rect = self.player.image.get_rect(center=(pygame.display.Info().current_w//2, pygame.display.Info().current_h//2))
         rot_image = pygame.transform.rotate(self.player.image, self.player.angle)
         rot_image_rect = rot_image.get_rect(center = player_rect.center)
@@ -47,7 +48,7 @@ class Map:
         self.display.blit(rot_image, rot_image_rect.topleft)
 
 
-    def __draw_player_stats(self):
+    def _draw_player_stats(self):
         percent = int(self.player.health/self.player.max_health * 100)
         health = self.font.render(str(percent) + '%', True, Map.FONT_COLOR)
         self.display.blit(health, (30, 30))
@@ -82,30 +83,30 @@ class Map:
         menu.add.vertical_fill()
         menu.add.button("Confirm", menu.disable)
         menu.add.vertical_margin(30)
-        menu.mainloop(self.display, bgfun=self.__draw_context)
+        menu.mainloop(self.display, bgfun=self._draw_context)
         return self._player_name
 
 
-    def __draw_context(self):
+    def _draw_context(self):
         self.display.fill(self.BACK_COLOR)
-        self.__update_background()
-        self.__draw_player()
-        self.__draw_player_stats()
+        self._update_background()
+        self._draw_player()
+        self._draw_player_stats()
         self.bullets.draw(self.display)
         self.enemies.draw(self.display)
 
 
-    def __update_background(self) -> None:
+    def _update_background(self) -> None:
         self.display.blit(self.background, self.rect.topleft)
 
 
-    def __player_collide(self) -> None:
+    def _player_collide(self) -> None:
         for enemy in self.enemies:
             if self.player.rect.colliderect(enemy.rect):
                 self.player.get_damage(enemy.damage)
 
 
-    def __bullet_collide(self) -> None:
+    def _bullet_collide(self) -> None:
         for bullet in self.bullets:
             for enemy in self.enemies:
                 if bullet.rect.colliderect(enemy.rect):
@@ -116,14 +117,17 @@ class Map:
 
     def update(self) -> None:
         for en in self.enemies:
-            en.trace(self.player.rect.topleft)
+            if len(self.enemies) < 3:
+                en.trace(self.player.rect.topleft, randomize=False)
+            else:
+                en.trace(self.player.rect.topleft)
             en.rect.clamp_ip(self.rect)
         self.bullets.update()
         self.enemies.update()
-        self.__player_collide()
-        self.__bullet_collide()
+        # self._player_collide()
+        self._bullet_collide()
 
-        self.__draw_context()
+        self._draw_context()
 
         pygame.display.update()
         self.clock.tick(40)

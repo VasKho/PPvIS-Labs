@@ -33,10 +33,6 @@ class Level:
             self.enemy_list = conf['enemies']
             self.max_number_of_enemies = conf['number_of_enemies']
 
-        pygame.mixer.init()
-        pygame.mixer.music.load('./soundtrack/game/doom.ogg')
-        pygame.mixer.music.set_volume(0.7)
-
 
     def spawn_enemy(self) -> None:
         en = eval(rand.choice(self.enemy_list))
@@ -47,7 +43,6 @@ class Level:
 
 
     def start(self):
-        pygame.mixer.music.play()
         pygame.mouse.set_visible(False)
 
         spawn = threading.Thread(target=self.spawn_enemy)
@@ -112,10 +107,13 @@ class Level:
                 self.player.change_weapon(0)
             if key_pressed_is[pygame.K_2]:
                 self.player.change_weapon(1)
+            if key_pressed_is[pygame.K_3]:
+                self.player.change_weapon(2)
 
             if len(self.map.player_group) == 0:
                 self.map.draw_game_over()
                 pygame.mouse.set_visible(True)
+                pygame.mixer.music.stop()
                 score_table = st.ScoreTable.read_from_xml("score_table/score_table.xml")
                 name = self.map.get_input()
                 if name:
@@ -123,13 +121,11 @@ class Level:
                 else: 
                     score_table.add(name="Unknown", score=self.player.score)
                 st.ScoreTable.write_to_xml(score_table, "score_table/score_table.xml")
-                pygame.mixer.music.stop()
                 break
 
 
             self.map.update()
             if len(self.map.enemies) == 0:
-                pygame.mixer.music.stop()
                 pygame.mouse.set_visible(True)
                 pygame.event.post(pygame.event.Event(PASS, score=self.player.score))
                 return

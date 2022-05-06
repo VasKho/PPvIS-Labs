@@ -5,6 +5,7 @@ Shotgun:
   bullet_velocity: 30
   weapon_image_path: "weapon/src/shotgun.png"
   weapon_scale: [0.1, 0.1]
+  bullet_scale: [0.02, 0.03]
 
 Minigun:
   reload_time: 0.01
@@ -13,3 +14,13 @@ Minigun:
   bullet_velocity: 35
   weapon_image_path: "weapon/src/minigun.png"
   weapon_scale: [0.1, 0.1]
+  bullet_scale: [0.01, 0.01]
+
+RBG:
+  reload_time: 0.7
+  damage: 250
+  bullet_image_path: "weapon/src/RBG_bullet.png"
+  bullet_velocity: 25
+  weapon_image_path: "weapon/src/RBG.png"
+  weapon_scale: [0.1, 0.1]
+  bullet_scale: [0.03, 0.05]

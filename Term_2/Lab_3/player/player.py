@@ -6,6 +6,7 @@ from weapon.weapon import (
     Weapon,
     Shotgun,
     Minigun,
+    RBG,
     Bullet
     )
 

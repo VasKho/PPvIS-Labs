@@ -8,10 +8,10 @@ from random import choice
 
 
 class Bullet(pygame.sprite.Sprite):
-    def __init__(self, damage: int, bullet_image: str, velocity: int, angle: int) -> None:
+    def __init__(self, damage: int, bullet_image: str, velocity: int, angle: int, scale: tuple[int, int]) -> None:
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load(os.path.abspath(bullet_image)).convert()
-        self.image = pygame.transform.scale(self.image, (0.01*pygame.display.Info().current_w, 0.01*pygame.display.Info().current_h))
+        self.image = pygame.transform.scale(self.image, (scale[0]*pygame.display.Info().current_w, scale[1]*pygame.display.Info().current_h))
         self.image.set_colorkey((0, 0, 0))
         self.velocity = velocity
         self.angle = angle
@@ -54,13 +54,14 @@ class Shotgun(Weapon):
             self.image = pygame.transform.scale(self.image, (\
                     conf['Shotgun']['weapon_scale'][0]*pygame.display.Info().current_w,\
                     conf['Shotgun']['weapon_scale'][1]*pygame.display.Info().current_h))
+            self.bullet_scale = conf['Shotgun']['bullet_scale']
         self.reloading = False
         self.last_reload_time = time.time()
 
 
     def fire(self, owner):
         if not self.reloading:
-            self.bullet = Bullet(self.damage, self.bullet_image_path, self.bullet_velocity, owner.angle)
+            self.bullet = Bullet(self.damage, self.bullet_image_path, self.bullet_velocity, owner.angle, self.bullet_scale)
             self.bullet.rect = self.bullet.image.get_rect(center=(pygame.display.Info().current_w//2, pygame.display.Info().current_h//2))
             self.last_reload_time = time.time()
             return self.bullet
@@ -80,15 +81,43 @@ class Minigun(Weapon):
             self.image = pygame.transform.scale(self.image, (\
                     conf['Minigun']['weapon_scale'][0]*pygame.display.Info().current_w,\
                     conf['Minigun']['weapon_scale'][1]*pygame.display.Info().current_h))
+            self.bullet_scale = conf['Minigun']['bullet_scale']
         self.reloading = False
         self.last_reload_time = time.time()
 
 
     def fire(self, owner):
         if not self.reloading:
-            self.bullet = Bullet(self.damage, self.bullet_image_path, self.bullet_velocity, owner.angle)
+            self.bullet = Bullet(self.damage, self.bullet_image_path, self.bullet_velocity, owner.angle, self.bullet_scale)
             normalize = choice([0, 5, 10])
             self.bullet.rect = self.bullet.image.get_rect(center=(pygame.display.Info().current_w//2+normalize, pygame.display.Info().current_h//2+normalize))
+            self.last_reload_time = time.time()
+            return self.bullet
+    pass
+
+
+class RBG(Weapon):
+    def __init__(self) -> None:
+        with open("weapon/config.yaml", 'r') as file:
+            conf = yaml.safe_load(file)
+            super().__init__(conf['RBG']['reload_time'])
+            self.damage = conf['RBG']['damage']
+            self.bullet_image_path = conf['RBG']['bullet_image_path']
+            self.bullet_velocity = conf['RBG']['bullet_velocity']
+            self.image = pygame.image.load(conf['RBG']['weapon_image_path']).convert()
+            self.image.set_colorkey((0, 0, 0))
+            self.image = pygame.transform.scale(self.image, (\
+                    conf['RBG']['weapon_scale'][0]*pygame.display.Info().current_w,\
+                    conf['RBG']['weapon_scale'][1]*pygame.display.Info().current_h))
+            self.bullet_scale = conf['RBG']['bullet_scale']
+        self.reloading = False
+        self.last_reload_time = time.time()
+
+
+    def fire(self, owner):
+        if not self.reloading:
+            self.bullet = Bullet(self.damage, self.bullet_image_path, self.bullet_velocity, owner.angle, self.bullet_scale)
+            self.bullet.rect = self.bullet.image.get_rect(center=(pygame.display.Info().current_w//2, pygame.display.Info().current_h//2))
             self.last_reload_time = time.time()
             return self.bullet
     pass

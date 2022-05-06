@@ -1,8 +1,8 @@
 back_color: "#FFC846"
 background_path: "level/src/desert.jpg"
 enemies: [Goblin, Imp, Gremlin, Brute]
-# number_of_enemies: 15
-number_of_enemies: 1
+number_of_enemies: 15
+# number_of_enemies: 1
 font_color: [255, 0, 0]
 font_path: "level/src/BleedingPixels.ttf"
 font_size: 60

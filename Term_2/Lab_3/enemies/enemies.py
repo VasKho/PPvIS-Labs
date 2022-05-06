@@ -30,11 +30,13 @@ class Enemy(ABC, pygame.sprite.Sprite):
         self.rect = self.image.get_rect(center=(randrange(0, pygame.display.Info().current_w), randrange(0, pygame.display.Info().current_h)))
 
 
-    def trace(self, point: tuple[int, int]) -> None:
+    def trace(self, point: tuple[int, int], randomize: bool=True) -> None:
         vec_length = sqrt((point[0]-self.rect.x)**2 + (point[1]-self.rect.y)**2)
-        if time.time() > self.change_direction_time + 1.5 and vec_length < 900:
+        if time.time() > self.change_direction_time + 1.5 and vec_length < 900 and randomize:
             self.randomize_angle = choice([0, 90, 180, 270])
             self.change_direction_time = time.time()
+        elif not randomize:
+            self.randomize_angle = 0
 
         if vec_length < 10:
             return
