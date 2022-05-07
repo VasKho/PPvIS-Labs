@@ -1,6 +1,6 @@
 Shotgun:
   reload_time: 0.5
-  damage: 1000
+  damage: 15
   bullet_image_path: "weapon/src/shotgun_bullet.png"
   bullet_velocity: 30
   weapon_image_path: "weapon/src/shotgun.png"

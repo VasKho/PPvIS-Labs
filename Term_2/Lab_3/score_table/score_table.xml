@@ -1,27 +1,3 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <score_table>
-	<player>
-		<name>wet_grape</name>
-		<score>588</score>
-	</player>
-	<player>
-		<name>test1</name>
-		<score>429</score>
-	</player>
-	<player>
-		<name>test3</name>
-		<score>138</score>
-	</player>
-	<player>
-		<name>test5</name>
-		<score>30</score>
-	</player>
-	<player>
-		<name>Unknown</name>
-		<score>19</score>
-	</player>
-	<player>
-		<name>test4</name>
-		<score>16</score>
-	</player>
 </score_table>
