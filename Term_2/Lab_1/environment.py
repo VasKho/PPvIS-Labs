@@ -85,9 +85,11 @@ class Area:
         self.plants = plants
 
     def add_animal(self, new_animal: Animal, position: tuple[int, int]) -> None:
+        if len(list(filter(lambda a: a.class_name() == new_animal.class_name(), self.livings))) > 10: return
         self.livings.update({new_animal: position})
 
     def add_plant(self, new_plant: Plant, position: tuple[int, int]) -> None:
+        if len(self.plants) > 10: return
         self.plants.update({new_plant: position})
 
     def remove_animal(self, animal: Animal) -> None:
