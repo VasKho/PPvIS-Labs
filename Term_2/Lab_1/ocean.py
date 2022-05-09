@@ -1,8 +1,7 @@
 import environment as env
 from random import randrange
 import json
-import curses
-from itertools import combinations
+from itertools import product, combinations
 
 
 class Ocean(env.Area):
@@ -11,7 +10,7 @@ class Ocean(env.Area):
 
 class Shark(env.Predator):
     def __init__(self, health: int, age: int, hunger: int = 100) -> None:
-        env.Predator.__init__(self, health, age, 30, 60, False, hunger)
+        env.Predator.__init__(self, health, age, 6, 60, False, hunger)
 
     def class_name(self) -> str:
         return 'shark'
@@ -35,7 +34,7 @@ class Parrotfish(env.Herbivorous):
 
 class Barracuda(env.Predator):
     def __init__(self, health: int, age: int, hunger: int = 100) -> None:
-        env.Predator.__init__(self, health, age, 30, 60, False, hunger)
+        env.Predator.__init__(self, health, age, 6, 60, False, hunger)
 
     def class_name(self) -> str:
         return 'barracuda'
@@ -106,110 +105,68 @@ def add_plant(field: Ocean, lifespan: int, energy_value: int):
     field.add_plant(plant, (randrange(field.area[0]), randrange(field.area[1])))
 
 
+def _change_position(field: env.Area, animal: env.Animal):
+    direction = animal.move()
+    if direction == 'up':
+        pos_list = list(field.livings[animal])
+        pos_list[1] = (pos_list[1] - 1) % (field.area[1] - 1)
+        field.livings[animal] = tuple(pos_list)
+    elif direction == 'down':
+        pos_list = list(field.livings[animal])
+        pos_list[1] = (pos_list[1] + 1) % (field.area[1] - 1)
+        field.livings[animal] = tuple(pos_list)
+    elif direction == 'left':
+        pos_list = list(field.livings[animal])
+        pos_list[0] = (pos_list[0] - 1) % (field.area[0] - 1)
+        field.livings[animal] = tuple(pos_list)
+    elif direction == 'right':
+        pos_list = list(field.livings[animal])
+        pos_list[0] = (pos_list[0] + 1) % (field.area[0] - 1)
+        field.livings[animal] = tuple(pos_list)
+    print(f'{animal.class_name()} moved to position {pos_list}')
+
+
+def _feed(field, pair):
+    if isinstance(pair[0], env.Predator) and isinstance(pair[1], env.Animal):
+        if pair[0].class_name() == pair[1].class_name(): return
+        pair[0].eat(pair[1])
+        field.remove_animal(pair[1])
+        print(f'{pair[1].class_name()} has been eaten by {pair[0].class_name()}')
+    elif isinstance(pair[1], env.Predator) and isinstance(pair[0], env.Animal):
+        if pair[0].class_name() == pair[1].class_name(): return
+        pair[1].eat(pair[0])
+        field.remove_animal(pair[0])
+        print(f'{pair[0].class_name()} has been eaten by {pair[1].class_name()}')
+    elif isinstance(pair[0], env.Herbivorous) and isinstance(pair[1], env.Plant):
+        pair[0].eat(pair[1])
+        field.remove_plant(pair[1])
+        print(f'Plant has been eaten by {pair[0].class_name()}')
+    elif isinstance(pair[1], env.Herbivorous) and isinstance(pair[0], env.Plant):
+        pair[1].eat(pair[0])
+        field.remove_plant(pair[0])
+        print(f'Plant has been eaten by {pair[1].class_name()}')
+
+
 def skip(field: Ocean, number_of_steps: int):
     for _ in range(number_of_steps):
-        # Make pairs from animal in same position
-        pairs = list(combinations(field.livings, 2))
-        pairs_cp = pairs.copy()
-        for pair in pairs:
-            if field.livings[pair[0]] != field.livings[pair[1]]:
-                pairs_cp.remove(pair)
-
-        pairs = pairs_cp
-        # Feed them
-        i = 0
-        while i < len(pairs):
-            if pairs[i][0].class_name() != pairs[i][1].class_name():
-                if isinstance(pairs[i][0], env.Predator):
-                    pairs[i][0].eat(pairs[i][1])
-                    print(f'{pairs[i][1].class_name()} has been eaten by {pairs[i][0].class_name()}')
-                    field.remove_animal(pairs[i][1])
-                    pairs.remove(pairs[i])
-                    i = 0
-                    continue
-                elif isinstance(pairs[i][1], env.Predator):
-                    pairs[i][1].eat(pairs[i][0])
-                    print(f'{pairs[i][0].class_name()} has been eaten by {pairs[i][1].class_name()}')
-                    field.remove_animal(pairs[i][0])
-                    pairs.remove(pairs[i])
-                    i = 0
-                    continue
-            i += 1
-
-        herbivorous_lst = [animal for animal in field.livings if isinstance(animal, env.Herbivorous)]
-        plant_food = list(field.plants)
-        for a in herbivorous_lst:
-            edible = [plant for plant in plant_food if field.plants[plant] == field.livings[a]]
-            if edible:
-                a.eat(edible[0])
-                field.remove_plant(edible[0])
-                print(f'Plant has been eaten by {a.class_name()}')
-
-        pairs = pairs_cp
-        # Reproduction stuff
-        for pair in pairs:
-            if pair[0].class_name() == pair[1].class_name():
-                field.add_animal(pair[0].reproduct(), field.livings[pair[0]])
-                print(f'{pair[0].class_name()} was born')
-
-        dead_list = []
-        for animal in field.livings:
-            if animal.death():
-                dead_list.append(animal)
-
-        for dead in dead_list:
-            del field.livings[dead]
-            print(f'{dead.class_name()} is dead.')
-
-        for animal in field.livings:
-            animal.starve()
-            direction = animal.move()
-
-            if direction == 'up':
-                pos_list = list(field.livings[animal])
-                pos_list[1] = (pos_list[1] - 1) % (field.area[1] - 1)
-                field.livings[animal] = tuple(pos_list)
-            elif direction == 'down':
-                pos_list = list(field.livings[animal])
-                pos_list[1] = (pos_list[1] + 1) % (field.area[1] - 1)
-                field.livings[animal] = tuple(pos_list)
-            elif direction == 'left':
-                pos_list = list(field.livings[animal])
-                pos_list[0] = (pos_list[0] - 1) % (field.area[0] - 1)
-                field.livings[animal] = tuple(pos_list)
-            elif direction == 'right':
-                pos_list = list(field.livings[animal])
-                pos_list[0] = (pos_list[0] + 1) % (field.area[0] - 1)
-                field.livings[animal] = tuple(pos_list)
-
-            print(f"{animal.class_name()} moved {direction}. New position is {field.livings[animal]}.")
-
-
-def field_print(field: Ocean):
-    stdscr = curses.initscr()
-    curses.start_color()
-    curses.use_default_colors()
-    curses.init_pair(1, curses.COLOR_BLUE, -1)
-    curses.init_pair(2, curses.COLOR_RED, -1)
-    curses.init_pair(3, curses.COLOR_YELLOW, -1)
-    curses.init_pair(4, curses.COLOR_MAGENTA, -1)
-    curses.init_pair(5, curses.COLOR_GREEN, -1)
-    curses.curs_set(0)
-    for y in range(field.area[1]):
-        for x in range(field.area[0]):
-            stdscr.addstr(x, 2*y, '*', curses.color_pair(1))
-    stdscr.addstr('\nPress any key to close...')
-
-    for animal in field.livings:
-        if animal.class_name() == 'shark':
-            stdscr.addch(field.livings[animal][0], 2*field.livings[animal][1],'S', curses.color_pair(2))
-        elif animal.class_name() == 'parrotfish':
-            stdscr.addch(field.livings[animal][0], 2*field.livings[animal][1],'P', curses.color_pair(3))
-        elif animal.class_name() == 'barracuda':
-            stdscr.addch(field.livings[animal][0], 2*field.livings[animal][1],'B', curses.color_pair(4))
-
-    for plant in field.plants:
-        stdscr.addch(field.plants[plant][0], 2*field.plants[plant][1], '@', curses.color_pair(5))
-    stdscr.refresh()
-    stdscr.getch()
-    curses.endwin()
+        for x, y in product(range(field.area[0]), range(field.area[1])):
+            buff_animals = list(filter(lambda a: field.livings[a] == (x,y), field.livings))
+            buff_plants = list(filter(lambda p: field.plants[p] == (x,y), field.plants))
+            if len(buff_animals) == 0: continue
+            # Change position
+            list(map(lambda a: _change_position(field, a), buff_animals))
+            # Starve
+            list(map(lambda a: a.starve(), buff_animals))
+            # Reproduct
+            if len(buff_animals) in range(2, 5):
+                pairs = list(combinations(buff_animals, 2))
+                to_reproduct = list(filter(lambda a: a[0].class_name() == a[1].class_name(), pairs))
+                list(map(lambda a: field.add_animal(a[0].reproduct(), field.livings[a[1]]), to_reproduct))
+            # Feed
+            if len(buff_animals + buff_animals) in range(2, 5):
+                pairs = list(combinations(buff_animals + buff_plants, 2))
+                list(map(lambda a: _feed(field, a), pairs))
+                buff_animals = list(filter(lambda a: field.livings[a] == (x,y), field.livings))
+            # Dead
+            dead_list = list(filter(lambda a: a.death(), buff_animals))
+            list(map(lambda a: field.remove_animal(a), dead_list))
