@@ -1,7 +1,4 @@
-soundtrack/menu/*
-!soundtrack/menu/.gitkeep
-
-soundtrack/game/*
-!soundtrack/game/.gitkeep
+soundtrack/*
+!soundtrack/.gitkeep
 
 __pycache__/
