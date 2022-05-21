@@ -9,7 +9,7 @@ def start_game():
     while level_number < max_levels:
         if level_number == 1:
             pygame.mixer.init()
-            pygame.mixer.music.load('./soundtrack/game/doom.ogg')
+            pygame.mixer.music.load('./soundtrack/doom.ogg')
             pygame.mixer.music.set_volume(0.7)
             level = Level(display, "level/config/level1.yaml")
             pygame.mixer.music.play()
@@ -35,7 +35,7 @@ def start_game():
 
 
 pygame.init()
-max_levels = 3
+max_levels = 20
 display = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 menu = Menu(display, start=start_game)
 menu.run()

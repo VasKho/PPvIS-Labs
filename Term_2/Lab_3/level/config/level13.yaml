@@ -1,0 +1,15 @@
+back_color: "#FFC846"
+background_path: "level/src/desert.jpg"
+enemies: [Goblin, Imp, Gremlin, Brute, Overlord, Pitbalor, Tainted, Stalker, Archfiend]
+number_of_enemies: 55
+font_color: [255, 0, 0]
+font_path: "level/src/BleedingPixels.ttf"
+font_size: 60
+
+Player:
+  angle: 180
+  velocity: 20
+  weapon: [Shotgun, Minigun, RBG]
+  max_health: 2500
+  sprite_path: "player/src/marine.png"
+  scale: [0.07, 0.15]
