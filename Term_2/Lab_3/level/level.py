@@ -37,8 +37,6 @@ class Level:
     def spawn_enemy(self) -> None:
         en = eval(rand.choice(self.enemy_list))
         enemy_object = en()
-        while self.map.rect.clip(pygame.Rect((0, 0), (pygame.display.Info().current_w, pygame.display.Info().current_h))).contains(enemy_object):
-            enemy_object = en()
         self.map.enemies.add(enemy_object)
 
 

@@ -27,7 +27,8 @@ class Enemy(ABC, pygame.sprite.Sprite):
             img.set_colorkey((0, 0, 0))
             self.images.append(img)
         self.image = self.images[0]
-        self.rect = self.image.get_rect(center=(randrange(0, pygame.display.Info().current_w), randrange(0, pygame.display.Info().current_h)))
+        self.rect = self.image.get_rect(center=(choice([0, pygame.display.Info().current_w]), choice([0, pygame.display.Info().current_h])))
+        self.last_attack_time = time.time()
 
 
     def trace(self, point: tuple[int, int], randomize: bool=True) -> None:

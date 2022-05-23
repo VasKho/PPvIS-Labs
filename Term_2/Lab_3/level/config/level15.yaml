@@ -10,6 +10,6 @@ Player:
   angle: 180
   velocity: 20
   weapon: [Shotgun, Minigun, RBG]
-  max_health: 3000
+  max_health: 3500
   sprite_path: "player/src/marine.png"
   scale: [0.07, 0.15]

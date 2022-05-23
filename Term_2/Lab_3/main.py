@@ -2,6 +2,7 @@ import pygame
 import score_table.score as st
 from menu.menu import Menu
 from level.level import Level, DEATH, PASS
+from os import listdir
 
 
 def start_game():
@@ -9,12 +10,22 @@ def start_game():
     while level_number < max_levels:
         if level_number == 1:
             pygame.mixer.init()
-            pygame.mixer.music.load('./soundtrack/doom.ogg')
+            playlist = []
+            no_music = False
+            for song in set(listdir("./soundtrack/")):
+                if song.endswith(".ogg"):
+                    playlist.append("./soundtrack/" + song)
+            if playlist:
+                pygame.mixer.music.load(playlist.pop(0))
+            else:
+                no_music = True
             pygame.mixer.music.set_volume(0.7)
             level = Level(display, "level/config/level1.yaml")
-            pygame.mixer.music.play()
+            if not no_music:
+                pygame.mixer.music.play()
+                for song in playlist:
+                    pygame.mixer.music.queue(playlist.pop(0))
             level.start()
-            pygame.mixer.music.pause()
         for event in pygame.event.get():
             if event.type == DEATH:
                 pygame.mixer.music.stop()
@@ -22,9 +33,7 @@ def start_game():
             if event.type == PASS:
                 level_number += 1
                 level = Level(display, f"level/config/level{level_number}.yaml", event.score)
-                pygame.mixer.music.unpause()
                 level.start()
-                pygame.mixer.music.pause()
     score_table = st.ScoreTable.read_from_xml("score_table/score_table.xml")
     name = level.map.get_input()
     if name:
@@ -32,6 +41,7 @@ def start_game():
     else: 
         score_table.add(name="Unknown", score=level.player.score)
     st.ScoreTable.write_to_xml(score_table, "score_table/score_table.xml")
+    pygame.mixer.music.fadeout(1)
 
 
 pygame.init()

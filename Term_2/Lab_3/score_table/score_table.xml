@@ -1,7 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <score_table>
 	<player>
+		<name>Test</name>
+		<score>8231</score>
+	</player>
+	<player>
+		<name>test</name>
+		<score>5664</score>
+	</player>
+	<player>
 		<name>asd</name>
-		<score>1052</score>
+		<score>4069</score>
+	</player>
+	<player>
+		<name>Unknown</name>
+		<score>160</score>
+	</player>
+	<player>
+		<name>VasKho</name>
+		<score>127</score>
 	</player>
 </score_table>

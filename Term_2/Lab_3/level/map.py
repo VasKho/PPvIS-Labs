@@ -103,7 +103,9 @@ class Map:
     def _player_collide(self) -> None:
         for enemy in self.enemies:
             if self.player.rect.colliderect(enemy.rect):
-                self.player.get_damage(enemy.damage)
+                if time.time() > enemy.last_attack_time + 0.5:
+                    self.player.get_damage(enemy.damage)
+                    enemy.last_attack_time = time.time()
 
 
     def _bullet_collide(self) -> None:
@@ -117,7 +119,7 @@ class Map:
 
     def update(self) -> None:
         for en in self.enemies:
-            if len(self.enemies) < 3:
+            if len(self.enemies) < 10:
                 en.trace(self.player.rect.topleft, randomize=False)
             else:
                 en.trace(self.player.rect.topleft)
@@ -130,4 +132,4 @@ class Map:
         self._draw_context()
 
         pygame.display.update()
-        self.clock.tick(40)
+        self.clock.tick(60)

@@ -9,7 +9,7 @@ Shotgun:
   sound_path: "weapon/src/shotgun.mp3"
 
 Minigun:
-  reload_time: 0.01
+  reload_time: 0.05
   damage: 5
   bullet_image_path: "weapon/src/minigun_bullet.png"
   bullet_velocity: 35
