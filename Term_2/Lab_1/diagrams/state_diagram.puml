@@ -1,38 +1,70 @@
 @startuml animal_states
 
 ' State transition
-[*] --> Birth
+' [*] --> Birth
 
-Birth --> Move
-Birth --> Eat : found food
-Birth --> Dead : eaten by someone
+' Birth --> Move
+' Birth --> Eat : found food
+' Birth --> Dead : eaten by someone
 
-Move --> Hungry : hunger is 0
-Move --> Eat : found food
-Move --> Dead : eaten by someone, health is 0
-Move --> Move
+' Move --> Hungry : hunger is 0
+' Move --> Eat : found food
+' Move --> Dead : eaten by someone
+' Move --> Dead : health is 0
+' Move --> Move
 
-Eat --> Move
+' Eat --> Move
 
-Hungry --> Move
-Hungry --> Eat : found food
-Hungry --> Dead : eaten by someone, health is 0
+' Hungry --> Move
+' Hungry --> Eat : found food
+' Hungry --> Dead : eaten by someone
+' Hungry --> Dead : health is 0
 
-Dead --> [*]
+' Dead --> [*]
 
-' State features
-Birth : hunger = 100
-Birth : age = 0
+' ' State features
+' Birth : hunger = 100
+' Birth : age = 0
 
-Move : age += 1
-Move : hunger -= 10
+' Move : age += 1
+' Move : hunger -= 10
 
-Hungry : health -= 10
-Hungry : hunger = 0
+' Hungry : health -= 10
+' Hungry : hunger = 0
 
-Eat : health += 5
-Eat : hunger += energy
+' Eat : health += 5
+' Eat : hunger += energy
 
-Dead : health = 0
+' Dead : health = 0
+
+[*] --> LoadingSimulation
+
+LoadingSimulation --> ErrorState : parsing json error
+
+LoadingSimulation --> ErrorState : used wrong option
+
+LoadingSimulation --> PrintHelp : used --help option
+
+LoadingSimulation --> AddAnimal : used --animal option
+
+LoadingSimulation --> AddPlant : used --plant option
+
+LoadingSimulation --> UpdateAnimalsState : used --skip option
+
+AddAnimal --> ErrorState : unknown animal
+
+AddPlant --> ErrorState : not numeric options
+
+PrintHelp --> SaveSimulation
+
+AddAnimal --> SaveSimulation
+
+AddPlant --> SaveSimulation
+
+UpdateAnimalsState --> SaveSimulation
+
+ErrorState --> [*]
+
+SaveSimulation --> [*]
 
 @enduml
