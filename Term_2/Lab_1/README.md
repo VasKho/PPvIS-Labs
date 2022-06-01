@@ -17,7 +17,7 @@ Here you can also find my first experience on OOP in Python.
 
 ### State diagram
 
-There is a diagram showing the common principles of animal behavior.
+There is a diagram showing the common principles of program behavior.
 
 ![State diagram](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/VasKho/PPvIS-Labs/master/Term_2/Lab_1/diagrams/state_diagram.puml)
 
