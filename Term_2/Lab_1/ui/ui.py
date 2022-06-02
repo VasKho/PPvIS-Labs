@@ -1,8 +1,8 @@
 import pygame
 import pygame_menu
-import ocean
+import model.ocean as ocean
 from itertools import product
-from utils.utils import next, add
+from presenter.utils import next, add_instance
 
 class Ui:
     def __init__(self, field):
@@ -25,10 +25,10 @@ class Ui:
             self.table.add_row(row, cell_align=pygame_menu.locals.ALIGN_CENTER, cell_border_width=0)
 
         self.menu.add.button("Next", next, field, 1, self._draw_field)
-        self.menu.add.button("Add shark", add, field, "shark", self._draw_field)
-        self.menu.add.button("Add parrotfish", add, field, "parrotfish", self._draw_field)
-        self.menu.add.button("Add barracuda", add, field, "barracuda", self._draw_field)
-        self.menu.add.button("Add plant", add, field, "plant", self._draw_field)
+        self.menu.add.button("Add shark", add_instance, field, "shark", self._draw_field)
+        self.menu.add.button("Add parrotfish", add_instance, field, "parrotfish", self._draw_field)
+        self.menu.add.button("Add barracuda", add_instance, field, "barracuda", self._draw_field)
+        self.menu.add.button("Add plant", add_instance, field, "plant", self._draw_field)
         self.menu.add.button("Exit", self.menu.disable)
 
     def _draw_field(self):

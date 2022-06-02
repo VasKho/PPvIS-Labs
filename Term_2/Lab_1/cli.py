@@ -1,12 +1,13 @@
 import argparse
-import ocean
+import model.ocean as ocean
+from presenter.utils import next, add_instance
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description = 'This is a program for life simulation')
     parser.add_argument('-s', '--skip', type = int, metavar = '<steps>', help = 'Pass some simulation steps')
     parser.add_argument('--animal', choices = ['shark', 'parrotfish', 'barracuda'], help = 'Create new animal')
-    parser.add_argument('--plant', nargs = 2, type = int, metavar = ('<lifespan>', '<energy_value>'), help = 'Create new plant')
+    parser.add_argument('--plant', action = 'store_true', help = 'Create new plant')#nargs = 2, type = int, metavar = ('<lifespan>', '<energy_value>'), help = 'Create new plant')
 
     args = parser.parse_args()
 
@@ -21,11 +22,11 @@ if __name__ == "__main__":
 
 
     if args.skip:
-        ocean.skip(field, args.skip)
+        next(field, args.skip)
     if args.animal:
-        ocean.add_animal(field, args.animal)
+        add_instance(field, args.animal)
     if args.plant:
-        ocean.add_plant(field, args.plant[0], args.plant[1])
+        add_instance(field, "plant")
 
 
     text = ocean.convert_to_json(field)

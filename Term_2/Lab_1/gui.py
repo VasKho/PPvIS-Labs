@@ -1,5 +1,5 @@
 import pygame
-import ocean
+import model.ocean as ocean
 import ui.ui as ui
 
 pygame.init()

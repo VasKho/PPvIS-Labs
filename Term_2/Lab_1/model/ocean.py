@@ -1,4 +1,4 @@
-import environment as env
+import model.environment as env
 from random import randrange
 import json
 from itertools import product, combinations
