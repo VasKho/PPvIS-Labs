@@ -1,6 +1,6 @@
 ## About
 
-This project is some kind of simulation of ocean life. It's written in Python and provides a CLI for work.
+This project is some kind of simulation of ocean life. It's written in Python and provides a CLI and GUI for work.
 
 Here you can also find my first experience on OOP in Python.
 
@@ -12,8 +12,7 @@ Here you can also find my first experience on OOP in Python.
 #### Options
 -s \<steps>, -\-skip \<steps> -- Pass some simulation steps
 -\-animal {shark, parrotfish, barracuda} -- Create new animal
--\-plant \<lifespan> \<energy_value> -- Create new plant
--p, -\-print -- Print current ocean state
+-\-plant -- Create new plant
 
 ### State diagram
 
